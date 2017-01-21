@@ -6,7 +6,7 @@
  * emily@emilyshepherd.me
  */
 
-use \Spaark\Core\Error\NoSuchMethodException;
+use \Spaark\Core\Exception\NoSuchMethodException;
 use \Spaark\Core\Config\Config;
 
 
