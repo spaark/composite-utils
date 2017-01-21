@@ -29,7 +29,7 @@ abstract class AbstractInstance implements SpaarkInstanceInterface
     /**
      * @param string $app The application file
      */
-    private function __construct($app)
+    public function __construct($app)
     {
         $this->appName = $app;
     }
