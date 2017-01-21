@@ -1,0 +1,34 @@
+{
+    "name": "spaark/spaark",
+    "license": "MIT",
+    "type": "library",
+    "description": "Spaark Framework",
+    "keywords": ["Spaark", "PHP", "library", "framework"],
+    "homepage": "https://www.spaark.io/",
+    "authors": [
+        {
+            "name": "Emily Shepherd",
+            "email": "emily@emilyshepherd.me",
+            "homepage": "https://emilyshepherd.me",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/spaark/spaark/issues",
+        "source": "https://github.com/spaark/spaark",
+        "docs": "https://github.com/spaark/spaark/tree/master/docs"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spaark\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
