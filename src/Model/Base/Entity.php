@@ -6,7 +6,8 @@
  * emily@emilyshepherd.me
  */
 
-use \Spaark\Core\Error\NoSuchMethodException;
+use \Spaark\Core\Exception\NoSuchMethodException;
+use \Spaark\Core\Exception\CannotCreateModelException;
 
 // {{{ Constants
 
@@ -207,8 +208,8 @@ class Entity extends Composite
         $id      = lcfirst($id);
         $obj     = NULL;
         $args    = (array)$args;
-        $include = \iget($args, 1) ?: array( );
-        $startAt = \iget($args, 2, L1_CACHE);
+        $include = isset($args[1]) ? $args[1] : array( );
+        $startAt = isset($args[2]) ? $args[2] : L1_CACHE;
         $val     =
               (!isset($args[0])     ? NULL
             : (is_array($args[0])   ? implode($args[0])
@@ -243,12 +244,12 @@ class Entity extends Composite
                 }
                 catch (NoSuchMethodException $nsme) { }
 
-            // Try instance method
+            // Tyy instance method
             // $obj->__from$id()
             case DYN_F:
                 try
                 {
-                    if ($obj = parent::from($id, $args))
+                    if ($obj = self::call($id, $args, 'from', 'NoSuchFromException'))
                     {
                         break;
                     }
@@ -278,9 +279,6 @@ class Entity extends Composite
 
         static::cache($obj, $id, $val);
 
-        $obj->dirty = false;
-        $obj->new   = false;
-
         return $obj;
     }
 
@@ -298,7 +296,7 @@ class Entity extends Composite
     {
         try
         {
-            $ret = static::call($name, $args, 'findBy');
+            $ret = self::call($name, $args, 'findBy');
             return $ret[1];
         }
         catch (NoSuchFindByException $nsfbe)
@@ -334,6 +332,28 @@ class Entity extends Composite
         }
 
         throw $nsfbe;
+    }
+
+    protected static function call($id, $args, $type)
+    {
+        $class = get_called_class();
+        $cb    = array($class, '__' . $type . $id);
+        $throw = '\Spaark\Core\Model\Base\NoSuch' . $type . 'Exception';
+
+        if (method_exists($cb[0], $cb[1]))
+        {
+            $obj = $class::blankInstance();
+            $cb[0] = $obj;
+
+            $ret = call_user_func_array($cb, $args);
+            $obj->__construct();
+
+            return $obj;
+        }
+        else
+        {
+            throw new $throw($id, $class);
+        }
     }
 
     public static function newSource()

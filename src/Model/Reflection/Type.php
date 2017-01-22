@@ -32,6 +32,8 @@ class Type extends Composite
 
     public function __construct($type, $array = false, $key = NULL)
     {
+        parent::__construct();
+
         $this->type    = $type;
         $this->isArray = $array;
         $this->key     = $key;

@@ -3,14 +3,30 @@
 namespace Spaark\Core\Model\Base;
 
 use Spaark\Core\Error\NoSuchMethodException;
+use Spaark\Core\Model\Reflection\Model as ModelReflector;
 
 /**
  * Description of composite
  *
  * @author Emily Shepherd
  */
-abstract class Composite extends Model
+abstract class Composite
 {
+
+    /**
+     * Creates an instance of the class, without calling the constructor
+     * @return object The created instance
+     */
+    public static function blankInstance()
+    {
+        $reflect      = ModelReflector::fromModel(static::class);
+        $obj          = $reflect->newInstanceWithoutConstructor();
+        $obj->reflect = $reflect;
+
+        return $obj;
+    }
+
+
     /**
      * Saves the state of the objects properties since the last save
      *
@@ -18,6 +34,9 @@ abstract class Composite extends Model
      * of saving when save() is called
      */
     protected $properties = array( );
+
+    protected $reflect;
+
 
     /**
      * Constructs a blank copy of the entity by saving the state of each
@@ -28,6 +47,7 @@ abstract class Composite extends Model
      */
     public function __construct()
     {
+        $this->reflect = ModelReflector::fromModel(static::class);
         foreach ($this->reflect->getProperties() as $prop)
         {
             $this->properties[$prop->getName()] =
@@ -71,7 +91,7 @@ abstract class Composite extends Model
         }
         else
         {
-            return parent::__get($var);
+            return null;
         }
     }
 
@@ -245,5 +265,10 @@ abstract class Composite extends Model
                 $val
             )
         );
+    }
+
+    public function __toString()
+    {
+        return get_class($this) . '[' . spl_object_hash($this) . ']';
     }
 }

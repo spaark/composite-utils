@@ -171,7 +171,6 @@ class Reflector extends \Spaark\Core\Model\Base\Wrapper
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -184,6 +183,7 @@ class Reflector extends \Spaark\Core\Model\Base\Wrapper
     {
         $class        = static::WRAPPER_NAME;
         $this->object = new $class($cb[0], $cb[1]);
+        $this->reflect = Model::fromModel(static::class);
 
         $this->parse();
     }

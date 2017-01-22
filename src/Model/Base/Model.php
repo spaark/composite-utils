@@ -15,110 +15,14 @@ use \Spaark\Core\Config\Config;
 
 // {{{ exceptions
 
-/**
- * Thrown when a non-existant static method is called, that begins with
- * "from"
- */
-class NoSuchFromException extends NoSuchMethodException
-{
-    private $obj;
-
-    public function __construct($method, $obj)
-    {
-        parent::__construct($obj, $method);
-
-        $this->obj = $obj;
-    }
-
-    public function getObj()
-    {
-        return $this->obj;
-    }
-}
-
-/**
- * Thrown when a model cannot be created
- *
- * This may happen when an invalid / non-existant id is given. Eg:
- *   User::fromEmail('not-real@example.com');
- *
- * That would normally return an instance of User, but as that email
- * address doesn't exist, an error is thrown
- */
-class CannotCreateModelException extends \Exception
-{
-    private $obj;
-
-    public function __construct($model, $from, $val)
-    {
-        $modelName = is_object($model) ? get_class($model) : $model;
-        $val       = is_array($val)    ? implode($val)     : $val;
-
-        parent::__construct
-        (
-              'Failed to create ' . $modelName . ' from '
-            . $from . ': ' . $val
-        );
-
-        $this->obj = $model;
-    }
-
-    public function getObj()
-    {
-        return $this->obj;
-    }
-}
-
-/**
- * Thrown when a model cannot be created
- *
- * This may happen when an invalid / non-existant id is given. Eg:
- *   User::fromEmail('not-real@example.com');
- *
- * That would normally return an instance of User, but as that email
- * address doesn't exist, an error is thrown
- */
-class CannotCreateCollectionException extends \Exception
-{
-    private $obj;
-
-    public function __construct($model, $from, $val)
-    {
-        $modelName = is_object($model) ? get_class($model) : $model;
-
-        parent::__construct
-        (
-              'Failed to create ' . $modelName . ' from '
-            . $from . ': ' . $val
-        );
-
-        $this->obj = $model;
-    }
-
-    public function getObj()
-    {
-        return $this->obj;
-    }
-}
-
-// }}}
-
 
         ////////////////////////////////////////////////////////
 
 /**
  * Performs application logic for a Controller
  */
-abstract class Model extends \Spaark\Core\Base\Object
+abstract class Model
 {
-    const INPUT_TYPE     = 'text';
-
-    const FROM           = 'Model';
-
-    const DB_HELPER      = 'Database\MySQLi';
-
-    const REFLECT_HELPER = 'Reflection\Model';
-
 // {{{ static
 
     /**
@@ -166,25 +70,9 @@ abstract class Model extends \Spaark\Core\Base\Object
     {
         $reflect      = static::getHelper('reflect');
         $obj          = $reflect->newInstanceWithoutConstructor();
-        //$obj->reflect = $reflect;
+        $obj->reflect = $reflect;
 
         return $obj;
-    }
-
-    /**
-     * Called to test if the given string is valid to be turned into
-     * this Model
-     *
-     * For example:
-     *   Email::validate('email@example.com'); === true
-     *   Email::validate('not-an-email'); === false
-     *
-     * @param  string $variable The string to validate
-     * @return boolean          True if valid
-     */
-    public static function validate($variable)
-    {
-        return true;
     }
 
     /**
@@ -229,9 +117,7 @@ abstract class Model extends \Spaark\Core\Base\Object
      */
     public static function from($id, $args)
     {
-        $ret = self::call($id, $args, 'from', 'NoSuchFromException');
-
-        return $ret[1] ?: $ret[0];
+        return self::call($id, $args, 'from', 'NoSuchFromException');
     }
 
     protected static function call($id, $args, $type)
@@ -242,13 +128,13 @@ abstract class Model extends \Spaark\Core\Base\Object
 
         if (method_exists($cb[0], $cb[1]))
         {
-            $obj                 = $class::blankInstance();
-            $obj->{lcfirst($id)} = isset($args[0]) ? $args[0] : true;
-            $cb[0]               = $obj;
+            $obj = $class::blankInstance();
+            $cb[0] = $obj;
 
-            $ret                 = call_user_func_array($cb, $args);
+            $ret = call_user_func_array($cb, $args);
+            $obj->__construct();
 
-            return array($obj, $ret);
+            return $obj;
         }
         else
         {
