@@ -28,9 +28,9 @@ class HashMap extends Collection
             : (                    (string)$value)));
     }
 
-    public function add($key, $value)
+    public function add($value)
     {
-        $hash = $this->getScalar($key);
+        $key = $hash = $this->size();
 
         $this->keys[$hash] = $key;
         $this->data[$hash] = $value;
