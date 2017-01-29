@@ -188,184 +188,6 @@ class Entity extends Composite
     }
 
     /**
-     * Attempts to return an object
-     *
-     * Options:
-     *   + If it's in cache, return that
-     *   + Use parent::build() to attempt auto-factory build
-     *   + Attempt to build it by querying a data sorce via
-     *     __autoBuild()
-     *
-     * @param string $id    The key to build by
-     * @param array  $args  The arguments to use to build
-     * @return static The object, if built correct
-     * @throws cannotBuildModelException
-     *     If all build / load attempts fail
-     */
-    public static function from($id, $args)
-    {
-        $class   = get_called_class();
-        $id      = lcfirst($id);
-        $obj     = NULL;
-        $args    = (array)$args;
-        $include = isset($args[1]) ? $args[1] : array( );
-        $startAt = isset($args[2]) ? $args[2] : L1_CACHE;
-        $val     =
-              (!isset($args[0])     ? NULL
-            : (is_array($args[0])   ? implode($args[0])
-            : (!is_scalar($args[0]) ? (string)$args[0]
-            :                         $args[0])));
-
-        switch ($startAt)
-        {
-            // Try Local Cache
-            case L1_CACHE:
-                if ($obj = static::getObj($id, $val))
-                {
-                    return $obj;
-                }
-
-            case L2_CACHE:
-                //
-            case L3_CACHE:
-                //
-
-            // Try static function
-            // _from$id()
-            case STATIC_F:
-                try
-                {
-                    $func = $class . '::_from' . $id;
-
-                    if ($obj = call_user_func_array($func, $args))
-                    {
-                        break;
-                    }
-                }
-                catch (NoSuchMethodException $nsme) { }
-
-            // Tyy instance method
-            // $obj->__from$id()
-            case DYN_F:
-                try
-                {
-                    if ($obj = self::call($id, $args, 'from', 'NoSuchFromException'))
-                    {
-                        break;
-                    }
-                }
-                catch (NoSuchFromException $nsfe) { }
-
-            // Try data source
-            case SOURCE:
-                try
-                {
-                    $objs = static::findBy($id, $args);
-
-                    if ($objs->count(true) == 1)
-                    {
-                        $obj = $objs->get(0);
-                        break;
-                    }
-                }
-                catch (NoSuchFindByException $nsfbe) { }
-
-            default:
-                throw new CannotCreateModelException
-                (
-                    $class, $id, $val
-                );
-        }
-
-        static::cache($obj, $id, $val);
-
-        return $obj;
-    }
-
-    /**
-     * Attempts to return an iterable collection of objects
-     *
-     * @param string $name The findBy string to use
-     * @param array $args  The value to look for, in an array
-     * @param boolean $count Not used
-     * @return Iterable The list of objects
-     * @throws NoSuchFindByException if no findBy function / source is
-     *     set
-     */
-    public static function findBy($name, $args, $count = false)
-    {
-        try
-        {
-            $ret = self::call($name, $args, 'findBy');
-            return $ret[1];
-        }
-        catch (NoSuchFindByException $nsfbe)
-        {
-            if (static::$source)
-            {
-                $source = static::load(static::$source);
-                $source = new $source(get_called_class());
-
-                if (strpos($name, 'Latest') === 0)
-                {
-                    $source->order(substr($name, 6), 'DESC');
-                }
-                elseif (strpos($name, 'Highest') === 0)
-                {
-                    $source->order(substr($name, 7), 'DESC');
-                }
-                elseif (strpos($name, 'Earliest') === 0)
-                {
-                    $source->order(substr($name, 8), 'ASC');
-                }
-                elseif (strpos($name, 'Lowest') === 0)
-                {
-                    $source->order(substr($name, 6), 'ASC');
-                }
-                else
-                {
-                    $source->fwhere($name, iget($args, 0, 1));
-                }
-
-                return $source;
-            }
-        }
-
-        throw $nsfbe;
-    }
-
-    protected static function call($id, $args, $type)
-    {
-        $class = get_called_class();
-        $cb    = array($class, '__' . $type . $id);
-        $throw = '\Spaark\Core\Model\Base\NoSuch' . $type . 'Exception';
-
-        if (method_exists($cb[0], $cb[1]))
-        {
-            $obj = $class::blankInstance();
-            $cb[0] = $obj;
-
-            $ret = call_user_func_array($cb, $args);
-            $obj->__construct();
-
-            return $obj;
-        }
-        else
-        {
-            throw new $throw($id, $class);
-        }
-    }
-
-    public static function newSource()
-    {
-        $class  = get_called_class();
-        $config = static::getHelper('config');
-        $source = static::load($config->source);
-
-        return new $source($source);
-    }
-
-    /**
      * Handles magic static functions - used for fromX() and findByX()
      *
      * @param string $name The called function
@@ -377,13 +199,15 @@ class Entity extends Composite
      */
     public static function __callStatic($name, $args)
     {
+        $class = static::DEFAULT_BUILDER;
+
         if (substr($name, 0, 4) == 'from')
         {
-            return static::from(substr($name, 4), $args);
+            return $class::from(substr($name, 4), $args);
         }
         elseif (substr($name, 0, 6) == 'findBy')
         {
-            return static::findBy(substr($name, 6), $args);
+            return $class::findBy(substr($name, 6), $args);
         }
         else
         {

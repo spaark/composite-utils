@@ -4,12 +4,11 @@
  *
  */
 
-use Spaark\Core\Model\Base\Composite;
 
 /**
  * Reflects upon properies within a model, and parses their doc comments
  */
-class Property extends Composite
+class Property extends Reflector
 {
     /**
      * @var string

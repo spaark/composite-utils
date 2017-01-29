@@ -19,7 +19,7 @@ abstract class Composite
      */
     public static function blankInstance()
     {
-        $reflect      = ModelReflector::fromModel(static::class);
+        $reflect      = ModelReflector::fromClass(static::class);
         $obj          = $reflect->newInstanceWithoutConstructor();
         $obj->reflect = $reflect;
 
@@ -47,7 +47,7 @@ abstract class Composite
      */
     public function __construct()
     {
-        $this->reflect = ModelReflector::fromModel(static::class);
+        $this->reflect = ModelReflector::fromClass(static::class);
         foreach ($this->reflect->getProperties() as $prop)
         {
             $this->properties[$prop->getName()] =
