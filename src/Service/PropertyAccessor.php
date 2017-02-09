@@ -110,6 +110,24 @@ class PropertyAccessor
     }
 
     /**
+     * Adds a value to a property, irrespective of access permissions
+     *
+     * @param string $key The property to write to
+     * @param mixed $value The value to add
+     * @throws CannotWritePropertyException In the event the property
+     *    does not exist
+     */ 
+    public function rawAddToValue($key, $value)
+    {
+        $property = $this->getPropertyOrFail
+        (
+            $key,
+            CannotWritePropertyException::class
+        );
+        $property->getValue($this->object)->add($value);
+    }
+
+    /**
      * Checks if a property exists and returns its ReflectionProperty
      *
      * @param string $key The property to access

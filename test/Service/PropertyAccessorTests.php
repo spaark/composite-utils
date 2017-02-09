@@ -70,4 +70,24 @@ class PropertyAccessorTests extends TestCase
     {
         $this->accessor->setRawValue('no_such_property', 's');
     }
+
+    /**
+     * @covers ::rawAddToValue
+     */
+    public function testAddToCollectionProperty()
+    {
+        $this->assertEquals
+        (
+            0,
+            $this->accessor->getRawValue('arrayProperty')->size()
+        );
+
+        $this->accessor->rawAddToValue('arrayProperty', 'value');
+
+        $this->assertEquals
+        (
+            1,
+            $this->accessor->getRawValue('arrayProperty')->size()
+        );
+    }
 }
