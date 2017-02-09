@@ -8,7 +8,7 @@
 /**
  * Reflects upon properies within a model, and parses their doc comments
  */
-class Property extends Reflector
+class ReflectionProperty extends Reflector
 {
     /**
      * @var string

@@ -2,7 +2,7 @@
 
 namespace Spaark\Core\Model\Reflection;
 
-class Parameter extends Reflector
+class ReflectionParameter extends Reflector
 {
     /**
      * @var string

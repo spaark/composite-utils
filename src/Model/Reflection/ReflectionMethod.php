@@ -7,7 +7,7 @@
  */
 
 
-class Method extends Reflector
+class ReflectionMethod extends Reflector
 {
     /**
      * @var string

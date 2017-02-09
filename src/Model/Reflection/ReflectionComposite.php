@@ -7,7 +7,7 @@ use Spaark\Core\Model\Collection\HashMap;
  * Reflects upon model classes and deals with their getter methods and
  * properties
  */
-class Model extends Reflector
+class ReflectionComposite extends Reflector
 {
     /**
      * @var HashMap
