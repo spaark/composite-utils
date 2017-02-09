@@ -24,8 +24,7 @@ class PropertyAccessorTests extends TestCase
     public function setUp()
     {
         $entity = new TestEntity();
-        $model = new ReflectionModel();
-        $this->accessor = new PropertyAccessor($entity, $model);
+        $this->accessor = new PropertyAccessor($entity, null);
     }
 
     /**

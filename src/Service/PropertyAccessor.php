@@ -37,9 +37,9 @@ class PropertyAccessor
 
     /**
      * @param object $object The object to access
-     * @param ReflectionModel $reflect A reflection entity
+     * @param ReflectionModel|null $reflect A reflection entity
      */
-    public function __construct($object, ReflectionModel $reflect)
+    public function __construct($object, ?ReflectionModel $reflect)
     {
         $this->object = $object;
         $this->reflect = $reflect;
@@ -57,7 +57,10 @@ class PropertyAccessor
      * @param ReflectionModel|null $reflect The reflection entity
      * @return PropertyAccessor
      */
-    public static function factory($object, $reflect = null)
+    public static function factory(
+        $object,
+        ?ReflectionModel $reflect = null
+    )
     {
         if (!$reflect)
         {
