@@ -4,27 +4,16 @@ namespace Spaark\Core\DataSource\Reflection;
 
 use Spaark\Core\DataSource\BaseBuilder;
 use Spaark\Core\Model\Reflection\ReflectionComposite;
-use Spaark\Core\Model\Reflection\ReflectionProperty;
-use Spaark\Core\Model\Reflection\ReflectionMethod;
-use Spaark\Core\Model\Reflection\ReflectionParameter;
 use Spaark\Core\Service\PropertyAccessor;
+use \ReflectionClass as PHPNativeReflectionClass;
 
-class ReflectionCompositeFactory extends BaseBuilder
+class ReflectionCompositeFactory extends ReflectorFactory
 {
-    protected $classname;
+    const REFLECTION_OBJECT = ReflectionComposite::class;
 
-    protected $reflector;
-
-    protected $object;
-
-    protected $accessor;
-
-    public function __construct(string $classname)
+    public static function fromClassName(string $classname)
     {
-        $this->classname = $classname;
-        $this->reflector = new \ReflectionClass($this->classname);
-        $this->object = new ReflectionComposite();
-        $this->accessor = new PropertyAccessor($this->object, null);
+        return new static(new PHPNativeReflectionClass($classname));
     }
 
     public function build()
@@ -48,34 +37,29 @@ class ReflectionCompositeFactory extends BaseBuilder
         return $this->object;
     }
 
-    protected function buildProperty($propertyReflector)
+    protected function buildProperty($reflect)
     {
-        $prop = new ReflectionProperty();
-        $accessor = new PropertyAccessor($prop, null);
-
-        $this->accessor->rawAddToValue('properties', $prop);
-
-        $accessor->setRawValue('name', $propertyReflector->getName());
-        $accessor->setRawValue('owner', $this->object);
-        $accessor->setRawValue('readable', true);
-        $accessor->setRawValue('writable', true);
+        $this->accessor->rawAddToValue
+        (
+            'properties',
+            (new ReflectionPropertyFactory($reflect))
+                ->build($this->object)
+        );
     }
 
-    protected function buildMethod($methodReflector)
+    protected function buildMethod($reflect)
     {
-        $method = new ReflectionMethod();
-        $accessor = new PropertyAccessor($method, null);
-
-        $this->accessor->rawAddToValue('methods', $methodReflector);
-
-        $accessor->setRawValue('name', $methodReflector->getName());
-        $accessor->setRawValue('owner', $this->object);
-        $accessor->setRawValue('final', true);
+        $this->accessor->rawAddToValue
+        (
+            'methods',
+            (new ReflectionMethodFactory($reflect))
+                ->build($this->object)
+        );
     }
 
     protected function checkIfLocal($reflector)
     {
-        return $reflector->class === $this->classname;
+        return $reflector->class === $this->reflector->getName();
     }
 }
 

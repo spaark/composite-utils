@@ -12,7 +12,7 @@ class ReflectionFactoryTests extends TestCase
 {
     public function testIt()
     {
-        $reflectorFactory = new ReflectionCompositeFactory
+        $reflectorFactory = ReflectionCompositeFactory::fromClassName
         (
             ReflectionComposite::class
         );
