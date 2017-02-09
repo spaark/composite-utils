@@ -10,7 +10,7 @@ class NonExistentPropertyException extends \Exception
     {
         parent::__construct
         (
-              'Cannot ' . static::ACCESS_TYPE . ' non exxistent '
+              'Cannot ' . static::ACCESS_TYPE . ' non existent '
             . 'property: ' . $class . '::$' . $property,
             0,
             $previous
