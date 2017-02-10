@@ -43,7 +43,12 @@ class ReflectionCompositeFactory extends ReflectorFactory
         (
             'properties',
             (new ReflectionPropertyFactory($reflect))
-                ->build($this->object)
+                ->build
+                (
+                    $this->object,
+                    $this->reflector
+                        ->getDefaultProperties()[$reflect->getName()]
+                )
         );
     }
 
