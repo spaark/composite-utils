@@ -12,7 +12,7 @@ use Spaark\CompositeUtils\Model\Reflection\Model as ReflectionModel;
 /**
  * @coversDefaultClass Spaark\CompositeUtils\Service\PropertyAccessor;
  */
-class PropertyAccessorTests extends TestCase
+class PropertyAccessorTest extends TestCase
 {
     protected $accessor;
 

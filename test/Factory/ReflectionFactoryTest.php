@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Factory\EntityCache;
 
-class ReflectionFactoryTests extends TestCase
+class ReflectionFactoryTest extends TestCase
 {
     public function testIt()
     {
