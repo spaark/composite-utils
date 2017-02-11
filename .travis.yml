@@ -5,4 +5,8 @@ php:
 
 install: composer install
 
-script: bin/phpunit
+script: bin/phpunit --coverage-text --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
