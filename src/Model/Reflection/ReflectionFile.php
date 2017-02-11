@@ -2,7 +2,7 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection;
 
-use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 class ReflectionFile extends Reflector
 {
@@ -14,7 +14,7 @@ class ReflectionFile extends Reflector
 
     public function __construct()
     {
-        $this->namespaces = new Collection();
+        $this->namespaces = new HashMap();
         $this->initAllReadableTrait();
     }
 }

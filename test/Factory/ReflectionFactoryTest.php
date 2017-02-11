@@ -10,6 +10,7 @@ use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Factory\EntityCache;
 use Spaark\CompositeUtils\Model\Collection\Collection;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
+use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 
 /**
  *
@@ -54,5 +55,16 @@ class ReflectionFactoryTest extends TestCase
     {
         $property = $properties[0];
         $this->assertInstanceOf(ReflectionProperty::class, $property);
+    }
+
+    /**
+     * @depends testProperties
+     */
+    public function testObjectProperty(Collection $properties)
+    {
+        $property = $properties[2];
+
+        $this->assertInstanceOf(ObjectType::class, $property->type);
+        $this->assertEquals(Collection::class, $property->type->classname);
     }
 }

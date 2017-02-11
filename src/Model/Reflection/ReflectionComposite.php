@@ -24,6 +24,11 @@ class ReflectionComposite extends Reflector
      */
     protected $file;
 
+    /**
+     * @var NamespaceBlock
+     */
+    protected $namespace;
+
     public function __construct()
     {
         $this->properties = new HashMap();

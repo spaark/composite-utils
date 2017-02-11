@@ -17,11 +17,14 @@ class ReflectionCompositeFactory extends ReflectorFactory
 
     public function build()
     {
+        $file = 
+            (new ReflectionFileFactory($this->reflector->getFileName()))
+                ->build();
+        $this->accessor->setRawValue('file', $file);
         $this->accessor->setRawValue
         (
-            'file',
-            (new ReflectionFileFactory($this->reflector->getFileName()))
-                ->build()
+            'namespace',
+            $file->namespaces[$this->reflector->getNamespaceName()]
         );
 
         foreach ($this->reflector->getProperties() as $property)

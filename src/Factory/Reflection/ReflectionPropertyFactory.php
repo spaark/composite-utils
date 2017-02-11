@@ -90,6 +90,14 @@ class ReflectionPropertyFactory extends ReflectorFactory
                 $class = new NullType();
                 break;
             default:
+                $useStatements =
+                    $this->object->owner->namespace->useStatements;
+
+                if ($useStatements->contains($value))
+                {
+                    $value = $useStatements[$value]->classname;
+                }
+
                 $class = new ObjectType($value);
         }
 

@@ -60,11 +60,11 @@ class ReflectionFileFactory extends ReflectorFactory
                     case T_NAMESPACE:
                         $ns = new NamespaceBlock($classname);
                         $currentNS = new RawPropertyAccessor($ns);
-                        $this->accessor->rawAddToValue
+                        $this->accessor->getRawValue
                         (
-                            'namespaces',
-                            $ns
-                        );
+                            'namespaces'
+                        )
+                        ->add($classname, $ns);
                         $currentNS->setRawValue('file', $this->object);
                         $matching = null;
                         break;

@@ -14,6 +14,7 @@ use Spaark\CompositeUtils\Model\Collection\HashMap;
 class ReflectionFileFactoryTest extends TestCase
 {
     const TEST_FILE = __DIR__ . '/../Model/TestEntity.php';
+    const TEST_NS = 'Spaark\CompositeUtils\Test\Model';
 
     private $reflect;
 
@@ -35,7 +36,7 @@ class ReflectionFileFactoryTest extends TestCase
     {
         $namespaces = $this->accessor->getRawValue('namespaces');
 
-        $this->assertInstanceOf(Collection::class, $namespaces);
+        $this->assertInstanceOf(HashMap::class, $namespaces);
         $this->assertEquals(1, $namespaces->count());
 
         return $namespaces;
@@ -44,14 +45,16 @@ class ReflectionFileFactoryTest extends TestCase
     /**
      * @depends testNamespaces
      */
-    public function testNamespaceBlock(Collection $namespaces)
+    public function testNamespaceBlock(HashMap $namespaces)
     {
-        $namespace = $namespaces[0];
+        $this->assertTrue($namespaces->contains(self::TEST_NS));
+        
+        $namespace = $namespaces[self::TEST_NS];
         $this->assertInstanceOf(NamespaceBlock::class, $namespace);
 
         $this->assertAttributeEquals
         (
-            'Spaark\CompositeUtils\Test\Model',
+            self::TEST_NS,
             'namespace',
             $namespace
         );
