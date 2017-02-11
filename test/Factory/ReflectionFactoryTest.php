@@ -6,18 +6,53 @@ use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Factory\EntityCache;
+use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
+/**
+ *
+ */
 class ReflectionFactoryTest extends TestCase
 {
-    public function testIt()
+    protected $reflect;
+
+    public function setUp()
     {
         $reflectorFactory = ReflectionCompositeFactory::fromClassName
         (
-            ReflectionComposite::class
+            TestEntity::class
         );
-        $reflect = $reflectorFactory->build();
+        $this->reflect = $reflectorFactory->build();
+    }
 
-        $this->assertInstanceOf(ReflectionComposite::class, $reflect);
+    public function testCreation()
+    {
+        $this->assertInstanceOf
+        (
+            ReflectionComposite::class, $this->reflect
+        );
+        $this->assertAttributeCount(1, 'methods', $this->reflect);
+    }
+
+    public function testProperties()
+    {
+        $properties = (new RawPropertyAccessor($this->reflect))
+            ->getRawValue('properties');
+
+        $this->assertInstanceOf(Collection::class, $properties);
+        $this->assertEquals(3, $properties->size());
+
+        return $properties;
+    }
+
+    /**
+     * @depends testProperties
+     */
+    public function testProperty(Collection $properties)
+    {
+        $property = $properties[0];
+        $this->assertInstanceOf(ReflectionProperty::class, $property);
     }
 }
