@@ -3,16 +3,16 @@
 namespace Spaark\CompositeUtils\Test\Service;
 
 use PHPUnit\Framework\TestCase;
-use Spaark\CompositeUtils\Service\PropertyAccessor;
+use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Exception\CannotReadPropertyException;
 use Spaark\CompositeUtils\Exception\CannotWritePropertyException;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Model\Reflection\Model as ReflectionModel;
 
 /**
- * @coversDefaultClass Spaark\CompositeUtils\Service\PropertyAccessor
+ * @coversDefaultClass Spaark\CompositeUtils\Service\RawPropertyAccessor
  */
-class PropertyAccessorTest extends TestCase
+class RawPropertyAccessorTest extends TestCase
 {
     protected $accessor;
 
@@ -24,7 +24,7 @@ class PropertyAccessorTest extends TestCase
     public function setUp()
     {
         $entity = new TestEntity();
-        $this->accessor = new PropertyAccessor($entity, null);
+        $this->accessor = new RawPropertyAccessor($entity);
     }
 
     /**

@@ -11,7 +11,7 @@ use \ReflectionException;
 /**
  * This class is used to access the properties of a class
  */
-class PropertyAccessor
+class RawPropertyAccessor
 {
     /**
      * The object being accessed

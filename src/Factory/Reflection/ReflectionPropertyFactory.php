@@ -95,7 +95,7 @@ class ReflectionPropertyFactory extends ReflectorFactory
 
         if ($nullable)
         {
-            (new PropertyAccessor($class, null))
+            (new RawPropertyAccessor($class))
                 ->setRawValue('nullable', $value);
         }
 

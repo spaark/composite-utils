@@ -4,7 +4,6 @@ namespace Spaark\CompositeUtils\Factory\Reflection;
 
 use Spaark\CompositeUtils\Factory\BaseFactory;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
-use Spaark\CompositeUtils\Service\PropertyAccessor;
 use \ReflectionClass as PHPNativeReflectionClass;
 
 class ReflectionCompositeFactory extends ReflectorFactory

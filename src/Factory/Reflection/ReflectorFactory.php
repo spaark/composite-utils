@@ -3,7 +3,7 @@
 namespace Spaark\CompositeUtils\Factory\Reflection;
 
 use Spaark\CompositeUtils\Factory\BaseFactory;
-use Spaark\CompositeUtils\Service\PropertyAccessor;
+use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Model\Reflection\Reflector as SpaarkReflector;
 use \Reflector as PHPNativeReflector;
 
@@ -17,7 +17,7 @@ abstract class ReflectorFactory extends BaseFactory
     protected $reflector;
 
     /**
-     * @var PropertyAccessor
+     * @var RawPropertyAccessor
      */
     protected $accessor;
 
@@ -31,7 +31,7 @@ abstract class ReflectorFactory extends BaseFactory
         $class = static::REFLECTION_OBJECT;
 
         $this->object = new $class();
-        $this->accessor = new PropertyAccessor($this->object, null);
+        $this->accessor = new RawPropertyAccessor($this->object);
         $this->reflector = $reflector;
     }
 
