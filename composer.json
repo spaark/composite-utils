@@ -2,7 +2,7 @@
     "name": "spaark/composite-utils",
     "license": "MIT",
     "type": "library",
-    "description": "Spaark Framework",
+    "description": "Composite Object Model Utilities",
     "keywords": ["Spaark", "PHP", "library", "framework"],
     "homepage": "https://www.spaark.io/",
     "authors": [
