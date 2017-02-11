@@ -17,6 +17,13 @@ class ReflectionCompositeFactory extends ReflectorFactory
 
     public function build()
     {
+        $this->accessor->setRawValue
+        (
+            'file',
+            (new ReflectionFileFactory($this->reflector->getFileName()))
+                ->build()
+        );
+
         foreach ($this->reflector->getProperties() as $property)
         {
             if ($this->checkIfLocal($property))
