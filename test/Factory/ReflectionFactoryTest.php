@@ -53,7 +53,7 @@ class ReflectionFactoryTest extends TestCase
      */
     public function testProperty(Collection $properties)
     {
-        $property = $properties[0];
+        $property = $properties['id'];
         $this->assertInstanceOf(ReflectionProperty::class, $property);
     }
 
@@ -62,7 +62,7 @@ class ReflectionFactoryTest extends TestCase
      */
     public function testObjectProperty(Collection $properties)
     {
-        $property = $properties[2];
+        $property = $properties['arrayProperty'];
 
         $this->assertInstanceOf(ObjectType::class, $property->type);
         $this->assertEquals(Collection::class, $property->type->classname);

@@ -48,17 +48,19 @@ class ReflectionCompositeFactory extends ReflectorFactory
 
     protected function buildProperty($reflect)
     {
-        $this->accessor->rawAddToValue
+        $properties = $this->accessor->getRawValue
         (
-            'properties',
+            'properties'
+        );
+
+        $properties[$reflect->getName()] = 
             (new ReflectionPropertyFactory($reflect))
                 ->build
                 (
                     $this->object,
                     $this->reflector
                         ->getDefaultProperties()[$reflect->getName()]
-                )
-        );
+                );
     }
 
     protected function buildMethod($reflect)
