@@ -76,11 +76,11 @@ class ReflectionFileFactory extends ReflectorFactory
                             $as = end($as);
                         }
 
-                        $currentNS->rawAddToValue
+                        $currentNS->getRawValue
                         (
-                            'useStatements',
-                            new UseStatement($classname, $as)
-                        );
+                            'useStatements'
+                        )
+                        ->add($as, new UseStatement($classname, $as));
                         $matching = null;
                         break;
                 }

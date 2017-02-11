@@ -3,6 +3,7 @@
 namespace Spaark\CompositeUtils\Model\Reflection;
 
 use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 class NamespaceBlock extends Reflector
 {
@@ -33,7 +34,7 @@ class NamespaceBlock extends Reflector
     public function __construct(string $namespace)
     {
         $this->definitions = new Collection();
-        $this->useStatements = new Collection();
+        $this->useStatements = new HashMap();
         $this->namespace = $namespace;
     }
 }

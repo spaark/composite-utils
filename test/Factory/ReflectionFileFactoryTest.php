@@ -9,6 +9,7 @@ use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 class ReflectionFileFactoryTest extends TestCase
 {
@@ -62,7 +63,7 @@ class ReflectionFileFactoryTest extends TestCase
         );
         $this->assertAttributeInstanceOf
         (
-            Collection::class,
+            HashMap::class,
             'useStatements',
             $namespace
         );
@@ -78,13 +79,13 @@ class ReflectionFileFactoryTest extends TestCase
      */
     public function testUseStatement
     (
-        $i,
         $classname,
         $name,
-        Collection $useStatements
+        HashMap $useStatements
     )
     {
-        $useStatement = $useStatements[$i];
+        $this->assertTrue($useStatements->contains($name));
+        $useStatement = $useStatements[$name];
 
         $this->assertInstanceOf(UseStatement::class, $useStatement);
         $this->assertAttributeEquals
@@ -105,12 +106,10 @@ class ReflectionFileFactoryTest extends TestCase
     {
         return [
             [
-                0,
                 'Some\Test\NamespacePath\ClassName',
                 'ClassName'
             ],
             [
-                1,
                 'Some\Other\Test\ClassName',
                 'AliasedClass'
             ]

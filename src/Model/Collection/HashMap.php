@@ -58,4 +58,9 @@ class HashMap extends Collection
         unset($this->data[$offset]);
         unset($this->keys[$offset]);
     }
+
+    public function contains($offset)
+    {
+        return $this->offsetExists($offset);
+    }
 }
