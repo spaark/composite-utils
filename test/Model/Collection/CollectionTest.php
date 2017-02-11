@@ -18,14 +18,14 @@ class CollectionTest extends TestCase
     public function testAdd()
     {
         $collection = new Collection();
-        $collection->add('123');
+        $collection->push('123');
         $this->assertFalse($collection->empty());
     }
 
     public function testOffsetGet()
     {
         $collection = new Collection();
-        $collection->add('123');
+        $collection->push('123');
         $this->assertEquals('123', $collection->offsetGet(0));
         $this->assertEquals('123', $collection[0]);
     }

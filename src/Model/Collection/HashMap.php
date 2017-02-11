@@ -28,14 +28,6 @@ class HashMap extends Collection
             : (                    (string)$value)));
     }
 
-    public function add($value)
-    {
-        $key = $hash = $this->size();
-
-        $this->keys[$hash] = $key;
-        $this->data[$hash] = $value;
-    }
-
     public function key()
     {
         return $this->keys[parent::key()];
@@ -53,7 +45,10 @@ class HashMap extends Collection
 
     public function offsetSet($offset, $value)
     {
-        $this->add($offset, $value);
+        $hash = $this->getScalar($offset);
+
+        $this->keys[$hash] = $offset;
+        $this->data[$hash] = $value;
     }
 
     public function offsetUnset($offset)

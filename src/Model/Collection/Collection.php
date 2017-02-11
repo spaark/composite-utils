@@ -152,11 +152,22 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     /**
      * Adds an element to the Collection, without specifying a key
      *
+     * @param scalar $offset The key to set
      * @param mixed $item The element to add
      */
-    public function add($item)
+    public function add($offset, $item)
     {
-        $this->data[] = $item;
+        $this->offsetSet($offset, $item);
+    }
+
+    /**
+     * Push an element onto the end of the array
+     *
+     * @param mixed $item The element to add
+     */
+    public function push($item)
+    {
+        $this->offsetSet($this->size(), $item);
     }
 
     /**
