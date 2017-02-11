@@ -23,7 +23,7 @@ use \Spaark\CompositeUtils\Model\Base\Model;
  * Secondly, other forms of Collection (such as Sets and HashMaps) may
  * extend this class and add their own functionality.
  */
-class Collection implements \ArrayAccess, \Iterator
+class Collection implements \ArrayAccess, \Iterator, \Countable
 {
     /**
      * The raw data of this Collection
@@ -167,6 +167,26 @@ class Collection implements \ArrayAccess, \Iterator
     public function size()
     {
         return count($this->data);
+    }
+
+    /**
+     * Returns how many elements are in the Collection
+     *
+     * @return int The number of elements in the Collection
+     */
+    public function count()
+    {
+        return $this->size();
+    }
+
+    /**
+     * Checks if the Collection is empty
+     *
+     * @return boolean True if the element is empty
+     */
+    public function empty()
+    {
+        return $this->size() === 0;
     }
 
     /**
