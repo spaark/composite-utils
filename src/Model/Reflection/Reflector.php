@@ -3,20 +3,18 @@
  *
  */
 
+use Spaark\CompositeUtils\Traits\AllReadableTrait;
 
 class Reflector
 {
+    use AllReadableTrait;
+
     public static function blankInstance()
     {
         return new self();
     }
 
     private $locked = false;
-
-    public function __construct()
-    {
-        //
-    }
 
     public function __set($var, $val)
     {

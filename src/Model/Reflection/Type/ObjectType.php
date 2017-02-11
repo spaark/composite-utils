@@ -13,5 +13,6 @@ class ObjectType extends AbstractType
     public function __construct(string $classname)
     {
         $this->classname = $classname;
+        $this->initAllReadableTrait();
     }
 }

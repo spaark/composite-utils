@@ -20,5 +20,6 @@ class UseStatement extends Reflector
     {
         $this->classname = $classname;
         $this->name = $name;
+        $this->initAllReadableTrait();
     }
 }

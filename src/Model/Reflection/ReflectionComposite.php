@@ -28,5 +28,6 @@ class ReflectionComposite extends Reflector
     {
         $this->properties = new HashMap();
         $this->methods = new HashMap();
+        $this->initAllReadableTrait();
     }
 }

@@ -36,5 +36,6 @@ class NamespaceBlock extends Reflector
         $this->definitions = new Collection();
         $this->useStatements = new HashMap();
         $this->namespace = $namespace;
+        $this->initAllReadableTrait();
     }
 }
