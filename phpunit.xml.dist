@@ -9,6 +9,12 @@
     <ini name="memory_limit" value="-1"/>
   </php>
 
+  <filter>
+    <whitelist>
+      <directory>src</directory>
+    </whitelist>
+  </filter>
+
   <testsuites>
     <testsuite name="Test Suite">
       <directory>./test/</directory>

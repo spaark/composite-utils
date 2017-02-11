@@ -10,7 +10,7 @@ use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Model\Reflection\Model as ReflectionModel;
 
 /**
- * @coversDefaultClass Spaark\CompositeUtils\Service\PropertyAccessor;
+ * @coversDefaultClass Spaark\CompositeUtils\Service\PropertyAccessor
  */
 class PropertyAccessorTest extends TestCase
 {
