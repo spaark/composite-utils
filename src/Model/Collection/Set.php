@@ -1,4 +1,4 @@
-<?php namespace Spaark\Core\Model\Collection;
+<?php namespace Spaark\CompositeUtils\Model\Collection;
 /**
  * Spaark Framework
  *

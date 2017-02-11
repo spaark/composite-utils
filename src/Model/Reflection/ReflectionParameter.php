@@ -1,6 +1,6 @@
 <?php
 
-namespace Spaark\Core\Model\Reflection;
+namespace Spaark\CompositeUtils\Model\Reflection;
 
 class ReflectionParameter extends Reflector
 {

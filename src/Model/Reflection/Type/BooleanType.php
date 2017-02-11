@@ -1,6 +1,6 @@
 <?php
 
-namespace Spaark\Core\Model\Reflection\Type;
+namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
 class BooleanType extends AbstractType
 {

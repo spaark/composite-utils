@@ -1,6 +1,6 @@
 <?php
 
-namespace Spaark\Core\Exception;
+namespace Spaark\CompositeUtils\Exception;
 
 class NonExistentPropertyException extends \Exception
 {

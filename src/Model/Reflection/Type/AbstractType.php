@@ -1,8 +1,8 @@
 <?php
 
-namespace Spaark\Core\Model\Reflection\Type;
+namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
-use Spaark\Core\Model\Base\Composite;
+use Spaark\CompositeUtils\Model\Base\Composite;
 
 class AbstractType
 {

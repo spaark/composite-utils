@@ -1,3 +1,3 @@
-# Spaark Core
+# Composite Utils
 
-A small web application framework
+A set of utilities which make interacting with Composite Objects eaiser

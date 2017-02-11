@@ -1,13 +1,13 @@
 <?php
 
-namespace Spaark\Core\DataSource\Reflection;
+namespace Spaark\CompositeUtils\Factory\Reflection;
 
-use Spaark\Core\DataSource\BaseBuilder;
-use Spaark\Core\Service\PropertyAccessor;
-use Spaark\Core\Model\Reflection\Reflector as SpaarkReflector;
+use Spaark\CompositeUtils\Factory\BaseFactory;
+use Spaark\CompositeUtils\Service\PropertyAccessor;
+use Spaark\CompositeUtils\Model\Reflection\Reflector as SpaarkReflector;
 use \Reflector as PHPNativeReflector;
 
-abstract class ReflectorFactory extends BaseBuilder
+abstract class ReflectorFactory extends BaseFactory
 {
     const REFLECTION_OBJECT = null;
 

@@ -1,4 +1,4 @@
-<?php namespace Spaark\Core\Model\Collection;
+<?php namespace Spaark\CompositeUtils\Model\Collection;
 /**
  * Spaark Framework
  *
@@ -6,7 +6,7 @@
  * @copyright 2012-2015 Emily Shepherd
  */
 
-use \Spaark\Core\Model\Base\Model;
+use \Spaark\CompositeUtils\Model\Base\Model;
 
 /**
  * Represents an abstract collection of items
@@ -23,7 +23,7 @@ use \Spaark\Core\Model\Base\Model;
  * Secondly, other forms of Collection (such as Sets and HashMaps) may
  * extend this class and add their own functionality.
  */
-class Collection extends Model implements \ArrayAccess, \Iterator
+class Collection implements \ArrayAccess, \Iterator
 {
     /**
      * The raw data of this Collection

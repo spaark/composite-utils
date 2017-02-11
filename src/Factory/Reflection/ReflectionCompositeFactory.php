@@ -1,10 +1,10 @@
 <?php
 
-namespace Spaark\Core\DataSource\Reflection;
+namespace Spaark\CompositeUtils\Factory\Reflection;
 
-use Spaark\Core\DataSource\BaseBuilder;
-use Spaark\Core\Model\Reflection\ReflectionComposite;
-use Spaark\Core\Service\PropertyAccessor;
+use Spaark\CompositeUtils\Factory\BaseFactory;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Service\PropertyAccessor;
 use \ReflectionClass as PHPNativeReflectionClass;
 
 class ReflectionCompositeFactory extends ReflectorFactory

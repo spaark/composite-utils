@@ -1,15 +1,11 @@
-<?php namespace Spaark\Core\Model\Reflection;
+<?php namespace Spaark\CompositeUtils\Model\Reflection;
 /**
  *
  */
 
-use Spaark\Core\Model\Base\Entity;
-use Spaark\Core\DataSource\Reflection\ReflectorFactory;
 
-class Reflector extends Entity
+class Reflector
 {
-    const DEFAULT_BUILDER = ReflectorFactory::class;
-
     public static function blankInstance()
     {
         return new self();

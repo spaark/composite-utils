@@ -1,11 +1,10 @@
 <?php
 
-namespace Spaark\Core\DataSource\Reflection;
+namespace Spaark\CompositeUtils\Factory\Reflection;
 
-use Spaark\Core\DataSource\BaseBuilder;
-use Spaark\Core\Model\Reflection\ReflectionComposite;
-use Spaark\Core\Model\Reflection\ReflectionMethod;
-use Spaark\Core\Model\Reflection\ReflectionParameter;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionParameter;
 use \ReflectionMethod as PHPNativeReflectionMethod;
 
 class ReflectionMethodFactory extends ReflectorFactory

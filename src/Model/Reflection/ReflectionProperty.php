@@ -1,10 +1,10 @@
-<?php namespace Spaark\Core\Model\Reflection;
+<?php namespace Spaark\CompositeUtils\Model\Reflection;
 /**
  *
  *
  */
 
-use Spaark\Core\Model\Reflection\Type;
+use Spaark\CompositeUtils\Model\Reflection\Type;
 
 /**
  * Reflects upon properies within a model, and parses their doc comments

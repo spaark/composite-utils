@@ -1,4 +1,4 @@
-<?php namespace Spaark\Core\Model\Reflection;
+<?php namespace Spaark\CompositeUtils\Model\Reflection;
 /**
  * Spaark
  *

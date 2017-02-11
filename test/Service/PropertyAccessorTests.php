@@ -1,16 +1,16 @@
 <?php
 
-namespace Spaark\Core\Test\Service;
+namespace Spaark\CompositeUtils\Test\Service;
 
 use PHPUnit\Framework\TestCase;
-use Spaark\Core\Service\PropertyAccessor;
-use Spaark\Core\Exception\CannotReadPropertyException;
-use Spaark\Core\Exception\CannotWritePropertyException;
-use Spaark\Core\Test\Model\TestEntity;
-use Spaark\Core\Model\Reflection\Model as ReflectionModel;
+use Spaark\CompositeUtils\Service\PropertyAccessor;
+use Spaark\CompositeUtils\Exception\CannotReadPropertyException;
+use Spaark\CompositeUtils\Exception\CannotWritePropertyException;
+use Spaark\CompositeUtils\Test\Model\TestEntity;
+use Spaark\CompositeUtils\Model\Reflection\Model as ReflectionModel;
 
 /**
- * @coversDefaultClass Spaark\Core\Service\PropertyAccessor;
+ * @coversDefaultClass Spaark\CompositeUtils\Service\PropertyAccessor;
  */
 class PropertyAccessorTests extends TestCase
 {
@@ -42,7 +42,7 @@ class PropertyAccessorTests extends TestCase
 
     /**
      * @covers ::getPropertyOrFail
-     * @expectedException Spaark\Core\Exception\CannotReadPropertyException
+     * @expectedException Spaark\CompositeUtils\Exception\CannotReadPropertyException
      */
     public function testReadNonExistentProperty()
     {
@@ -64,7 +64,7 @@ class PropertyAccessorTests extends TestCase
 
     /**
      * @covers ::getPropertyOrFail
-     * @expectedException Spaark\Core\Exception\CannotWritePropertyException
+     * @expectedException Spaark\CompositeUtils\Exception\CannotWritePropertyException
      */
     public function testWriteNonExistentProperty()
     {

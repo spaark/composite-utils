@@ -1,6 +1,6 @@
-<?php namespace Spaark\Core\Model\Reflection;
+<?php namespace Spaark\CompositeUtils\Model\Reflection;
 
-use Spaark\Core\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 
 /**

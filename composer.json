@@ -1,5 +1,5 @@
 {
-    "name": "spaark/spaark",
+    "name": "spaark/composite-utils",
     "license": "MIT",
     "type": "library",
     "description": "Spaark Framework",
@@ -14,14 +14,14 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/spaark/spaark/issues",
-        "source": "https://github.com/spaark/spaark",
-        "docs": "https://github.com/spaark/spaark/tree/master/docs"
+        "issues": "https://github.com/spaark/composite-utils/issues",
+        "source": "https://github.com/spaark/composite-utils",
+        "docs": "https://github.com/spaark/composite-utils/tree/master/docs"
     },
     "autoload": {
         "psr-4": {
-            "Spaark\\Core\\": "src/",
-            "Spaark\\Core\\Test\\": "test/"
+            "Spaark\\CompositeUtils\\": "src/",
+            "Spaark\\CompositeUtils\\Test\\": "test/"
         }
     },
     "require": {

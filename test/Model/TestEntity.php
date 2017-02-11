@@ -1,11 +1,10 @@
 <?php
 
-namespace Spaark\Core\Test\Model;
+namespace Spaark\CompositeUtils\Test\Model;
 
-use Spaark\Core\Model\Base\Entity;
-use Spaark\Core\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\Collection;
 
-class TestEntity extends Entity
+class TestEntity 
 {
     /**
      * @var int

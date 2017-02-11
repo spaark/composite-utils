@@ -1,10 +1,9 @@
 <?php
 
-namespace Spaark\Core\Service;
+namespace Spaark\CompositeUtils\Service;
 
-use Spaark\Core\Model\Reflection\Model as ReflectionModel;
-use Spaark\Core\Exception\CannotWritePropertyException;
-use Spaark\Core\Exception\CannotReadPropertyException;
+use Spaark\CompositeUtils\Exception\CannotWritePropertyException;
+use Spaark\CompositeUtils\Exception\CannotReadPropertyException;
 use \ReflectionClass;
 use \ReflectionProperty;
 use \ReflectionException;
@@ -22,13 +21,6 @@ class PropertyAccessor
     protected $object;
 
     /**
-     * The reflection entity for the object in question
-     *
-     * @var ReflectionModel
-     */
-    protected $reflect;
-
-    /**
      * A PHP Reflector for access
      *
      * @var ReflectionClass
@@ -39,35 +31,10 @@ class PropertyAccessor
      * @param object $object The object to access
      * @param ReflectionModel|null $reflect A reflection entity
      */
-    public function __construct($object, ?ReflectionModel $reflect)
+    public function __construct($object)
     {
         $this->object = $object;
-        $this->reflect = $reflect;
         $this->reflector = new ReflectionClass($object);
-    }
-
-    /**
-     * Builds and returns a PropertyAccessor, optionally with a
-     * reflection entity
-     *
-     * If a reflection entity is not provided, one will be built from
-     * the object in question
-     *
-     * @param object $object The object to access
-     * @param ReflectionModel|null $reflect The reflection entity
-     * @return PropertyAccessor
-     */
-    public static function factory(
-        $object,
-        ?ReflectionModel $reflect = null
-    )
-    {
-        if (!$reflect)
-        {
-            $reflect = ReflectionModel::fromClass($object);
-        }
-
-        return new static($object, $reflect);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spaark\Core\Enum\BaseEnum;
+namespace Spaark\CompositeUtils\Enum\BaseEnum;
 
 abstract class BaseEnum
 {

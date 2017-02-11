@@ -1,17 +1,16 @@
 <?php
 
-namespace Spaark\Core\DataSource\Reflection;
+namespace Spaark\CompositeUtils\Factory\Reflection;
 
-use Spaark\Core\DataSource\BaseBuilder;
-use Spaark\Core\Model\Reflection\ReflectionComposite;
-use Spaark\Core\Model\Reflection\ReflectionProperty;
-use Spaark\Core\Model\Reflection\ReflectionParameter;
-use Spaark\Core\Model\Reflection\Type\BooleanType;
-use Spaark\Core\Model\Reflection\Type\CollectionType;
-use Spaark\Core\Model\Reflection\Type\IntegerType;
-use Spaark\Core\Model\Reflection\Type\MixedType;
-use Spaark\Core\Model\Reflection\Type\ObjectType;
-use Spaark\Core\Model\Reflection\Type\StringType;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionParameter;
+use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
+use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
+use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
+use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
+use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
+use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use \ReflectionProperty as PHPNativeReflectionProperty;
 
 class ReflectionPropertyFactory extends ReflectorFactory

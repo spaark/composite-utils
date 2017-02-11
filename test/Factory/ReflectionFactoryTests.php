@@ -1,12 +1,12 @@
 <?php
 
-namespace Spaark\Core\Test\DataSource;
+namespace Spaark\CompositeUtils\Test\Factory;
 
-use Spaark\Core\DataSource\Reflection\ReflectionCompositeFactory;
-use Spaark\Core\Test\Model\TestEntity;
+use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
+use Spaark\CompositeUtils\Test\Model\TestEntity;
 use PHPUnit\Framework\TestCase;
-use Spaark\Core\Model\Reflection\ReflectionComposite;
-use Spaark\Core\DataSource\EntityCache;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Factory\EntityCache;
 
 class ReflectionFactoryTests extends TestCase
 {
