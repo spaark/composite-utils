@@ -16,11 +16,6 @@ class RawPropertyAccessorTest extends TestCase
 {
     protected $accessor;
 
-    public function testBuild()
-    {
-        $this->markTestIncomplete();
-    }
-
     public function setUp()
     {
         $entity = new TestEntity();
