@@ -15,26 +15,10 @@
 namespace Spaark\CompositeUtils\Traits;
 
 use Spaark\CompositeUtils\Service\ConditionalPropertyAccessor;
-use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 
 trait PropertyAccessTrait
 {
-    protected static $reflectionComposite;
-
-    protected static function getReflectionComposite()
-    {
-        if (!static::$reflectionComposite)
-        {
-            static::$reflectionComposite =
-                ReflectionCompositeFactory::fromClassName
-                (
-                    get_called_class()
-                )
-                ->build();
-        }
-
-        return static::$reflectionComposite;
-    }
+    use HasReflectorTrait;
 
     /**
      * @var ConditionalPropertyAccessor
