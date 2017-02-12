@@ -19,6 +19,7 @@ use Spaark\CompositeUtils\Service\PropertyAccessor;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 class PropertyAccessorTest extends TestCase
 {
@@ -66,5 +67,32 @@ class PropertyAccessorTest extends TestCase
     {
         $this->accessor->setValue('prop2', null);
         $this->assertNull($this->accessor->getValue('prop2'));
+    }
+
+    public function testConstruct()
+    {
+        $this->accessor->constructObject('test');
+        $this->assertSame
+        (
+            'test',
+            $this->accessor->getRawValue('prop1')
+        );
+        $this->assertFalse($this->accessor->getRawValue('prop4'));
+    }
+
+    public function testConstructOptional()
+    {
+        $set = new HashMap();
+        $this->accessor->constructObject('test', $set, true);
+        $this->assertSame($set, $this->accessor->getRawValue('prop3'));
+        $this->assertTrue($this->accessor->getRawValue('prop4'));
+    }
+
+    /**
+     * @expectedException Spaark\CompositeUtils\Exception\MissingRequiredParameterException
+     */
+    public function testConstructWithoutRequired()
+    {
+        $this->accessor->constructObject();
     }
 }

@@ -24,6 +24,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
 use Spaark\CompositeUtils\Exception\CannotWritePropertyException;
 use Spaark\CompositeUtils\Exception\IllegalPropertyTypeException;
+use Spaark\CompositeUtils\Exception\MissingRequiredParameterException;
 
 class PropertyAccessor extends RawPropertyAccessor
 {
@@ -37,6 +38,66 @@ class PropertyAccessor extends RawPropertyAccessor
         parent::__construct($object);
 
         $this->reflect = $reflect;
+    }
+
+    public function constructObject(...$args)
+    {
+        $i = 0;
+        foreach ($this->reflect->requiredProperties as $property)
+        {
+            if (!isset($args[$i]))
+            {
+                throw new MissingRequiredParameterException
+                (
+                    get_class($this->object),
+                    $property->name
+                );
+            }
+
+            $this->setAnyValue($property, $args[$i]);
+
+            $i++;
+        }
+
+        $building = false;
+        foreach ($this->reflect->optionalProperties as $property)
+        {
+            if ($building)
+            {
+                $this->buildProperty($property);
+            }
+            else
+            {
+                if (isset($args[$i]))
+                {
+                    $this->setAnyValue($property, $args[$i]);
+                    $i++;
+                }
+                else
+                {
+                    $building = true;
+                    $this->buildProperty($property);
+                }
+            }
+        }
+
+        foreach ($this->reflect->builtProperties as $property)
+        {
+            $this->buildProperty($property);
+        }
+    }
+
+    protected function buildProperty($property)
+    {
+        if ($property->type instanceof ObjectType)
+        {
+            $class = $property->type->classname;
+            $this->setRawValue($property->name, new $class());
+        }
+        else
+        {
+            $this->setAnyValue($property, 0);
+        }
     }
 
     public function getValue($property)
