@@ -80,7 +80,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     {
         $this->pointer++;
 
-        return $this->offsetGet($this->pointer);
+        return $this->valid() ? $this->offsetGet($this->pointer) : null;
     }
 
     /**

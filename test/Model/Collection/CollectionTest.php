@@ -41,4 +41,20 @@ class CollectionTest extends TestCase
         $this->assertEquals('123', $collection->offsetGet(0));
         $this->assertEquals('123', $collection[0]);
     }
+
+    public function testLoop()
+    {
+        $collection = new Collection();
+        $collection->push('123');
+        $collection->push('456');
+        $collection->push('789');
+
+        $items = ['123', '456', '789'];
+        $i = 0;
+
+        foreach ($collection as $item)
+        {
+            $this->assertEquals($items[$i++], $item);
+        }
+    }
 }
