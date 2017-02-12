@@ -12,7 +12,7 @@
  * @license MIT
  */
 
-namespace Spaark\Composite\Traits;
+namespace Spaark\CompositeUtils\Traits;
 
 use Spaark\CompositeUtils\Service\ConditionalPropertyAccessor;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
@@ -25,7 +25,7 @@ trait PropertyAccessTrait
     {
         if (!static::$reflectionComposite)
         {
-            static::$reflectComposite =
+            static::$reflectionComposite =
                 ReflectionCompositeFactory::fromClassName
                 (
                     get_called_class()
@@ -33,7 +33,7 @@ trait PropertyAccessTrait
                 ->build();
         }
 
-        return static::$reflectComposite;
+        return static::$reflectionComposite;
     }
 
     /**

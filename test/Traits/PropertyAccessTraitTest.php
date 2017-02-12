@@ -15,8 +15,9 @@
 namespace Spaark\CompositeUtils\Test\Traits;
 
 use Spaark\CompositeUtils\Test\Model\PropertyAccessComposite;
+use PHPUnit\Framework\TestCase;
 
-class PropertyAccessTraitTest
+class PropertyAccessTraitTest extends TestCase
 {
     public function testRead()
     {
@@ -34,7 +35,7 @@ class PropertyAccessTraitTest
         $this->assertAttributeSame(456, 'b', $testComposite);
 
         $testComposite->c = 0;
-        $this->assertAttributeFalse('c', $testComposite);
+        $this->assertAttributeSame(false, 'c', $testComposite);
     }
 
     /**
@@ -51,6 +52,6 @@ class PropertyAccessTraitTest
     public function testIllegalWrite()
     {
         $testComposite = new PropertyAccessComposite();
-        $testComposte->a = 5;
+        $testComposite->a = 5;
     }
 }
