@@ -53,8 +53,6 @@ class ReflectionFileFactory extends ReflectorFactory
         {
             if ($token === ';')
             {
-                $readingClassName = false;
-
                 switch ($matching)
                 {
                     case T_NAMESPACE:

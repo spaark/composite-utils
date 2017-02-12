@@ -26,6 +26,11 @@ abstract class ReflectorFactory extends BaseFactory
      */
     protected $object;
 
+    /**
+     * @var array
+     */
+    protected $acceptedParams = [];
+
     public function __construct(PHPNativeReflector $reflector)
     {
         $class = static::REFLECTION_OBJECT;

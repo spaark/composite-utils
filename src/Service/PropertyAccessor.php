@@ -107,7 +107,7 @@ class PropertyAccessor extends RawPropertyAccessor
                     });
                 break;
             case CollectionType::class:
-                $this->setCollectionValue($property, $value, $type);
+                $this->setCollectionValue($property, $value);
                 break;
             case ObjectType::class:
                 $this->setObjectValue($property, $value, $type);
@@ -151,7 +151,7 @@ class PropertyAccessor extends RawPropertyAccessor
         }
     }
 
-    private function setCollectionValue($property, $value, $type)
+    private function setCollectionValue($property, $value)
     {
         if (is_a($value, \ArrayAccess::class) || is_array($value))
         {

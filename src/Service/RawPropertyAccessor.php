@@ -29,7 +29,6 @@ class RawPropertyAccessor
 
     /**
      * @param object $object The object to access
-     * @param ReflectionModel|null $reflect A reflection entity
      */
     public function __construct($object)
     {
