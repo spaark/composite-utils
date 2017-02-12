@@ -24,21 +24,32 @@ class TestEntity
      * @var string
      * @readable
      * @writable
+     * @construct required
      */
-    protected $id = 'foo';
+    protected $prop1 = 'foo';
 
     /**
      * @var ?string
+     * @readable
+     * @construct new
      */
-    protected $property = '123';
+    protected $prop2 = '123';
 
     /**
      * @var Collection
+     * @construct optional
+     * @writable
      */
-    protected $arrayProperty;
+    protected $prop3;
+
+    /**
+     * @var boolean
+     * @construct optional new
+     */
+    protected $prop4;
 
     public function __construct()
     {
-        $this->arrayProperty = new Collection();
+        $this->prop3 = new Collection();
     }
 }

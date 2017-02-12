@@ -20,6 +20,7 @@ use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Exception\PropertyNotWritableException;
 use Spaark\CompositeUtils\Exception\PropertyNotReadableException;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
+use Spaark\CompositeUtils\Model\Collection\Collection;
 
 class ConditionalPropertyAccessorTest extends TestCase
 {
@@ -38,9 +39,15 @@ class ConditionalPropertyAccessorTest extends TestCase
     /**
      * @dataProvider propertyList
      */
-    public function testRead($property, $expectedValue, $shouldFail)
+    public function testRead
+    (
+        string $property,
+        $expectedValue,
+        bool $shouldFailRead,
+        bool $shouldFailWrite
+    )
     {
-        if ($shouldFail)
+        if ($shouldFailRead)
         {
             $this->expectException
             (
@@ -58,9 +65,15 @@ class ConditionalPropertyAccessorTest extends TestCase
     /**
      * @dataProvider propertyList
      */
-    public function testWrite($property, $expectedValue, $shouldFail)
+    public function testWrite
+    (
+        string $property,
+        $expectedValue,
+        bool $shouldFailRead,
+        bool $shouldFailWrite
+    )
     {
-        if ($shouldFail)
+        if ($shouldFailWrite)
         {
             $this->expectException
             (
@@ -68,11 +81,13 @@ class ConditionalPropertyAccessorTest extends TestCase
             );
         }
 
-        $this->accessor->setValue($property, 'bar');
+        $set = is_string($expectedValue) ? 'bar' : new Collection();
 
-        $this->assertEquals
+        $this->accessor->setValue($property, $set);
+
+        $this->assertSame
         (
-            'bar',
+            $set,
             $this->accessor->getRawValue($property)
         );
     }
@@ -81,8 +96,10 @@ class ConditionalPropertyAccessorTest extends TestCase
     {
         return
         [
-            ['id', 'foo', false],
-            ['property', '123', true]
+            ['prop1', 'foo', false, false],
+            ['prop2', '123', false, true],
+            ['prop3', null, true, false],
+            ['prop4', false, true, true]
         ];
     }
 } 

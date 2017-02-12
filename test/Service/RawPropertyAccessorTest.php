@@ -43,7 +43,7 @@ class RawPropertyAccessorTest extends TestCase
         $this->assertEquals
         (
             '123',
-            $this->accessor->getRawValue('property')
+            $this->accessor->getRawValue('prop2')
         );
     }
 
@@ -61,11 +61,11 @@ class RawPropertyAccessorTest extends TestCase
      */
     public function testWrite()
     {
-        $this->accessor->setRawValue('property', '456');
+        $this->accessor->setRawValue('prop2', '456');
         $this->assertEquals
         (
             '456',
-            $this->accessor->getRawValue('property')
+            $this->accessor->getRawValue('prop2')
         );
     }
 
@@ -86,15 +86,15 @@ class RawPropertyAccessorTest extends TestCase
         $this->assertEquals
         (
             0,
-            $this->accessor->getRawValue('arrayProperty')->size()
+            $this->accessor->getRawValue('prop3')->size()
         );
 
-        $this->accessor->rawAddToValue('arrayProperty', 'value');
+        $this->accessor->rawAddToValue('prop3', 'value');
 
         $this->assertEquals
         (
             1,
-            $this->accessor->getRawValue('arrayProperty')->size()
+            $this->accessor->getRawValue('prop3')->size()
         );
     }
 }

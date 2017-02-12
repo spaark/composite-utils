@@ -15,6 +15,7 @@
 namespace Spaark\CompositeUtils\Model\Reflection;
 
 use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Collection;
 
 
 /**
@@ -27,6 +28,21 @@ class ReflectionComposite extends Reflector
      * @var HashMap
      */
     protected $properties;
+
+    /**
+     * @var Collection
+     */
+    protected $requiredProperties;
+
+    /**
+     * @var Collection
+     */
+    protected $optionalProperties;
+
+    /**
+     * @var Collection
+     */
+    protected $builtProperties;
 
     /**
      * @var HashMap
@@ -52,5 +68,8 @@ class ReflectionComposite extends Reflector
     {
         $this->properties = new HashMap();
         $this->methods = new HashMap();
+        $this->requiredProperties = new Collection();
+        $this->optionalProperties = new Collection();
+        $this->builtProperties = new Collection();
     }
 }

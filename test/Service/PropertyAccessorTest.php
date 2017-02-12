@@ -39,18 +39,18 @@ class PropertyAccessorTest extends TestCase
         $this->assertEquals
         (
             '123',
-            $this->accessor->getValue('property')
+            $this->accessor->getValue('prop2')
         );
     }
 
     public function testAcceptableWrite()
     {
         $instance = new Collection();
-        $this->accessor->setValue('arrayProperty', $instance);
+        $this->accessor->setValue('prop3', $instance);
         $this->assertSame
         (
             $instance,
-            $this->accessor->getValue('arrayProperty')
+            $this->accessor->getValue('prop3')
         );
     }
 
@@ -59,12 +59,12 @@ class PropertyAccessorTest extends TestCase
      */
     public function testUnacceptableWrite()
     {
-        $this->accessor->setValue('arrayProperty', null);
+        $this->accessor->setValue('prop3', null);
     }
 
     public function testNullableWrite()
     {
-        $this->accessor->setValue('property', null);
-        $this->assertNull($this->accessor->getValue('property'));
+        $this->accessor->setValue('prop2', null);
+        $this->assertNull($this->accessor->getValue('prop2'));
     }
 }

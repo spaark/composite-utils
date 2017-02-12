@@ -34,7 +34,8 @@ class ReflectionPropertyFactory extends ReflectorFactory
     [
         'readable' => 'setBool',
         'writable' => 'setBool',
-        'var' => 'setType'
+        'var' => 'setType',
+        'construct' => 'setConstruct'
     ];
 
     public static function fromName($class, $property)
@@ -126,6 +127,66 @@ class ReflectionPropertyFactory extends ReflectorFactory
         }
 
         $this->accessor->setRawValue('type', $class);
+    }
+
+    public function setConstruct($name, $value)
+    {
+        $value = explode(' ', $value);
+        $compositeAccessor =
+            new RawPropertyAccessor($this->object->owner);
+
+        switch ($value[0])
+        {
+            case 'required':
+                $this->accessor->setRawValue
+                (
+                    'passedToConstructor',
+                    true
+                );
+                $this->accessor->setRawValue
+                (
+                    'requiredInConstructor',
+                    true
+                );
+                $compositeAccessor->rawAddToValue
+                (
+                    'requiredProperties',
+                    $this->object
+                );
+                break;
+            case 'new':
+                $this->accessor->setRawValue
+                (
+                    'builtInConstructor',
+                    true
+                );
+                $compositeAccessor->rawAddToValue
+                (
+                    'builtProperties',
+                    $this->object
+                );
+                break;
+            case 'optional':
+                $this->accessor->setRawValue
+                (
+                    'passedToConstructor',
+                    true
+                );
+                $compositeAccessor->rawAddToValue
+                (
+                    'optionalProperties',
+                    $this->object
+                );
+
+                if (isset($value[1]) && $value[1] === 'new')
+                {
+                    $this->accessor->setRawValue
+                    (
+                        'builtInConstructor',
+                        true
+                    );
+                }
+        }
     }
 }
 

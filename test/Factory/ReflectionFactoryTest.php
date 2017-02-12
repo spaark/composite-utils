@@ -21,6 +21,7 @@ use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
+use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Factory\EntityCache;
 use Spaark\CompositeUtils\Model\Collection\Collection;
 use Spaark\CompositeUtils\Model\Collection\HashMap;
@@ -36,9 +37,10 @@ class ReflectionFactoryTest extends TestCase
     private $properties =
     [
         /* name, type, nullable, readable, writeable */
-        ['id', StringType::class, false, true, true],
-        ['property', StringType::class, true, false, false],
-        ['arrayProperty', ObjectType::class, false, false, false]
+        ['prop1', StringType::class, false, true, true, true, true, false],
+        ['prop2', StringType::class, true, true, false, false, false, true],
+        ['prop3', ObjectType::class, false, false, true, true, false, false],
+        ['prop4', BooleanType::class, false, false, false, true, false, true]
     ];
 
     public function testComposite()
@@ -91,6 +93,9 @@ class ReflectionFactoryTest extends TestCase
         bool $nullable,
         bool $readable,
         bool $writable,
+        bool $passedToConstructor,
+        bool $requiredInConstructor,
+        bool $builtInConstructor,
         HashMap $properties
     )
     {
@@ -111,7 +116,7 @@ class ReflectionFactoryTest extends TestCase
      */
     public function testObjectProperty(Collection $properties)
     {
-        $property = $properties['arrayProperty'];
+        $property = $properties['prop3'];
 
         $this->assertEquals
         (

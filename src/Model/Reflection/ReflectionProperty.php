@@ -72,6 +72,27 @@ class ReflectionProperty extends Reflector
     protected $defaultValue;
 
     /**
+     * Is this property passed to the constructor
+     *
+     * @var boolean
+     */
+    protected $passedToConstructor;
+
+    /**
+     * Is this property required by the constructor
+     *
+     * @var boolean
+     */
+    protected $requiredInConstructor;
+
+    /**
+     * Is this property built in the constructor
+     *
+     * @var boolean
+     */
+    protected $builtInConstructor;
+
+    /**
      * @getter
      */
     public function isProperty()
