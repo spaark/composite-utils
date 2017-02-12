@@ -7,10 +7,12 @@ use Spaark\CompositeUtils\Test\Model\TestEntity;
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
+use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
+use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Factory\EntityCache;
 use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
-use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 
 /**
  *
@@ -19,55 +21,91 @@ class ReflectionFactoryTest extends TestCase
 {
     protected $reflect;
 
-    public function setUp()
+    private $properties =
+    [
+        /* name, type, nullable, readable, writeable */
+        ['id', StringType::class, false, true, true],
+        ['property', StringType::class, true, false, false],
+        ['arrayProperty', ObjectType::class, false, false, false]
+    ];
+
+    public function testComposite()
     {
-        $reflectorFactory = ReflectionCompositeFactory::fromClassName
+        $reflect = ReflectionCompositeFactory::fromClassName
         (
             TestEntity::class
-        );
-        $this->reflect = $reflectorFactory->build();
-    }
+        )
+        ->build();
 
-    public function testCreation()
-    {
         $this->assertInstanceOf
         (
-            ReflectionComposite::class, $this->reflect
+            ReflectionComposite::class, $reflect
         );
-        $this->assertAttributeCount(1, 'methods', $this->reflect);
+        $this->assertAttributeCount(1, 'methods', $reflect);
+
+        return $reflect;
     }
 
-    public function testProperties()
+    /**
+     * @depends testComposite
+     */
+    public function testProperties(ReflectionComposite $reflect)
     {
-        $properties = (new RawPropertyAccessor($this->reflect))
+        $properties = (new RawPropertyAccessor($reflect))
             ->getRawValue('properties');
 
-        $this->assertInstanceOf(Collection::class, $properties);
-        $this->assertEquals(3, $properties->size());
+        $this->assertInstanceOf(HashMap::class, $properties);
+        $this->assertEquals
+        (
+            count($this->properties),
+            $properties->size()
+        );
 
         return $properties;
     }
 
     /**
      * @depends testProperties
+     * @dataProvider propertiesProvider
      */
-    public function testProperty(Collection $properties)
+    public function testProperty
+    (
+        string $name,
+        string $type,
+        bool $nullable,
+        bool $readable,
+        bool $writable,
+        HashMap $properties
+    )
     {
-        $property = $properties['id'];
+        $this->assertTrue($properties->contains($name));
+        $property = $properties[$name];
         $this->assertInstanceOf(ReflectionProperty::class, $property);
 
-        $this->assertTrue($property->readable);
-        $this->assertTrue($property->writable);
+        $this->assertInstanceOf($type, $property->type);
+        $this->assertSame($nullable, $property->type->nullable);
+
+        $this->assertSame($readable, $property->readable);
+        $this->assertSame($writable, $property->writable);
     }
 
     /**
      * @depends testProperties
+     * @depends testProperty
      */
     public function testObjectProperty(Collection $properties)
     {
         $property = $properties['arrayProperty'];
 
-        $this->assertInstanceOf(ObjectType::class, $property->type);
-        $this->assertEquals(Collection::class, $property->type->classname);
+        $this->assertEquals
+        (
+            Collection::class,
+            $property->type->classname
+        );
+    }
+
+    public function propertiesProvider()
+    {
+        return $this->properties;
     }
 }

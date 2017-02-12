@@ -16,37 +16,35 @@ class ReflectionFileFactoryTest extends TestCase
     const TEST_FILE = __DIR__ . '/../Model/TestEntity.php';
     const TEST_NS = 'Spaark\CompositeUtils\Test\Model';
 
-    private $reflect;
-
-    private $accessor;
-
-    public function setUp()
+    public function testReflectionFile()
     {
-        $this->reflect =
-            (new ReflectionFileFactory(self::TEST_FILE))->build();
-        $this->accessor = new RawPropertyAccessor($this->reflect);
+        $file = (new ReflectionFileFactory(self::TEST_FILE))->build();
+        $this->assertInstanceOf(ReflectionFile::class, $file);
+
+        return $file;
     }
 
-    public function testCreation()
+    /**
+     * @depends testReflectionFile
+     */
+    public function testNamespaces(ReflectionFile $file)
     {
-        $this->assertInstanceOf(ReflectionFile::class, $this->reflect);
-    }
-
-    public function testNamespaces()
-    {
-        $namespaces = $this->accessor->getRawValue('namespaces');
+        $namespaces = $file->namespaces;
 
         $this->assertInstanceOf(HashMap::class, $namespaces);
         $this->assertEquals(1, $namespaces->count());
 
-        return $namespaces;
+        return [$file, $namespaces];
     }
 
     /**
      * @depends testNamespaces
      */
-    public function testNamespaceBlock(HashMap $namespaces)
+    public function testNamespaceBlock(array $data)
     {
+        $file = $data[0];
+        $namespaces = $data[1];
+
         $this->assertTrue($namespaces->contains(self::TEST_NS));
         
         $namespace = $namespaces[self::TEST_NS];
@@ -60,7 +58,7 @@ class ReflectionFileFactoryTest extends TestCase
         );
         $this->assertAttributeEquals
         (
-            $this->reflect,
+            $file,
             'file',
             $namespace
         );
@@ -72,8 +70,7 @@ class ReflectionFileFactoryTest extends TestCase
         );
         $this->assertAttributeCount(3, 'useStatements', $namespace);
 
-        return (new RawPropertyAccessor($namespace))
-            ->getRawValue('useStatements');
+        return $namespace->useStatements;
     }
 
     /**
