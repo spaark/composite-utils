@@ -3,9 +3,27 @@
 namespace Spaark\Composite\Traits;
 
 use Spaark\CompositeUtils\Service\ConditionalPropertyAccessor;
+use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 
 trait PropertyAccessTrait
 {
+    protected static $reflectionComposite;
+
+    protected static function getReflectionComposite()
+    {
+        if (!static::$reflectionComposite)
+        {
+            static::$reflectComposite =
+                ReflectionCompositeFactory::fromClassName
+                (
+                    get_called_class()
+                )
+                ->build();
+        }
+
+        return static::$reflectComposite;
+    }
+
     /**
      * @var ConditionalPropertyAccessor
      */
@@ -21,7 +39,7 @@ trait PropertyAccessTrait
         $this->accessor = new ConditionalPropertyAccessor
         (
             $this,
-            ReflectionComposite::fromClassName(get_class($this))
+            self::getReflectionComposite()
         );
     }
 
