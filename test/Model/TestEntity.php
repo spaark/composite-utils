@@ -9,11 +9,11 @@ use Spaark\CompositeUtils\Model\Collection\Collection;
 class TestEntity 
 {
     /**
-     * @var int
+     * @var string
      * @readable
      * @writable
      */
-    protected $id;
+    protected $id = 'foo';
 
     /**
      * @var ?string

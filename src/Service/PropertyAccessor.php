@@ -18,7 +18,7 @@ class PropertyAccessor extends RawPropertyAccessor
     /**
      * @var ReflectionComposite
      */
-    private $reflect;
+    protected $reflect;
 
     public function __construct($object, ReflectionComposite $reflect)
     {
@@ -42,15 +42,27 @@ class PropertyAccessor extends RawPropertyAccessor
             );
         }
 
-        $type = $this->reflect->properties[$property]->type;
+        $this->setAnyValue
+        (
+            $this->reflect->properties[$property],
+            $value
+        );
+    }
 
+    protected function setAnyValue($property, $value)
+    {
         if (is_null($value))
         {
-            $this->setNullValue($property, $type);
+            $this->setNullValue($property->name, $property->type);
         }
         else
         {
-            $this->setNonNullValue($property, $value, $type);
+            $this->setNonNullValue
+            (
+                $property->name,
+                $value,
+                $property->type
+            );
         }
     }
 
