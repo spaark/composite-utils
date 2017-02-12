@@ -23,18 +23,18 @@ trait AllReadableTrait
      */
     protected $accessor;
 
-    public function __construct()
+    protected function getPropertyAccessor()
     {
-        $this->initAllReadableTrait();
-    }
+        if (!$this->accessor)
+        {
+            $this->accessor = new RawPropertyAccessor($this);
+        }
 
-    protected function initAllReadableTrait()
-    {
-        $this->accessor = new RawPropertyAccessor($this);
+        return $this->accessor;
     }
 
     public function __get($property)
     {
-        return $this->accessor->getRawValue($property);
+        return $this->getPropertyAccessor()->getRawValue($property);
     }
 }

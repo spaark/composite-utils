@@ -27,6 +27,5 @@ class ReflectionFile extends Reflector
     public function __construct()
     {
         $this->namespaces = new HashMap();
-        $this->initAllReadableTrait();
     }
 }

@@ -41,27 +41,27 @@ trait PropertyAccessTrait
      */
     protected $accessor;
 
-    public function __construct()
+    protected function getPropertyAccessor()
     {
-        $this->initPropertyAccessTrait();
-    }
+        if (!$this->accessor)
+        {
+            $this->accessor = new ConditionalPropertyAccessor
+            (
+                $this,
+                self::getReflectionComposite()
+            );
+        }
 
-    protected function initPropertyAccessTrait()
-    {
-        $this->accessor = new ConditionalPropertyAccessor
-        (
-            $this,
-            self::getReflectionComposite()
-        );
+        return $this->accessor;
     }
 
     public function __get($property)
     {
-        return $this->accessor->getValue($property);
+        return $this->getPropertyAccessor()->getValue($property);
     }
 
     public function __set($property, $value)
     {
-        $this->accessor->setValue($property, $value);
+        $this->getPropertyAccessor()->setValue($property, $value);
     }
 }
