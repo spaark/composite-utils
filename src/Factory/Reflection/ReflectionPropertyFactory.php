@@ -11,6 +11,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
+use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use \ReflectionProperty as PHPNativeReflectionProperty;
 
 class ReflectionPropertyFactory extends ReflectorFactory

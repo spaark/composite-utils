@@ -16,7 +16,7 @@ class TestEntity
     protected $id;
 
     /**
-     * @var string
+     * @var ?string
      */
     protected $property = '123';
 
