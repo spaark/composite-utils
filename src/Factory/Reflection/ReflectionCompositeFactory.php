@@ -23,6 +23,11 @@ class ReflectionCompositeFactory extends ReflectorFactory
         $this->accessor->setRawValue('file', $file);
         $this->accessor->setRawValue
         (
+            'classname',
+            $this->reflector->name
+        );
+        $this->accessor->setRawValue
+        (
             'namespace',
             $file->namespaces[$this->reflector->getNamespaceName()]
         );

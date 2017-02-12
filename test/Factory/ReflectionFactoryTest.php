@@ -42,6 +42,10 @@ class ReflectionFactoryTest extends TestCase
             ReflectionComposite::class, $reflect
         );
         $this->assertAttributeCount(1, 'methods', $reflect);
+        $this->assertAttributeEquals
+        (
+            TestEntity::class, 'classname', $reflect
+        );
 
         return $reflect;
     }
