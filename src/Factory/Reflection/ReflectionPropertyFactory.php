@@ -111,6 +111,11 @@ class ReflectionPropertyFactory extends ReflectorFactory
                 {
                     $value = $useStatements[$value]->classname;
                 }
+                else
+                {
+                    $value = $this->object->owner->namespace->namespace
+                        . '\\' . $value;
+                }
 
                 $class = new ObjectType($value);
         }

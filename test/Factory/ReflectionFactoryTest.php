@@ -40,7 +40,8 @@ class ReflectionFactoryTest extends TestCase
         ['prop1', StringType::class, false, true, true, true, true, false],
         ['prop2', StringType::class, true, true, false, false, false, true],
         ['prop3', ObjectType::class, false, false, true, true, false, false],
-        ['prop4', BooleanType::class, false, false, false, true, false, true]
+        ['prop4', BooleanType::class, false, false, false, true, false, true],
+        ['prop5', ObjectType::class, false, false, false, false, false, false]
     ];
 
     public function testComposite()
@@ -113,20 +114,33 @@ class ReflectionFactoryTest extends TestCase
     /**
      * @depends testProperties
      * @depends testProperty
+     * @dataProvider objectPropertiesProvider
      */
-    public function testObjectProperty(Collection $properties)
+    public function testObjectProperty
+    (
+        string $property,
+        string $classname,
+        Collection $properties
+    )
     {
-        $property = $properties['prop3'];
-
         $this->assertEquals
         (
-            Collection::class,
-            $property->type->classname
+            $classname,
+            $properties[$property]->type->classname
         );
     }
 
     public function propertiesProvider()
     {
         return $this->properties;
+    }
+
+    public function objectPropertiesProvider()
+    {
+        return
+        [
+            ['prop3', Collection::class],
+            ['prop5', TestEntity::class]
+        ];
     }
 }

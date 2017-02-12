@@ -48,6 +48,11 @@ class TestEntity
      */
     protected $prop4;
 
+    /**
+     * @var TestEntity
+     */
+    protected $prop5;
+
     public function __construct()
     {
         $this->prop3 = new Collection();
