@@ -55,6 +55,9 @@ class ReflectionFactoryTest extends TestCase
     {
         $property = $properties['id'];
         $this->assertInstanceOf(ReflectionProperty::class, $property);
+
+        $this->assertTrue($property->readable);
+        $this->assertTrue($property->writable);
     }
 
     /**
