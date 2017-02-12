@@ -31,7 +31,7 @@ class ReflectionProperty extends Reflector
      * @var bool
      * @readable
      */
-    protected $readable;
+    protected $readable = false;
 
     /**
      * Is this property writable?
@@ -39,7 +39,7 @@ class ReflectionProperty extends Reflector
      * @var bool
      * @readable
      */
-    protected $writable;
+    protected $writable = false;
 
     /**
      * This property's type
