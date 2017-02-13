@@ -14,19 +14,32 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection;
 
+/**
+ * Represents a parameter passed to a method
+ *
+ * @property-read string $name
+ * @property-read ReflectionMethod $owner
+ * @property-read string $type
+ */
 class ReflectionParameter extends Reflector
 {
     /**
+     * The name of the parameter
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * @var Method
+     * The method to which this paramenter is passed
+     *
+     * @var ReflectionMethod
      */
     protected $owner;
 
     /**
+     * This parameter's type
+     *
      * @var string
      */
     protected $type;

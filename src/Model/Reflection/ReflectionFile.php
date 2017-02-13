@@ -16,14 +16,27 @@ namespace Spaark\CompositeUtils\Model\Reflection;
 
 use Spaark\CompositeUtils\Model\Collection\HashMap;
 
+/**
+ * Represents a file
+ *
+ * @property-read HashMap $namespaces
+ */
 class ReflectionFile extends Reflector
 {
     /**
-     * @var NamespaceBlock[]
+     * The namespaces which are declared within this file
+     *
+     * Normally, and with well formatted code, there should only really
+     * ever be one of these
+     *
+     * @var HashMap
      * @readable
      */
     protected $namespaces;
 
+    /**
+     * Creates the ReflectionFile by initializing its HashMap property
+     */
     public function __construct()
     {
         $this->namespaces = new HashMap();

@@ -13,15 +13,21 @@
  */
 
 namespace Spaark\CompositeUtils\Model\Reflection;
-/**
- *
- *
- */
 
-use Spaark\CompositeUtils\Model\Reflection\Type;
+use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 
 /**
- * Reflects upon properies within a model, and parses their doc comments
+ * Represents a property within a composite
+ *
+ * @property-read string $name
+ * @property-read ReflectionComposite $owner
+ * @property-read boolean $readable
+ * @property-read boolean $writable
+ * @property-read AbstractType $type
+ * @property-read mixed $defaultValue
+ * @property-read boolean $passedToConstructor
+ * @property-read boolean $requiredInConstructor
+ * @property-read boolean $builtInConstructor
  */
 class ReflectionProperty extends Reflector
 {

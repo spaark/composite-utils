@@ -13,42 +13,57 @@
  */
 
 namespace Spaark\CompositeUtils\Model\Reflection;
+
 /**
- * Spaark
+ * Represents a method
  *
- * Copyright (C) 2012 Emily Shepherd
- * emily@emilyshepherd.me
+ * @property-read string $name
+ * @property-read ReflectionComposite $owner
+ * @property-read HashMap $parameters
+ * @property-read Visibility $visibility
+ * @property-read Scope scope
+ * @property-read boolean $final
  */
-
-
 class ReflectionMethod extends Reflector
 {
     /**
+     * The name of the method
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * @var Model
+     * The composite in which this method was defined
+     *
+     * @var ReflectionComposite
      */
     protected $owner;
 
     /**
+     * The parameters passed to this method
+     *
      * @var HashMap
      */
     protected $parameters;
 
     /**
+     * The method's visibility
+     *
      * @var Visibility
      */
     protected $visbility;
 
     /**
+     * The method's scope
+     *
      * @var Scope
      */
     protected $scope;
 
     /**
+     * Whether this method is declared final
+     *
      * @var boolean
      */
     protected $final;
