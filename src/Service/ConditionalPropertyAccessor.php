@@ -14,12 +14,20 @@
 
 namespace Spaark\CompositeUtils\Service;
 
+use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Exception\PropertyNotWritableException;
 use Spaark\CompositeUtils\Exception\PropertyNotReadableException;
 
+/**
+ * This class is used to access properties of a composite, enforcing
+ * data type requirements and access permissions
+ */
 class ConditionalPropertyAccessor extends PropertyAccessor
 {
-    protected function setAnyValue($property, $value)
+    /**
+     * {@inheritDoc}
+     */
+    protected function setAnyValue(ReflectionProperty $property, $value)
     {
         if ($property->writable)
         {
@@ -35,7 +43,10 @@ class ConditionalPropertyAccessor extends PropertyAccessor
         }
     }
 
-    public function getValue($property)
+    /**
+     * {@inheritDoc}
+     */
+    public function getValue(string $property)
     {
         if (!$this->reflect->properties->contains($property))
         {

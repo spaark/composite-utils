@@ -40,6 +40,8 @@ class RawPropertyAccessor
     protected $reflector;
 
     /**
+     * Creates a RawPropertyAccessor for the given object
+     *
      * @param object $object The object to access
      */
     public function __construct($object)
