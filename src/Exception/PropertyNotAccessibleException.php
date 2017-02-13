@@ -14,8 +14,7 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
-class PropertyNotReadableException
-    extends PropertyNotAccessibleException
+class PropertyNotAccessibleException extends PropertyAccessException
 {
-    const ACCESS_TYPE = 'read';
+    const ERROR_REASON = 'Permission Denied';
 }

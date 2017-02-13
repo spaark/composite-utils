@@ -14,18 +14,8 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
-use \Exception;
-
-class PropertyNotWritableException extends Exception
+class PropertyNotWritableException
+    extends PropertyNotAccessibleException
 {
-    public function __construct($class, $property, $previous = null)
-    {
-        parent::__construct
-        (
-              'Tried to write to unwritable property '
-            . $class . '::$' . $property,
-            0,
-            $previous
-        );
-    }
+    const ACCESS_TYPE = 'write';
 }

@@ -14,18 +14,7 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
-class NonExistentPropertyException extends \Exception
+class NonExistentPropertyException extends PropertyAccessException
 {
-    const ACCESS_TYPE = 'access';
-
-    public function __construct($class, $property, $previous = null)
-    {
-        parent::__construct
-        (
-              'Cannot ' . static::ACCESS_TYPE . ' non existent '
-            . 'property: ' . $class . '::$' . $property,
-            0,
-            $previous
-        );
-    }
+    const ERROR_REASON = 'Property does not exist';
 }
