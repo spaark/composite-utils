@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
+/**
+ * Thrown when attempting to access a property which is inaccessible
+ */
 class PropertyNotAccessibleException extends PropertyAccessException
 {
     const ERROR_REASON = 'Permission Denied';

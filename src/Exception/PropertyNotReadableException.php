@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
+/**
+ * Thrown when attempting to read a property which is inaccessible
+ */
 class PropertyNotReadableException
     extends PropertyNotAccessibleException
 {

@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
+/**
+ * Thrown when attempting to write to a non existent property
+ */
 class CannotWritePropertyException extends NonExistentPropertyException
 {
     const ACCESS_TYPE = 'write';

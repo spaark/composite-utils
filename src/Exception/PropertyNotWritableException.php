@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
+/**
+ * Thrown when attempting to write to a property which is inaccessible
+ */
 class PropertyNotWritableException
     extends PropertyNotAccessibleException
 {

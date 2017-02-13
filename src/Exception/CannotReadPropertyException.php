@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
+/**
+ * Thrown when attempting to read a non existent property
+ */
 class CannotReadPropertyException extends NonExistentPropertyException
 {
     const ACCESS_TYPE = 'read';

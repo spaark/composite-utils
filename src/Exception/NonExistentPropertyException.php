@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
+/**
+ * Thrown when attempting to access an non existent property
+ */
 class NonExistentPropertyException extends PropertyAccessException
 {
     const ERROR_REASON = 'Property does not exist';

@@ -15,13 +15,44 @@
 namespace Spaark\CompositeUtils\Exception;
 
 use \Exception;
+use \Throwable;
 
+/**
+ * Thrown when a property cannot be accessed for any reason
+ */
 class PropertyAccessException extends Exception
 {
+    /**
+     * The type of access for the error message
+     *
+     * Overridden by child classes to provide detailed error feedback.
+     * Example values might be 'read' or 'write'.
+     */
     const ACCESS_TYPE = 'access';
+
+    /**
+     * The type of error for the error message
+     *
+     * Overridden by child classes to provide detailed error feedback.
+     * Example values might be 'Permission denied' or 'Property does not
+     * exist'
+     */
     const ERROR_REASON = 'Generic Failure';
 
-    public function __construct($class, $property, $previous = null)
+    /**
+     * Creates the exception, populating its error message from class
+     * and property names
+     *
+     * @param string $class The classname accessed
+     * @param string $property The property accessed
+     * @param Throwable $previous The exception which caused this
+     */
+    public function __construct
+    (
+        string $class,
+        string $property,
+        Throwable $previous = null
+    )
     {
         parent::__construct
         (
