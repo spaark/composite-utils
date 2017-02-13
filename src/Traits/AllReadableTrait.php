@@ -16,6 +16,10 @@ namespace Spaark\CompositeUtils\Traits;
 
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
+/**
+ * Classes with this trait will allow all of their properties to be read
+ * externally, but will not allow writing
+ */
 trait AllReadableTrait
 {
     /**
@@ -23,6 +27,12 @@ trait AllReadableTrait
      */
     protected $accessor;
 
+    /**
+     * Returns the RawPropertyAccessor for this object, or constructs
+     * one on the fly if one does not yet exist
+     *
+     * @return RawPropertyAccessor
+     */
     protected function getPropertyAccessor()
     {
         if (!$this->accessor)
@@ -33,7 +43,13 @@ trait AllReadableTrait
         return $this->accessor;
     }
 
-    public function __get($property)
+    /**
+     * Gets the value of a property using the RawPropertyAccessor
+     *
+     * @param string $property The property to get
+     * @return mixed The property value
+     */
+    public function __get(string $property)
     {
         return $this->getPropertyAccessor()->getRawValue($property);
     }

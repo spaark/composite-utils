@@ -16,15 +16,27 @@ namespace Spaark\CompositeUtils\Traits;
 
 use Spaark\CompositeUtils\Service\PropertyAccessor;
 
+/**
+ * Classes with this trait will be able to auto construct their
+ * properties
+ */
 trait AutoConstructTrait
 {
     use HasReflectorTrait;
 
+    /**
+     * Creates a new instance of this class, auto constructing the
+     * properties using a PropertyAccessor
+     */
     public function __construct(...$args)
     {
         $this->autoBuild(...$args);
     }
 
+    /**
+     * Creates a new instance of this class, auto constructing the
+     * properties using a PropertyAccessor
+     */
     protected function autoBuild(...$args)
     {
         (new PropertyAccessor($this, static::getReflectionComposite()))

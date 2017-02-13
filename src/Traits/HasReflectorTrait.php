@@ -15,11 +15,27 @@
 namespace Spaark\CompositeUtils\Traits;
 
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 
+/**
+ * Classes with this trait have a ReflectionComposite
+ */
 trait HasReflectorTrait
 {
+    /**
+     * The reflection information for this composite
+     *
+     * @var ReflectionComposite
+     */
     protected static $reflectionComposite;
 
+    /**
+     * Returns the ReflectionComposite for this object, or constructs
+     * one on the fly if one does not yet exist, using a
+     * ReflectionCompositeFactory
+     *
+     * @return ReflectionComposite
+     */ 
     protected static function getReflectionComposite()
     {
         if (!static::$reflectionComposite)
