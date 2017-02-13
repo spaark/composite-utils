@@ -26,10 +26,26 @@ use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use \ReflectionProperty as PHPNativeReflectionProperty;
 
+/**
+ * Builds a ReflectionProperty for a given class and property name
+ */
 class ReflectionPropertyFactory extends ReflectorFactory
 {
     const REFLECTION_OBJECT = ReflectionProperty::class;
 
+    /**
+     * @var PHPNativeReflectionProperty
+     */
+    protected $reflector;
+
+    /**
+     * @var ReflectionProperty
+     */
+    protected $object;
+
+    /**
+     * {@inheritDoc}
+     */
     protected $acceptedParams =
     [
         'readable' => 'setBool',
@@ -38,6 +54,14 @@ class ReflectionPropertyFactory extends ReflectorFactory
         'construct' => 'setConstruct'
     ];
 
+    /**
+     * Returns a new ReflectionPropertyFactory using the given class and
+     * property names
+     *
+     * @param string $class The classname of the property
+     * @param string $property The property to reflect
+     * @return ReflectionPropertyFactory
+     */
     public static function fromName($class, $property)
     {
         return new static(new PHPNativeReflectionProperty
@@ -46,6 +70,15 @@ class ReflectionPropertyFactory extends ReflectorFactory
         ));
     }
 
+    /**
+     * Builds the ReflectionProperty from the provided parameters,
+     * linking to a parent ReflectionComposite
+     *
+     * @param ReflectionCompostite $parent The reflector for the class
+     *     this property belongs to
+     * @param mixed $default This property's default value
+     * @return ReflectionProperty
+     */
     public function build(ReflectionComposite $parent, $default)
     {
         $this->accessor->setRawValue('owner', $parent);
@@ -61,6 +94,12 @@ class ReflectionPropertyFactory extends ReflectorFactory
         return $this->object;
     }
 
+    /**
+     * Sets the property's type by parsing the @type annotation
+     *
+     * @param string $name Should be 'var'
+     * @param string $value The value of the annotation
+     */
     protected function setType($name, $value)
     {
         if ($value{0} !== '?')
@@ -134,7 +173,14 @@ class ReflectionPropertyFactory extends ReflectorFactory
         $this->accessor->setRawValue('type', $class);
     }
 
-    public function setConstruct($name, $value)
+    /**
+     * Sets the property's constructor options by parsing the @construct
+     * annotation
+     *
+     * @param string $name Should be 'construct'
+     * @param string $value The value of the annotation
+     */
+    protected function setConstruct($name, $value)
     {
         $value = explode(' ', $value);
         $compositeAccessor =

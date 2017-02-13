@@ -19,6 +19,9 @@ use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Model\Reflection\Reflector as SpaarkReflector;
 use \Reflector as PHPNativeReflector;
 
+/**
+ * Abstract class for specific Reflection factories to extend
+ */
 abstract class ReflectorFactory extends BaseFactory
 {
     const REFLECTION_OBJECT = null;
@@ -39,10 +42,20 @@ abstract class ReflectorFactory extends BaseFactory
     protected $object;
 
     /**
+     * Array of acceptable annotations and what methods to call to set
+     * them
+     *
      * @var array
      */
     protected $acceptedParams = [];
 
+    /**
+     * Creates a new ReflectorFactory using the provided native PHP
+     * reflector as a basis
+     *
+     * @param PHPNativeReflector $reflector The reflector used to
+     *     parse the item
+     */
     public function __construct(PHPNativeReflector $reflector)
     {
         $class = static::REFLECTION_OBJECT;
@@ -52,6 +65,10 @@ abstract class ReflectorFactory extends BaseFactory
         $this->reflector = $reflector;
     }
 
+    /**
+     * Parses the docblock comment for this item and searches for
+     * annotations
+     */
     protected function parseDocComment()
     {
         preg_match_all
@@ -81,6 +98,12 @@ abstract class ReflectorFactory extends BaseFactory
         }
     }
 
+    /**
+     * Sets an annotation which has a boolean value
+     *
+     * @param string $name The name of the annotation
+     * @param string $value The value of the annotation
+     */
     protected function setBool($name, $value)
     {
         switch(strtolower($value))
@@ -101,11 +124,23 @@ abstract class ReflectorFactory extends BaseFactory
         $this->accessor->setRawValue($name, $value);
     }
 
+    /**
+     * Sets an annotation which has a integer value
+     *
+     * @param string $name The name of the annotation
+     * @param string $value The value of the annotation
+     */
     protected function setInt($name, $value)
     {
         $this->accessor->setRawValue($name, (int)$value);
     }
 
+    /**
+     * Sets an annotation which can have any any value
+     *
+     * @param string $name The name of the annotation
+     * @param string $value The value of the annotation
+     */
     protected function setMixed($name, $value)
     {
         $this->accessor->setRawValue($name, $value);

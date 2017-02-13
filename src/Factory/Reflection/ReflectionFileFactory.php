@@ -19,25 +19,29 @@ use Spaark\CompositeUtils\Model\Reflection\ReflectionFile;
 use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
-use \ReflectionClass as PHPNativeReflectionClass;
 
+/**
+ * Builds a ReflectionFile for a given filename
+ */
 class ReflectionFileFactory extends ReflectorFactory
 {
     /**
+     * The filename to parse
+     *
      * @var string
      */
     protected $filename;
 
     /**
-     * @var int
+     * @var ReflectionFile
      */
-    protected $i = 0;
+    protected $object;
 
     /**
-     * @var array
+     * Creates the ReflectionFileFactory with the given filename
+     *
+     * @param string $filename The filename to parse
      */
-    protected $tokens;
-
     public function __construct(string $filename)
     {
         $this->filename = $filename;
@@ -45,6 +49,11 @@ class ReflectionFileFactory extends ReflectorFactory
         $this->accessor = new RawPropertyAccessor($this->object);
     }
 
+    /**
+     * Builds the ReflectionFile from the provided parameters
+     *
+     * @return ReflectionFile
+     */
     public function build()
     {
         $this->parseFile();
@@ -52,7 +61,10 @@ class ReflectionFileFactory extends ReflectorFactory
         return $this->object;
     }
 
-    public function parseFile()
+    /**
+     * Parses a file to obtain its namespace and use declarations
+     */
+    private function parseFile()
     {
         $tokens = token_get_all(file_get_contents($this->filename));
 

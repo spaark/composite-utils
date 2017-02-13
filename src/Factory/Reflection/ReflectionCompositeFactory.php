@@ -17,16 +17,44 @@ namespace Spaark\CompositeUtils\Factory\Reflection;
 use Spaark\CompositeUtils\Factory\BaseFactory;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use \ReflectionClass as PHPNativeReflectionClass;
+use \ReflectionProperty as PHPNativeReflectionProperty;
+use \ReflectionMethod as PHPNativeReflectionMethod;
+use \Reflector;
 
+/**
+ * Builds a ReflectionComposite for a given class
+ */
 class ReflectionCompositeFactory extends ReflectorFactory
 {
     const REFLECTION_OBJECT = ReflectionComposite::class;
 
+    /**
+     * @var PHPNativeReflector
+     */
+    protected $reflector;
+
+    /**
+     * @var ReflectionComposite
+     */
+    protected $object;
+
+    /**
+     * Creates a new ReflectionCompositeFactory from the given
+     * classname
+     *
+     * @param string $classname The class to build a reflect upon
+     * @return ReflectionCompositeFactory
+     */
     public static function fromClassName(string $classname)
     {
         return new static(new PHPNativeReflectionClass($classname));
     }
 
+    /**
+     * Builds the ReflectionComposite from the provided parameters
+     *
+     * @return ReflectionComposite
+     */
     public function build()
     {
         $file = 
@@ -63,7 +91,16 @@ class ReflectionCompositeFactory extends ReflectorFactory
         return $this->object;
     }
 
-    protected function buildProperty($reflect)
+    /**
+     * Uses a ReflectionPropertyFactory to build a ReflectionProperty,
+     * and adds that to this ReflectionComposite
+     *
+     * @param PHPNativeReflectionProperty
+     */
+    protected function buildProperty
+    (
+        PHPNativeReflectionProperty $reflect
+    )
     {
         $properties = $this->accessor->getRawValue
         (
@@ -80,7 +117,13 @@ class ReflectionCompositeFactory extends ReflectorFactory
                 );
     }
 
-    protected function buildMethod($reflect)
+    /**
+     * Uses a ReflectionMethodFactory to build a ReflectionMethod, and
+     * adds that to this ReflectionComposite
+     *
+     * @param PHPNativeReflectionMethod
+     */
+    protected function buildMethod(PHPNativeReflectionMethod $reflect)
     {
         $this->accessor->rawAddToValue
         (
@@ -90,7 +133,13 @@ class ReflectionCompositeFactory extends ReflectorFactory
         );
     }
 
-    protected function checkIfLocal($reflector)
+    /**
+     * Checks if a property is defined in the class
+     *
+     * @param Reflector $reflector
+     * @return boolean
+     */
+    protected function checkIfLocal(Reflector $reflector)
     {
         return $reflector->class === $this->reflector->getName();
     }
