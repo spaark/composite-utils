@@ -21,7 +21,7 @@ use Spaark\CompositeUtils\Traits\AllReadableTrait;
  *
  * @property-read boolean $nullable
  */
-class AbstractType
+abstract class AbstractType
 {
     use AllReadableTrait;
 

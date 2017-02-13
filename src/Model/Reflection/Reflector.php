@@ -20,7 +20,7 @@ use Spaark\CompositeUtils\Traits\AllReadableTrait;
  * Abstract class extended by composities containing reflection
  * information
  */
-class Reflector
+abstract class Reflector
 {
     use AllReadableTrait;
 }
