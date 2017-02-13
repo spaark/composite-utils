@@ -14,14 +14,27 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
+/**
+ * Represetns a data type which must be an instance of an object
+ *
+ * @property-read string $classname
+ */
 class ObjectType extends AbstractType
 {
     /**
+     * The name of the class this must be an instance of
+     *
      * @readable
      * @var string
      */
     protected $classname;
 
+    /**
+     * Creates this ObjectType with the given classname
+     *
+     * @param string $class The name of the class this must be an
+     *     instance of
+     */
     public function __construct(string $classname)
     {
         $this->classname = $classname;

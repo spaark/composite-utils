@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
+/**
+ * Represents a data type which can have any value
+ */
 class MixedType extends AbstractType
 {
     /**

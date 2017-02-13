@@ -14,14 +14,27 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
-class ObjectType extends AbstractType
+/**
+ * Represents a data type which is a collection of items
+ *
+ * @property-read AbstractType $of
+ */
+class CollectionType extends AbstractType
 {
     /**
+     * What is this a collection of
+     *
      * @readable
      * @var AbstractType
      */
     protected $of;
 
+    /**
+     * Creates the CollectionType of the given subtype
+     *
+     * @param AbstractType $of The data type that this is a collection
+     *     of
+     */
     public function __construct(AbstractType $of)
     {
         $this->of = $of;

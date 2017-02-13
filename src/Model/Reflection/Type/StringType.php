@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
+/**
+ * Represents a native string type
+ */
 class StringType extends AbstractType
 {
     //

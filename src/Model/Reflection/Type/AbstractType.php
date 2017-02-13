@@ -14,14 +14,20 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
-use Spaark\CompositeUtils\Model\Base\Composite;
 use Spaark\CompositeUtils\Traits\AllReadableTrait;
 
+/**
+ * Abstract class extended by composites representing data types
+ *
+ * @property-read boolean $nullable
+ */
 class AbstractType
 {
     use AllReadableTrait;
 
     /**
+     * Is this type nullable
+     *
      * @readable
      * @var boolean
      */
