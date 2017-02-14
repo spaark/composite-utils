@@ -8,7 +8,7 @@
  * LICENSE.md file that was distributed with this source code.
  *
  * @package spaark/composite-utils
- * @author Emily Shepherd <emily@emilyshepherd>
+ * @author Emily Shepherd <emily@emilyshepherd.me>
  * @license MIT
  */
 
