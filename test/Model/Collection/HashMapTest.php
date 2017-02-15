@@ -25,6 +25,11 @@ class HashMapTest extends TestCase
         $this->assertEquals(0, $collection->size());
         $this->assertEquals(0, $collection->count());
         $this->assertTrue($collection->empty());
+
+        foreach ($collection as $item)
+        {
+            $this->fail();
+        }
     }
 
     public function testAdd()
@@ -38,8 +43,41 @@ class HashMapTest extends TestCase
     {
         $collection = new HashMap();
         $collection->add('foo', '123');
-        $this->assertEquals('123', $collection->offsetGet('foo'));
-        $this->assertEquals('123', $collection['foo']);
+        $this->assertEquals('123', $collection->get('foo'));
+
+        $collection['foo'] = '456';
+        $this->assertEquals('456', $collection['foo']);
+    }
+
+    public function testRemove()
+    {
+        $collection = new HashMap();
+        $collection['foo'] = true;
+        $collection['bar'] = false;
+
+        $this->assertEquals(2, $collection->size());
+
+        $collection->remove('foo');
+
+        $this->assertEquals(1, $collection->size());
+    }
+
+    public function testContains()
+    {
+        $collection = new HashMap();
+        $this->assertFalse($collection->contains('foo'));
+
+        $collection['asa'] = 'foo';
+        $this->assertTrue($collection->contains('foo'));
+    }
+
+    public function testContainsKey()
+    {
+        $collection = new HashMap();
+        $this->assertFalse($collection->containsKey('bar'));
+
+        $collection['bar'] = '1234';
+        $this->assertTrue($collection->containsKey('bar'));
     }
 
     public function testLoop()

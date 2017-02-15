@@ -26,7 +26,7 @@ class HashMap extends AbstractMap
     /**
      * @var Pair<KeyType, ValueType>[]
      */
-    protected $data;
+    protected $data = [];
 
     /**
      * {@inheritDoc}
