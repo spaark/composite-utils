@@ -102,10 +102,7 @@ class ReflectionCompositeFactory extends ReflectorFactory
         PHPNativeReflectionProperty $reflect
     )
     {
-        $properties = $this->accessor->getRawValue
-        (
-            'properties'
-        );
+        $properties = $this->accessor->getRawValue('properties');
 
         $properties[$reflect->getName()] = 
             (new ReflectionPropertyFactory($reflect))
@@ -125,12 +122,10 @@ class ReflectionCompositeFactory extends ReflectorFactory
      */
     protected function buildMethod(PHPNativeReflectionMethod $reflect)
     {
-        $this->accessor->rawAddToValue
-        (
-            'methods',
+        $methods = $this->accessor->getRawValue('methods');
+        $methods[$reflect->getName()] =
             (new ReflectionMethodFactory($reflect))
-                ->build($this->object)
-        );
+                ->build($this->object);
     }
 
     /**
