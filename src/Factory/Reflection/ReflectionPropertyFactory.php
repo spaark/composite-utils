@@ -146,7 +146,7 @@ class ReflectionPropertyFactory extends ReflectorFactory
                 $useStatements =
                     $this->object->owner->namespace->useStatements;
 
-                if ($useStatements->contains($value))
+                if ($useStatements->containsKey($value))
                 {
                     $value = $useStatements[$value]->classname;
                 }

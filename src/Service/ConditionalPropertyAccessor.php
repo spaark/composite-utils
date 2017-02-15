@@ -48,7 +48,7 @@ class ConditionalPropertyAccessor extends PropertyAccessor
      */
     public function getValue(string $property)
     {
-        if (!$this->reflect->properties->contains($property))
+        if (!$this->reflect->properties->containsKey($property))
         {
             throw new CannotReadPropertyException
             (

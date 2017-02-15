@@ -57,7 +57,7 @@ class ReflectionFileFactoryTest extends TestCase
         $file = $data[0];
         $namespaces = $data[1];
 
-        $this->assertTrue($namespaces->contains(self::TEST_NS));
+        $this->assertTrue($namespaces->containsKey(self::TEST_NS));
         
         $namespace = $namespaces[self::TEST_NS];
         $this->assertInstanceOf(NamespaceBlock::class, $namespace);
@@ -96,7 +96,7 @@ class ReflectionFileFactoryTest extends TestCase
         HashMap $useStatements
     )
     {
-        $this->assertTrue($useStatements->contains($name));
+        $this->assertTrue($useStatements->containsKey($name));
         $useStatement = $useStatements[$name];
 
         $this->assertInstanceOf(UseStatement::class, $useStatement);

@@ -100,7 +100,7 @@ class ReflectionFactoryTest extends TestCase
         HashMap $properties
     )
     {
-        $this->assertTrue($properties->contains($name));
+        $this->assertTrue($properties->containsKey($name));
         $property = $properties[$name];
         $this->assertInstanceOf(ReflectionProperty::class, $property);
 

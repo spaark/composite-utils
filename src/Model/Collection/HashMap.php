@@ -13,68 +13,85 @@
  */
 
 namespace Spaark\CompositeUtils\Model\Collection;
-/**
- * Spaark Framework
- *
- * @author Emily Shepherd <emily@emilyshepherd.me>
- * @copyright 2012-2015 Emily Shepherd
- */
-
 
 /**
  * Represents a HashMap which contains mapings from one element to
  * another
  *
- * This is similar to PHP's existing array system, which supports
- * key-value pairs (<code>array('key' =&gt; 'value'));</code>) with the
- * added benefit that key values can be objects.
- *
+ * @generic KeyType
+ * @generic ValueType
  */
-class HashMap extends Collection
+class HashMap extends AbstractMap
 {
-    protected $keys = array( );
+    /**
+     * @var Pair<KeyType, ValueType>[]
+     */
+    protected $data;
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getIterator()
+    {
+        return new HashMapIterator($this->data);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function containsKey($key) : bool
+    {
+        return isset($this->data[$this->getScalar($key)]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get($key)
+    {
+        return $this->data[$this->getScalar($key)]->value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function insert(Pair $pair)
+    {
+        $this->data[$this->getScalar($pair->key)] = $pair;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function remove($key)
+    {
+        unset($this->data[$this->getScalar($key)]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function size() : int
+    {
+        return count($this->data);
+    }
+
+    /**
+     * Returns a good scalar value to use for a native PHP array
+     *
+     * @param KeyType $value The key to convert to a scalar
+     * @return string Scalar value
+     */
     private function getScalar($value)
     {
-        return
-              (is_object($value) ? spl_object_hash($value)
-            : (is_array($value)  ? implode($value)
-            : (                    (string)$value)));
-    }
-
-    public function key()
-    {
-        return $this->keys[parent::key()];
-    }
-
-    public function offsetExists($key)
-    {
-        return parent::offsetExists($this->getScalar($key));
-    }
-
-    public function offsetGet($offset)
-    {
-        return parent::offsetGet($this->getScalar($offset));
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $hash = $this->getScalar($offset);
-
-        $this->keys[$hash] = $offset;
-        $this->data[$hash] = $value;
-    }
-
-    public function offsetUnset($offset)
-    {
-        $hash = $this->getScalar($offset);
-
-        unset($this->data[$offset]);
-        unset($this->keys[$offset]);
-    }
-
-    public function contains($offset)
-    {
-        return $this->offsetExists($offset);
+        switch (gettype($value))
+        {
+            case 'object':
+                return spl_object_hash($value);
+            case 'array':
+                return implode($value);
+            default:
+                return (string)$value;
+        }
     }
 }

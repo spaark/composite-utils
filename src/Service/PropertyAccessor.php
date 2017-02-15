@@ -142,7 +142,7 @@ class PropertyAccessor extends RawPropertyAccessor
      */
     public function setValue(string $property, $value)
     {
-        if (!$this->reflect->properties->contains($property))
+        if (!$this->reflect->properties->containsKey($property))
         {
             throw new CannotWritePropertyException
             (
