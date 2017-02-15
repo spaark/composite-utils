@@ -135,8 +135,6 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     public function rewind()
     {
         $this->pointer = 0;
-
-        return $this->offsetGet(0);
     }
 
     /**
