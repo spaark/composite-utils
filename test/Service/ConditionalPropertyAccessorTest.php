@@ -20,7 +20,7 @@ use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Exception\PropertyNotWritableException;
 use Spaark\CompositeUtils\Exception\PropertyNotReadableException;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
-use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 class ConditionalPropertyAccessorTest extends TestCase
 {
@@ -81,7 +81,7 @@ class ConditionalPropertyAccessorTest extends TestCase
             );
         }
 
-        $set = is_string($expectedValue) ? 'bar' : new Collection();
+        $set = is_string($expectedValue) ? 'bar' : new HashMap();
 
         $this->accessor->setValue($property, $set);
 

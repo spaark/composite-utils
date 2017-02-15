@@ -94,6 +94,7 @@ class RawPropertyAccessor
      *
      * @param string $key The property to write to
      * @param mixed $value The value to add
+     * @deprecated
      * @throws CannotWritePropertyException In the event the property
      *    does not exist
      */ 

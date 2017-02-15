@@ -77,24 +77,4 @@ class RawPropertyAccessorTest extends TestCase
     {
         $this->accessor->setRawValue('no_such_property', 's');
     }
-
-    /**
-     * @covers ::rawAddToValue
-     */
-    public function testAddToCollectionProperty()
-    {
-        $this->assertEquals
-        (
-            0,
-            $this->accessor->getRawValue('prop3')->size()
-        );
-
-        $this->accessor->rawAddToValue('prop3', 'value');
-
-        $this->assertEquals
-        (
-            1,
-            $this->accessor->getRawValue('prop3')->size()
-        );
-    }
 }

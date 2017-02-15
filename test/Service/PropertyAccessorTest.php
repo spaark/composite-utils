@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Service\PropertyAccessor;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
-use Spaark\CompositeUtils\Model\Collection\Collection;
 use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 class PropertyAccessorTest extends TestCase
@@ -46,7 +45,7 @@ class PropertyAccessorTest extends TestCase
 
     public function testAcceptableWrite()
     {
-        $instance = new Collection();
+        $instance = new HashMap();
         $this->accessor->setValue('prop3', $instance);
         $this->assertSame
         (

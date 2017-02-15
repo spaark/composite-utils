@@ -16,7 +16,7 @@ namespace Spaark\CompositeUtils\Test\Model;
 
 use Some\Test\NamespacePath\ClassName;
 use Some\Other\Test\ClassName as AliasedClass;
-use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\HashMap;
 
 class TestEntity 
 {
@@ -36,7 +36,7 @@ class TestEntity
     protected $prop2 = '123';
 
     /**
-     * @var Collection
+     * @var HashMap
      * @construct optional
      * @writable
      */
@@ -55,6 +55,6 @@ class TestEntity
 
     public function __construct()
     {
-        $this->prop3 = new Collection();
+        $this->prop3 = new HashMap();
     }
 }

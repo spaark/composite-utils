@@ -296,7 +296,12 @@ class PropertyAccessor extends RawPropertyAccessor
         }
         else
         {
-            $this->throwError($property, $type->classname, $value);
+            $this->throwError
+            (
+                $property,
+                $property->type->classname,
+                $value
+            );
         }
     }
 

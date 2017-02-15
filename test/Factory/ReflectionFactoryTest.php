@@ -120,7 +120,7 @@ class ReflectionFactoryTest extends TestCase
     (
         string $property,
         string $classname,
-        Collection $properties
+        HashMap $properties
     )
     {
         $this->assertEquals
@@ -139,7 +139,7 @@ class ReflectionFactoryTest extends TestCase
     {
         return
         [
-            ['prop3', Collection::class],
+            ['prop3', HashMap::class],
             ['prop5', TestEntity::class]
         ];
     }
