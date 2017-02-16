@@ -19,16 +19,8 @@ namespace Spaark\CompositeUtils\Model\Collection;
  *
  * @generic ValueType
  */
-abstract class AbstractCollection
-    implements \ArrayAccess, \IteratorAggregate, \Countable
+abstract class AbstractCollection implements CollectionInterface
 {
-    /**
-     * Returns the size of the collection
-     *
-     * @return int The size of the collection
-     */
-    abstract public function size() : int;
-
     /**
      * Returns how many elements are in the Collection
      *
@@ -40,23 +32,15 @@ abstract class AbstractCollection
     }
 
     /**
-     * Checks if the Collection is empty
-     *
-     * @return boolean True if the element is empty
+     * {@inheritDoc}
      */
-    public function empty()
+    public function empty() : bool
     {
         return $this->size() === 0;
     }
 
     /**
-     * Basic implementation of contains
-     *
-     * Should be overridden by datatype-specific implementations for
-     * speed improvements
-     *
-     * @param ValueType $searchFor The key to search for
-     * @return boolean
+     * {@inheritDoc}
      */
     public function contains($searchFor) : bool
     {
@@ -71,6 +55,9 @@ abstract class AbstractCollection
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function map(callable $cb)
     {
         foreach ($this as $key => $value)

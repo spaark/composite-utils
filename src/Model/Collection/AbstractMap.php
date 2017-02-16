@@ -22,38 +22,10 @@ namespace Spaark\CompositeUtils\Model\Collection;
  * @generic KeyType
  * @generic ValueType
  */
-abstract class AbstractMap extends AbstractCollection
+abstract class AbstractMap
+    extends AbstractCollection
+    implements MapInterface
 {
-    /**
-     * Insert a new key value Pair into the Map
-     *
-     * @param Pair<KeyType, ValueType> $pair
-     */
-    abstract public function insert(Pair $pair);
-
-    /**
-     * Gets the item, looking it up with the specified key
-     *
-     * @param KeyType $item The key to search by
-     * @return ValueType The item
-     */
-    abstract public function get($item);
-
-    /**
-     * Removes an item, looking it up with the specified key
-     *
-     * @param KeyType $item The key of the keypair to remove
-     */
-    abstract public function remove($item);
-
-    /**
-     * Checks if the specified key exists in this map
-     *
-     * @param KeyType $key The key to search for
-     * @return boolean
-     */
-    abstract public function containsKey($key) : bool;
-
     /**
      * Adds an element to the Map
      *
