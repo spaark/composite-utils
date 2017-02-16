@@ -16,7 +16,7 @@ namespace Spaark\CompositeUtils\Test\Model;
 
 use Spaark\CompositeUtils\Traits\AutoConstructTrait;
 use Spaark\CompositeUtils\Traits\AllReadableTrait;
-use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\ArrayList;
 
 class AutoConstructComposite
 {
@@ -24,7 +24,7 @@ class AutoConstructComposite
     use AllReadableTrait;
 
     /**
-     * @var Collection
+     * @var ArrayList
      * @construct new
      */
     protected $a;
