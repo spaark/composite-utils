@@ -13,14 +13,6 @@
  */
 
 namespace Spaark\CompositeUtils\Model\Collection;
-/**
- * Spaark Framework
- *
- * @author Emily Shepherd <emily@emilyshepherd.me>
- * @copyright 2012-2015 Emily Shepherd
- */
-
-use \Spaark\CompositeUtils\Model\Base\Model;
 
 /**
  * Represents an abstract collection of items
@@ -36,6 +28,8 @@ use \Spaark\CompositeUtils\Model\Base\Model;
  * boxing a PHP array to ensure it is an object for type-hinting.
  * Secondly, other forms of Collection (such as Sets and HashMaps) may
  * extend this class and add their own functionality.
+ *
+ * @deprecated Use ArrayList instead
  */
 class Collection implements \ArrayAccess, \Iterator, \Countable
 {

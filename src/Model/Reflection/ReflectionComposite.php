@@ -15,16 +15,16 @@
 namespace Spaark\CompositeUtils\Model\Reflection;
 
 use Spaark\CompositeUtils\Model\Collection\HashMap;
-use Spaark\CompositeUtils\Model\Collection\Collection;
+use Spaark\CompositeUtils\Model\Collection\ArrayList;
 
 
 /**
  * Represents a composite class
  *
  * @property-read HashMap $properties
- * @property-read Collection $requiredProperties
- * @property-read Collection $optionalProperties
- * @property-read Collection $builtProperties
+ * @property-read ArrayList $requiredProperties
+ * @property-read ArrayList $optionalProperties
+ * @property-read ArrayList $builtProperties
  * @property-read HashMap $methods
  * @property-read ReflectionFile $file
  * @property-read NamespaceBlock $namespace
@@ -42,7 +42,7 @@ class ReflectionComposite extends Reflector
     /**
      * The properties which are required in the composite's constructor
      *
-     * @var Collection
+     * @var ArrayList
      */
     protected $requiredProperties;
 
@@ -50,7 +50,7 @@ class ReflectionComposite extends Reflector
      * The properties which can be optionally passed to the composite's
      * constructor
      *
-     * @var Collection
+     * @var ArrayList
      */
     protected $optionalProperties;
 
@@ -58,7 +58,7 @@ class ReflectionComposite extends Reflector
      * The properties which will be built without input in the
      * composite's constructor
      *
-     * @var Collection
+     * @var ArrayList
      */
     protected $builtProperties;
 
@@ -91,15 +91,15 @@ class ReflectionComposite extends Reflector
     protected $classname;
 
     /**
-     * Creates the ReflectionComposite by initializing its Collection
+     * Creates the ReflectionComposite by initializing its ArrayList
      * properties
      */
     public function __construct()
     {
         $this->properties = new HashMap();
         $this->methods = new HashMap();
-        $this->requiredProperties = new Collection();
-        $this->optionalProperties = new Collection();
-        $this->builtProperties = new Collection();
+        $this->requiredProperties = new ArrayList();
+        $this->optionalProperties = new ArrayList();
+        $this->builtProperties = new ArrayList();
     }
 }
