@@ -16,6 +16,8 @@ namespace Spaark\CompositeUtils\Factory\Reflection;
 
 use Spaark\CompositeUtils\Factory\BaseFactory;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Service\ReflectionCompositeProviderInterface;
+use Spaark\CompositeUtils\Service\ReflectionCompositeProvider;
 use \ReflectionClass as PHPNativeReflectionClass;
 use \ReflectionProperty as PHPNativeReflectionProperty;
 use \ReflectionMethod as PHPNativeReflectionMethod;
@@ -39,6 +41,11 @@ class ReflectionCompositeFactory extends ReflectorFactory
     protected $object;
 
     /**
+     * @var ReflectionCompositeProviderInterface
+     */
+    protected $provider;
+
+    /**
      * Creates a new ReflectionCompositeFactory from the given
      * classname
      *
@@ -47,7 +54,21 @@ class ReflectionCompositeFactory extends ReflectorFactory
      */
     public static function fromClassName(string $classname)
     {
-        return new static(new PHPNativeReflectionClass($classname));
+        return new static
+        (
+            new PHPNativeReflectionClass($classname),
+            ReflectionCompositeProvider::getDefault()
+        );
+    }
+
+    public function __construct
+    (
+        PHPNativeReflectionClass $reflect,
+        ReflectionCompositeProviderInterface $provider
+    )
+    {
+        parent::__construct($reflect);
+        $this->provider = $provider;
     }
 
     /**
