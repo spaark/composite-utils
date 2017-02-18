@@ -112,5 +112,23 @@ class FixedList extends AbstractList
     {
         $this->data->setSize($size);
     }
+
+    /**
+     * Returns the current pointer position
+     *
+     * @return int
+     */
+    public function getCurrentPosition() : int
+    {
+        return $this->pointer;
+    }
+
+    /**
+     * Resizes to the current pointer
+     */
+    public function resizeToFull()
+    {
+        $this->resize($this->getCurrentPosition());
+    }
 }
 

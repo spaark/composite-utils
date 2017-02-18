@@ -55,6 +55,16 @@ class FixedListTest extends TestCase
         $this->assertEquals(20, $collection->size());
     }
 
+    public function testResizeToFull()
+    {
+        $collection = new FixedList(10);
+        $collection[] = 1;
+        $collection[] = 2;
+        $collection[] = 3;
+        $collection->resizeToFull();
+        $this->assertEquals(3, $collection->size());
+    }
+
     public function testSet()
     {
         $collection = new FixedList(5);
