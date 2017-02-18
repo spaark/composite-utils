@@ -78,10 +78,26 @@ class ReflectionCompositeFactory extends ReflectorFactory
      */
     public function build()
     {
-        $file = 
-            (new ReflectionFileFactory($this->reflector->getFileName()))
-                ->build();
+        foreach ($this->reflector->getTraits() as $trait)
+        {
+            $this->addInheritance('traits', $trait);
+        }
+
+        if ($parent = $this->reflector->getParentClass())
+        {
+            $this->addInheritance('parent', $parent, 'setRawValue');
+        }
+
+        foreach ($this->reflector->getInterfaces() as $interface)
+        {
+            $this->addInheritance('interfaces', $interface);
+        }
+
+        $fileName = $this->reflector->getFileName();
+
+        $file = (new ReflectionFileFactory($fileName))->build();
         $this->accessor->setRawValue('file', $file);
+
         $this->accessor->setRawValue
         (
             'classname',
@@ -93,23 +109,48 @@ class ReflectionCompositeFactory extends ReflectorFactory
             $file->namespaces[$this->reflector->getNamespaceName()]
         );
 
-        foreach ($this->reflector->getProperties() as $property)
-        {
-            if ($this->checkIfLocal($property))
-            {
-                $this->buildProperty($property);
-            }
-        }
-
-        foreach ($this->reflector->getMethods() as $method)
-        {
-            if ($this->checkIfLocal($method))
-            {
-                $this->buildMethod($method);
-            }
-        }
+        $this->addItems('properties', false, 'buildProperty');
+        $this->addItems('methods', true, 'buildMethod');
 
         return $this->object;
+    }
+
+    protected function addItems
+    (
+        string $name,
+        bool $checkFile,
+        string $cb
+    )
+    {
+        foreach ($this->reflector->{'get' . $name}() as $item)
+        {
+            if ($item->class === $this->reflector->getName())
+            {
+                $this->$cb($item);
+            }
+            // We only reflect on methods in userspace
+            elseif (!$checkFile || $item->getFileName())
+            {
+                $this->accessor->getRawValue($name)[$item->getName()] =
+                    $this->provider->get($item->class)
+                        ->$name[$item->getName()];
+            }
+        }
+    }
+
+    protected function addInheritance
+    (
+        string $group,
+        PHPNativeReflectionClass $reflect,
+        string $method = 'rawAddToValue'
+    )
+    {
+        // We only reflect on classes within userspace
+        if ($reflect->getFileName())
+        {
+            $item = $this->provider->get($reflect->getName());
+            $this->accessor->$method($group, $item);
+        }
     }
 
     /**
@@ -123,16 +164,15 @@ class ReflectionCompositeFactory extends ReflectorFactory
         PHPNativeReflectionProperty $reflect
     )
     {
-        $properties = $this->accessor->getRawValue('properties');
-
-        $properties[$reflect->getName()] = 
-            (new ReflectionPropertyFactory($reflect))
-                ->build
-                (
-                    $this->object,
-                    $this->reflector
-                        ->getDefaultProperties()[$reflect->getName()]
-                );
+        $property = (new ReflectionPropertyFactory($reflect))->build
+        (
+            $this->object,
+            $this->reflector
+                ->getDefaultProperties()[$reflect->getName()]
+        );
+        $this->accessor->getRawValue('properties')[$property->name] =
+            $property;
+        $this->accessor->rawAddToValue('localProperties', $property);
     }
 
     /**
@@ -147,17 +187,6 @@ class ReflectionCompositeFactory extends ReflectorFactory
         $methods[$reflect->getName()] =
             (new ReflectionMethodFactory($reflect))
                 ->build($this->object);
-    }
-
-    /**
-     * Checks if a property is defined in the class
-     *
-     * @param Reflector $reflector
-     * @return boolean
-     */
-    protected function checkIfLocal(Reflector $reflector)
-    {
-        return $reflector->class === $this->reflector->getName();
     }
 }
 

@@ -33,11 +33,33 @@ use Spaark\CompositeUtils\Model\Collection\ArrayList;
 class ReflectionComposite extends Reflector
 {
     /**
+     * @var ?ReflectionComposite
+     */
+    protected $parent;
+
+    /**
+     * @var ArrayList
+     */
+    protected $traits;
+
+    /**
+     * @var ArrayList
+     */
+    protected $interfaces;
+
+    /**
      * The properties within the composite
      *
      * @var HashMap
      */
     protected $properties;
+
+    /**
+     * Properties local to this composite
+     *
+     * @var ArrayList
+     */
+    protected $localProperties;
 
     /**
      * The properties which are required in the composite's constructor
@@ -70,6 +92,13 @@ class ReflectionComposite extends Reflector
     protected $methods;
 
     /**
+     * Method local to this composite
+     *
+     * @var ArrayList
+     */
+    protected $localMethods;
+
+    /**
      * The file in which this composite was declared
      *
      * @var ReflectionFile
@@ -93,11 +122,19 @@ class ReflectionComposite extends Reflector
     /**
      * Creates the ReflectionComposite by initializing its ArrayList
      * properties
+     *
+     * As the ReflectionComposite use a requirement of the AutoConstruct
+     * feature, this class is not able to make use of it (as it would
+     * create an unresolvable circular dependancy)
      */
     public function __construct()
     {
+        $this->traits = new ArrayList();
+        $this->interfaces = new ArrayList();
         $this->properties = new HashMap();
+        $this->localProperties = new ArrayList();
         $this->methods = new HashMap();
+        $this->localMethods = new ArrayList();
         $this->requiredProperties = new ArrayList();
         $this->optionalProperties = new ArrayList();
         $this->builtProperties = new ArrayList();
