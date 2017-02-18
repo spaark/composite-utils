@@ -130,6 +130,34 @@ class ReflectionFactoryTest extends TestCase
         );
     }
 
+    /**
+     * @depends testComposite
+     */
+    public function testConstructorItems(ReflectionComposite $reflect)
+    {
+        $this->assertEquals(1, $reflect->requiredProperties->size());
+        $this->assertTrue($reflect->requiredProperties->contains
+        (
+            $reflect->properties['prop1']
+        ));
+
+        $this->assertEquals(2, $reflect->optionalProperties->size());
+        $this->assertTrue($reflect->optionalProperties->contains
+        (
+            $reflect->properties['prop3']
+        ));
+        $this->assertTrue($reflect->optionalProperties->contains
+        (
+            $reflect->properties['prop4']
+        ));
+
+        $this->assertEquals(1, $reflect->builtProperties->size());
+        $this->assertTrue($reflect->builtProperties->contains
+        (
+            $reflect->properties['prop2']
+        ));
+    }
+
     public function propertiesProvider()
     {
         return $this->properties;
