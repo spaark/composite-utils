@@ -28,7 +28,7 @@ abstract class AbstractList
     {
         if ($offset === null)
         {
-            $this->push($value);
+            $this->add($value);
         }
         else
         {

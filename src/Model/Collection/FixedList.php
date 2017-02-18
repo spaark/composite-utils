@@ -40,7 +40,7 @@ class FixedList extends AbstractList
     /**
      * {@inheritDoc}
      */
-    public function push($item)
+    public function add($item)
     {
         $this->data[$this->pointer++] = $item;
     }

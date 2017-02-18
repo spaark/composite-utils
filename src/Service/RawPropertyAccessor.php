@@ -105,7 +105,7 @@ class RawPropertyAccessor
             $key,
             CannotWritePropertyException::class
         );
-        $property->getValue($this->object)->push($value);
+        $property->getValue($this->object)->add($value);
     }
 
     /**

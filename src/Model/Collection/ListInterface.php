@@ -24,7 +24,7 @@ interface ListInterface extends CollectionInterface
      *
      * @param ValueType $item The item to add
      */
-    public function push($item);
+    public function add($item);
 
     /**
      * Adds a new item at the specified position
