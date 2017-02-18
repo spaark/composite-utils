@@ -29,7 +29,7 @@ class ArrayList extends AbstractList
     /**
      * {@inheritDoc}
      */
-    public function push($item)
+    public function add($item)
     {
         $this->data[] = $item;
     }

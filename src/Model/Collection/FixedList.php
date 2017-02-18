@@ -40,7 +40,7 @@ class FixedList extends AbstractList
     /**
      * {@inheritDoc}
      */
-    public function push($item)
+    public function add($item)
     {
         $this->data[$this->pointer++] = $item;
     }
@@ -101,6 +101,34 @@ class FixedList extends AbstractList
     public function size() : int
     {
         return count($this->data);
+    }
+
+    /**
+     * Resizes the FixedList, throwing away any unused elements
+     *
+     * @param int $size The new size
+     */
+    public function resize(int $size)
+    {
+        $this->data->setSize($size);
+    }
+
+    /**
+     * Returns the current pointer position
+     *
+     * @return int
+     */
+    public function getCurrentPosition() : int
+    {
+        return $this->pointer;
+    }
+
+    /**
+     * Resizes to the current pointer
+     */
+    public function resizeToFull()
+    {
+        $this->resize($this->getCurrentPosition());
     }
 }
 

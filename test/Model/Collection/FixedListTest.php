@@ -39,12 +39,30 @@ class FixedListTest extends TestCase
 
         for ($i = 0; $i < 10; $i++)
         {
-            $collection->push($i);
+            $collection->add($i);
         }
 
         $this->assertEquals(10, $collection->size());
         $collection->remove(5);
         $this->assertEquals(10, $collection->size());
+    }
+
+    public function testResize()
+    {
+        $collection = new FixedList(10);
+        $collection->resize(20);
+
+        $this->assertEquals(20, $collection->size());
+    }
+
+    public function testResizeToFull()
+    {
+        $collection = new FixedList(10);
+        $collection[] = 1;
+        $collection[] = 2;
+        $collection[] = 3;
+        $collection->resizeToFull();
+        $this->assertEquals(3, $collection->size());
     }
 
     public function testSet()
@@ -61,7 +79,7 @@ class FixedListTest extends TestCase
     public function testOffsetGet()
     {
         $collection = new FixedList(2);
-        $collection->push('123');
+        $collection->add('123');
         $this->assertEquals('123', $collection->get(0));
 
         $collection[] = '456';

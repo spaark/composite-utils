@@ -32,10 +32,10 @@ class ArrayListTest extends TestCase
         }
     }
 
-    public function testPush()
+    public function testAdd()
     {
         $collection = new ArrayList();
-        $collection->push('Value');
+        $collection->add('Value');
         $this->assertFalse($collection->empty());
         $this->assertEquals(1, $collection->size());
     }
@@ -43,7 +43,7 @@ class ArrayListTest extends TestCase
     public function testOffsetGet()
     {
         $collection = new ArrayList();
-        $collection->push('123');
+        $collection->add('123');
         $this->assertEquals('123', $collection->get(0));
 
         $collection[] = '456';

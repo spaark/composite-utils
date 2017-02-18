@@ -16,6 +16,7 @@ namespace Spaark\CompositeUtils\Test\Factory;
 
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
+use Spaark\CompositeUtils\Test\Model\InheritedEntity;
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
@@ -44,11 +45,11 @@ class ReflectionFactoryTest extends TestCase
         ['prop5', ObjectType::class, false, false, false, false, false, false]
     ];
 
-    public function testComposite()
+    public function testComposite(string $classname = TestEntity::class)
     {
         $reflect = ReflectionCompositeFactory::fromClassName
         (
-            TestEntity::class
+            $classname
         )
         ->build();
 
@@ -59,7 +60,7 @@ class ReflectionFactoryTest extends TestCase
         $this->assertAttributeCount(1, 'methods', $reflect);
         $this->assertAttributeEquals
         (
-            TestEntity::class, 'classname', $reflect
+            $classname, 'classname', $reflect
         );
 
         return $reflect;
@@ -156,6 +157,11 @@ class ReflectionFactoryTest extends TestCase
         (
             $reflect->properties['prop2']
         ));
+    }
+
+    public function testInheritance()
+    {
+        $this->testComposite(InheritedEntity::class);
     }
 
     public function propertiesProvider()
