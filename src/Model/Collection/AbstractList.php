@@ -32,8 +32,16 @@ abstract class AbstractList
         }
         else
         {
-            $this->splice($offset, 0, [$value]);
+            $this->set($offset, $value);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function set(int $index, $value)
+    {
+        $this->splice($offset, 0, [$value]);
     }
 
     /**

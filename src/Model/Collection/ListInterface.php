@@ -27,6 +27,14 @@ interface ListInterface extends CollectionInterface
     public function push($item);
 
     /**
+     * Adds a new item at the specified position
+     *
+     * @param int $index The index to set
+     * @param ValueType $value The value to set
+     */
+    public function set(int $index, $value);
+
+    /**
      * Remove items from the list, and optionally replace them
      *
      * @param int $offset The offset to cut out
