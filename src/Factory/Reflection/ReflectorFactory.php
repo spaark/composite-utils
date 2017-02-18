@@ -42,14 +42,6 @@ abstract class ReflectorFactory extends BaseFactory
     protected $object;
 
     /**
-     * Array of acceptable annotations and what methods to call to set
-     * them
-     *
-     * @var array
-     */
-    protected $acceptedParams = [];
-
-    /**
      * Creates a new ReflectorFactory using the provided native PHP
      * reflector as a basis
      *
@@ -69,7 +61,7 @@ abstract class ReflectorFactory extends BaseFactory
      * Parses the docblock comment for this item and searches for
      * annotations
      */
-    protected function parseDocComment()
+    protected function parseDocComment(array $acceptedParams)
     {
         preg_match_all
         (
@@ -87,11 +79,11 @@ abstract class ReflectorFactory extends BaseFactory
             $name = strtolower($matches[1][$key]);
             $value = trim($matches[2][$key]);
 
-            if (isset($this->acceptedParams[$name]))
+            if (isset($acceptedParams[$name]))
             {
                 call_user_func
                 (
-                    array($this, $this->acceptedParams[$name]),
+                    array($this, $acceptedParams[$name]),
                     $name, $value
                 );
             }

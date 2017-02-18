@@ -44,17 +44,6 @@ class ReflectionPropertyFactory extends ReflectorFactory
     protected $object;
 
     /**
-     * {@inheritDoc}
-     */
-    protected $acceptedParams =
-    [
-        'readable' => 'setBool',
-        'writable' => 'setBool',
-        'var' => 'setType',
-        'construct' => 'setConstruct'
-    ];
-
-    /**
      * Returns a new ReflectionPropertyFactory using the given class and
      * property names
      *
@@ -89,7 +78,13 @@ class ReflectionPropertyFactory extends ReflectorFactory
             $this->reflector->getName()
         );
 
-        $this->parseDocComment();
+        $this->parseDocComment
+        ([
+            'readable' => 'setBool',
+            'writable' => 'setBool',
+            'var' => 'setType',
+            'construct' => 'setConstruct'
+        ]);
 
         return $this->object;
     }
