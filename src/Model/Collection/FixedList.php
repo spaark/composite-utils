@@ -102,5 +102,15 @@ class FixedList extends AbstractList
     {
         return count($this->data);
     }
+
+    /**
+     * Resizes the FixedList, throwing away any unused elements
+     *
+     * @param int $size The new size
+     */
+    public function resize(int $size)
+    {
+        $this->data->setSize($size);
+    }
 }
 
