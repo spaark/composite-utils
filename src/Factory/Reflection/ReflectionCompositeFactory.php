@@ -33,6 +33,13 @@ class ReflectionCompositeFactory extends ReflectorFactory
 {
     const REFLECTION_OBJECT = ReflectionComposite::class;
 
+    const PROPERTIES = [
+        'traits' => [''],
+        'interfaces' => [''],
+        'Methods' => ['local'],
+        'Properties' => ['local', 'required', 'optional', 'built']
+    ];
+
     /**
      * @var PHPNativeReflector
      */
@@ -124,35 +131,42 @@ class ReflectionCompositeFactory extends ReflectorFactory
         $this->addItems('properties', false, 'Property');
         $this->addItems('methods', true, 'Method');
 
-        $this->object->traits->resizeToFull();
-        $this->object->interfaces->resizeToFull();
-        $this->object->localProperties->resizeToFull();
-        $this->object->requiredProperties->resizeToFull();
-        $this->object->optionalProperties->resizeToFull();
-        $this->object->builtProperties->resizeToFull();
-        $this->object->localMethods->resizeToFull();
+        $this->resizeProperties();
 
         return $this->object;
     }
 
+    /**
+     * Initialise the object with fixed lists
+     */
     protected function initObject()
     {
-        $this->initFixedList('traits');
-        $this->initFixedList('interfaces');
-        $this->initFixedList('Properties', 'local');
-        $this->initFixedList('Properties', 'required');
-        $this->initFixedList('Properties', 'optional');
-        $this->initFixedList('Properties', 'built');
-        $this->initFixedList('Methods', 'local');
+        foreach (static::PROPERTIES as $name => $prefixes)
+        {
+            $size = count($this->reflector->{'get' . $name}());
+            foreach ($prefixes as $prefix)
+            {
+                $this->accessor->setRawValue
+                (
+                    $prefix . $name,
+                    new FixedList($size)
+                );
+            }
+        }
     }
 
-    protected function initFixedList(string $name, string $prefix = '')
+    /**
+     * Resize the FixedList properties down to their size
+     */
+    protected function resizeProperties()
     {
-        $this->accessor->setRawValue
-        (
-            $prefix . $name,
-            new FixedList(count($this->reflector->{'get' . $name}()))
-        );
+        foreach (static::PROPERTIES as $name => $prefixes)
+        {
+            foreach ($prefixes as $prefix)
+            {
+                $this->object->{$prefix . $name}->resizeToFull();
+            }
+        }
     }
 
     /**
