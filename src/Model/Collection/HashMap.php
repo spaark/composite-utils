@@ -14,6 +14,9 @@
 
 namespace Spaark\CompositeUtils\Model\Collection;
 
+use Spaark\CompositeUtils\Service\HashProducer;
+use Spaark\CompositeUtils\Service\HashProducerInterface;
+
 /**
  * Represents a HashMap which contains mapings from one element to
  * another
@@ -24,9 +27,47 @@ namespace Spaark\CompositeUtils\Model\Collection;
 class HashMap extends AbstractMap
 {
     /**
+     * @var HashProducerInterface
+     */
+    protected static $defaultHashProducer;
+
+    protected static function getHashProducer() : HashProducerInterface
+    {
+        if (!static::$defaultHashProducer)
+        {
+            static::$defaultHashProducer = new HashProducer();
+        }
+
+        return static::$defaultHashProducer;
+    }
+
+    public static function setDefaultHashProducer
+    (
+        HashProducerInterface $hashProducer
+    )
+    : HashProducerInterface
+    {
+        static::$defaultHashProducer = $hashProducer;
+    }
+
+    /**
      * @var Pair<KeyType, ValueType>[]
      */
     protected $data = [];
+
+    /**
+     * @var HashProducerInterface
+     */
+    protected $hashProducer;
+
+    public function __construct
+    (
+        ?HashProducerInterface $hashProducer = null
+    )
+    {
+        $this->hashProducer =
+            $hashProducer ?: static::getHashProducer();
+    }
 
     /**
      * {@inheritDoc}
@@ -41,7 +82,7 @@ class HashMap extends AbstractMap
      */
     public function containsKey($key) : bool
     {
-        return isset($this->data[$this->getScalar($key)]);
+        return isset($this->data[$this->hashProducer->getHash($key)]);
     }
 
     /**
@@ -49,7 +90,7 @@ class HashMap extends AbstractMap
      */
     public function get($key)
     {
-        return $this->data[$this->getScalar($key)]->value;
+        return $this->data[$this->hashProducer->getHash($key)]->value;
     }
 
     /**
@@ -57,7 +98,7 @@ class HashMap extends AbstractMap
      */
     public function insert(Pair $pair)
     {
-        $this->data[$this->getScalar($pair->key)] = $pair;
+        $this->data[$this->hashProducer->getHash($pair->key)] = $pair;
     }
 
     /**
@@ -65,7 +106,7 @@ class HashMap extends AbstractMap
      */
     public function remove($key)
     {
-        unset($this->data[$this->getScalar($key)]);
+        unset($this->data[$this->hashProducer->getHash($key)]);
     }
 
     /**
@@ -74,24 +115,5 @@ class HashMap extends AbstractMap
     public function size() : int
     {
         return count($this->data);
-    }
-
-    /**
-     * Returns a good scalar value to use for a native PHP array
-     *
-     * @param KeyType $value The key to convert to a scalar
-     * @return string Scalar value
-     */
-    private function getScalar($value)
-    {
-        switch (gettype($value))
-        {
-            case 'object':
-                return spl_object_hash($value);
-            case 'array':
-                return implode($value);
-            default:
-                return (string)$value;
-        }
     }
 }
