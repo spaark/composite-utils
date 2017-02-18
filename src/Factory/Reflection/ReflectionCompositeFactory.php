@@ -18,6 +18,7 @@ use Spaark\CompositeUtils\Factory\BaseFactory;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
+use Spaark\CompositeUtils\Model\Collection\FixedList;
 use Spaark\CompositeUtils\Service\ReflectionCompositeProviderInterface;
 use Spaark\CompositeUtils\Service\ReflectionCompositeProvider;
 use \ReflectionClass as PHPNativeReflectionClass;
@@ -87,6 +88,8 @@ class ReflectionCompositeFactory extends ReflectorFactory
      */
     public function build()
     {
+        $this->initObject();
+
         foreach ($this->reflector->getTraits() as $trait)
         {
             $this->addInheritance('traits', $trait);
@@ -121,7 +124,35 @@ class ReflectionCompositeFactory extends ReflectorFactory
         $this->addItems('properties', false, 'Property');
         $this->addItems('methods', true, 'Method');
 
+        $this->object->traits->resizeToFull();
+        $this->object->interfaces->resizeToFull();
+        $this->object->localProperties->resizeToFull();
+        $this->object->requiredProperties->resizeToFull();
+        $this->object->optionalProperties->resizeToFull();
+        $this->object->builtProperties->resizeToFull();
+        $this->object->localMethods->resizeToFull();
+
         return $this->object;
+    }
+
+    protected function initObject()
+    {
+        $this->initFixedList('traits');
+        $this->initFixedList('interfaces');
+        $this->initFixedList('Properties', 'local');
+        $this->initFixedList('Properties', 'required');
+        $this->initFixedList('Properties', 'optional');
+        $this->initFixedList('Properties', 'built');
+        $this->initFixedList('Methods', 'local');
+    }
+
+    protected function initFixedList(string $name, string $prefix = '')
+    {
+        $this->accessor->setRawValue
+        (
+            $prefix . $name,
+            new FixedList(count($this->reflector->{'get' . $name}()))
+        );
     }
 
     /**

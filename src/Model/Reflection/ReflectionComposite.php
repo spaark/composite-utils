@@ -15,16 +15,16 @@
 namespace Spaark\CompositeUtils\Model\Reflection;
 
 use Spaark\CompositeUtils\Model\Collection\HashMap;
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\FixedList;
 
 
 /**
  * Represents a composite class
  *
  * @property-read HashMap $properties
- * @property-read ArrayList $requiredProperties
- * @property-read ArrayList $optionalProperties
- * @property-read ArrayList $builtProperties
+ * @property-read FixedList $requiredProperties
+ * @property-read FixedList $optionalProperties
+ * @property-read FixedList $builtProperties
  * @property-read HashMap $methods
  * @property-read ReflectionFile $file
  * @property-read NamespaceBlock $namespace
@@ -38,12 +38,12 @@ class ReflectionComposite extends Reflector
     protected $parent;
 
     /**
-     * @var ArrayList
+     * @var FixedList
      */
     protected $traits;
 
     /**
-     * @var ArrayList
+     * @var FixedList
      */
     protected $interfaces;
 
@@ -57,14 +57,14 @@ class ReflectionComposite extends Reflector
     /**
      * Properties local to this composite
      *
-     * @var ArrayList
+     * @var FixedList
      */
     protected $localProperties;
 
     /**
      * The properties which are required in the composite's constructor
      *
-     * @var ArrayList
+     * @var FixedList
      */
     protected $requiredProperties;
 
@@ -72,7 +72,7 @@ class ReflectionComposite extends Reflector
      * The properties which can be optionally passed to the composite's
      * constructor
      *
-     * @var ArrayList
+     * @var FixedList
      */
     protected $optionalProperties;
 
@@ -80,7 +80,7 @@ class ReflectionComposite extends Reflector
      * The properties which will be built without input in the
      * composite's constructor
      *
-     * @var ArrayList
+     * @var FixedList
      */
     protected $builtProperties;
 
@@ -94,7 +94,7 @@ class ReflectionComposite extends Reflector
     /**
      * Method local to this composite
      *
-     * @var ArrayList
+     * @var FixedList
      */
     protected $localMethods;
 
@@ -120,7 +120,7 @@ class ReflectionComposite extends Reflector
     protected $classname;
 
     /**
-     * Creates the ReflectionComposite by initializing its ArrayList
+     * Creates the ReflectionComposite by initializing its FixedList
      * properties
      *
      * As the ReflectionComposite use a requirement of the AutoConstruct
@@ -129,14 +129,7 @@ class ReflectionComposite extends Reflector
      */
     public function __construct()
     {
-        $this->traits = new ArrayList();
-        $this->interfaces = new ArrayList();
         $this->properties = new HashMap();
-        $this->localProperties = new ArrayList();
         $this->methods = new HashMap();
-        $this->localMethods = new ArrayList();
-        $this->requiredProperties = new ArrayList();
-        $this->optionalProperties = new ArrayList();
-        $this->builtProperties = new ArrayList();
     }
 }
