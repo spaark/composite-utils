@@ -16,6 +16,8 @@ namespace Spaark\CompositeUtils\Factory\Reflection;
 
 use Spaark\CompositeUtils\Factory\BaseFactory;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
 use Spaark\CompositeUtils\Service\ReflectionCompositeProviderInterface;
 use Spaark\CompositeUtils\Service\ReflectionCompositeProvider;
 use \ReflectionClass as PHPNativeReflectionClass;
@@ -61,6 +63,13 @@ class ReflectionCompositeFactory extends ReflectorFactory
         );
     }
 
+    /**
+     * Constructs the Factory with the given reflector and Composite
+     * provider
+     *
+     * @param PHPNativeReflectionClass $reflect
+     * @param ReflectionCompositeProviderInterface $provider
+     */
     public function __construct
     (
         PHPNativeReflectionClass $reflect,
@@ -109,35 +118,70 @@ class ReflectionCompositeFactory extends ReflectorFactory
             $file->namespaces[$this->reflector->getNamespaceName()]
         );
 
-        $this->addItems('properties', false, 'buildProperty');
-        $this->addItems('methods', true, 'buildMethod');
+        $this->addItems('properties', false, 'Property');
+        $this->addItems('methods', true, 'Method');
 
         return $this->object;
     }
 
+    /**
+     * Loops through the list methods or properties adding them to the
+     * Composite
+     *
+     * @param string $name
+     * @param bool $checkFile
+     * @param string $singular
+     */
     protected function addItems
     (
         string $name,
         bool $checkFile,
-        string $cb
+        string $signular
     )
     {
         foreach ($this->reflector->{'get' . $name}() as $item)
         {
-            if ($item->class === $this->reflector->getName())
-            {
-                $this->$cb($item);
-            }
             // We only reflect on methods in userspace
-            elseif (!$checkFile || $item->getFileName())
+            if ($checkFile && !$item->getFileName())
             {
-                $this->accessor->getRawValue($name)[$item->getName()] =
-                    $this->provider->get($item->class)
-                        ->$name[$item->getName()];
+                continue;
             }
+            // This belongs to a super class, use that definition
+            // instead
+            elseif ($item->class !== $this->reflector->getName())
+            {
+                $item = $this->provider->get($item->class)
+                    ->$name[$item->getName()];
+            }
+            // Parse this method
+            else
+            {
+                $factory =
+                      '\Spaark\CompositeUtils\Factory\Reflection'
+                    . '\Reflection' . $signular . 'Factory';
+                $item = $this->{'build' . $signular}
+                (
+                    new $factory($item),
+                    $item
+                );
+                $this->accessor->rawAddToValue
+                (
+                    'local' . ucfirst($name),
+                    $item
+                );
+            }
+
+            $this->accessor->getRawValue($name)[$item->name] = $item;
         }
     }
 
+    /**
+     * Adds a super class / interface / trait to this Composite
+     *
+     * @param string $group The type of superclass (parent, etc...)
+     * @param PHPNativeReflectionClass $reflect
+     * @param string $method
+     */
     protected function addInheritance
     (
         string $group,
@@ -154,39 +198,36 @@ class ReflectionCompositeFactory extends ReflectorFactory
     }
 
     /**
-     * Uses a ReflectionPropertyFactory to build a ReflectionProperty,
-     * and adds that to this ReflectionComposite
+     * Uses a ReflectionPropertyFactory to build a ReflectionProperty
      *
-     * @param PHPNativeReflectionProperty
+     * @param ReflectionPropertyFactory $factory
+     * @return ReflectionProperty
      */
     protected function buildProperty
     (
+        ReflectionPropertyFactory $factory,
         PHPNativeReflectionProperty $reflect
     )
+    : ReflectionProperty
     {
-        $property = (new ReflectionPropertyFactory($reflect))->build
+        return $factory->build
         (
             $this->object,
             $this->reflector
                 ->getDefaultProperties()[$reflect->getName()]
         );
-        $this->accessor->getRawValue('properties')[$property->name] =
-            $property;
-        $this->accessor->rawAddToValue('localProperties', $property);
     }
 
     /**
-     * Uses a ReflectionMethodFactory to build a ReflectionMethod, and
-     * adds that to this ReflectionComposite
+     * Uses a ReflectionMethodFactory to build a ReflectionMethod
      *
-     * @param PHPNativeReflectionMethod
+     * @param ReflectionMethodFactory $factory
+     * @return ReflectionMethod
      */
-    protected function buildMethod(PHPNativeReflectionMethod $reflect)
+    protected function buildMethod(ReflectionMethodFactory $factory)
+        : ReflectionMethod
     {
-        $methods = $this->accessor->getRawValue('methods');
-        $methods[$reflect->getName()] =
-            (new ReflectionMethodFactory($reflect))
-                ->build($this->object);
+        return $factory->build($this->object);
     }
 }
 
