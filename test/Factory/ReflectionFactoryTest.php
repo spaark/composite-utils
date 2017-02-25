@@ -23,6 +23,7 @@ use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
+use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Factory\EntityCache;
 use Spaark\CompositeUtils\Model\Collection\Collection;
 use Spaark\CompositeUtils\Model\Collection\HashMap;
@@ -45,6 +46,12 @@ class ReflectionFactoryTest extends TestCase
         ['prop5', ObjectType::class, false, false, false, false, false, false]
     ];
 
+    private $generics =
+    [
+        ['TypeA', MixedType::class],
+        ['TypeB', StringType::class]
+    ];
+
     public function testComposite(string $classname = TestEntity::class)
     {
         $reflect = ReflectionCompositeFactory::fromClassName
@@ -64,6 +71,36 @@ class ReflectionFactoryTest extends TestCase
         );
 
         return $reflect;
+    }
+
+    /**
+     * @depends testComposite
+     */
+    public function testGenerics(ReflectionComposite $reflect)
+    {
+        $this->assertInstanceOf(HashMap::class, $reflect->generics);
+        $this->assertEquals
+        (
+            count($this->generics),
+            $reflect->generics->size()
+        );
+
+        return $reflect->generics;
+    }
+
+    /**
+     * @depends testGenerics
+     * @dataProvider genericsProvider
+     */
+    public function testGeneric
+    (
+        string $name,
+        string $class,
+        HashMap $generics
+    )
+    {
+        $this->assertTrue($generics->containsKey($name));
+        $this->assertInstanceOf($class, $generics[$name]);
     }
 
     /**
@@ -162,6 +199,11 @@ class ReflectionFactoryTest extends TestCase
     public function testInheritance()
     {
         $this->testComposite(InheritedEntity::class);
+    }
+
+    public function genericsProvider()
+    {
+        return $this->generics;
     }
 
     public function propertiesProvider()

@@ -18,6 +18,10 @@ use Some\Test\NamespacePath\ClassName;
 use Some\Other\Test\ClassName as AliasedClass;
 use Spaark\CompositeUtils\Model\Collection\HashMap;
 
+/**
+ * @generic TypeA
+ * @generic TypeB string
+ */
 class TestEntity 
 {
     /**

@@ -120,6 +120,13 @@ class ReflectionComposite extends Reflector
     protected $classname;
 
     /**
+     * The generics this class uses
+     *
+     * @var HashMap<string, AbstractType>
+     */
+    protected $generics;
+
+    /**
      * Creates the ReflectionComposite by initializing its FixedList
      * properties
      *
@@ -131,5 +138,6 @@ class ReflectionComposite extends Reflector
     {
         $this->properties = new HashMap();
         $this->methods = new HashMap();
+        $this->generics = new HashMap();
     }
 }
