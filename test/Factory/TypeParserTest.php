@@ -24,6 +24,8 @@ use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
+use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
+use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
 /**
@@ -66,6 +68,21 @@ class TypeParserTest extends TestCase
         $this->assertInstanceOf(StringType::class, $generics[0]);
         $this->assertInstanceOf(CollectionType::class, $generics[1]);
         $this->assertInstanceOf(IntegerType::class, $generics[1]->of);
+    }
+
+    public function testParserWithContext()
+    {
+        $reflectionComposite = new ReflectionComposite();
+        $accessor = new RawPropertyAccessor($reflectionComposite);
+        $namespace = new NamespaceBlock('');
+        $accessor->setRawValue('namespace', $namespace);
+        $namespace->useStatements['class'] =
+            new UseStatement('full\class', 'class');
+        $parser = new TypeParser($reflectionComposite);
+
+        $type = $parser->parse('class');
+        $this->assertInstanceOf(ObjectType::class, $type);
+        $this->assertSame('full\class', $type->classname);
     }
 
     public function superTypeProvider()
