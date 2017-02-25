@@ -88,13 +88,16 @@ class TypeParser
                     break;
                 case '>':
                     $item = $stack->pop();
-                    $item->generics[] =
-                        $this->resolveName
-                        (
-                            $current,
-                            $nullable,
-                            $collection
-                        );
+                    if ($value{$i - 1} !== '>')
+                    {
+                        $item->generics[] =
+                            $this->resolveName
+                            (
+                                $current,
+                                $nullable,
+                                $collection
+                            );
+                    }
 
                     if ($i + 1 !== strlen($value) && $value{$i + 1} === '[')
                     {
@@ -109,7 +112,7 @@ class TypeParser
                     }
                     else
                     {
-                        $stack->top()->types[] = $item;
+                        $stack->top()->generics[] = $item;
                     }
                     break;
                 default:
