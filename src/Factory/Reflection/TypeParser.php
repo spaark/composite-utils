@@ -22,6 +22,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
+use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
 /**
@@ -30,8 +31,32 @@ use Spaark\CompositeUtils\Service\RawPropertyAccessor;
  */
 class TypeParser
 {
+    /**
+     * @var ReflectionComposite
+     */
     protected $context;
 
+    /**
+     * @var boolean
+     */
+    protected $nullable;
+
+    /**
+     * @var boolean
+     */
+    protected $collection;
+
+    /**
+     * @var string
+     */
+    protected $currentValue;
+
+    /**
+     * Constructs the TypeParser with an optional context for
+     * interpreting classnames and generics
+     *
+     * @param ReflectionComposite $context
+     */
     public function __construct(ReflectionComposite $context = null)
     {
         $this->context = $context;
@@ -45,15 +70,10 @@ class TypeParser
      */
     public function parse($value)
     {
-        return $this->innerParse($value);
-    }
-
-    protected function innerParse($value)
-    {
-        $nullable = false;
-        $collection = false;
+        $this->nullable = false;
+        $this->collection = false;
         $stack = new \SplStack();
-        $current = '';
+        $this->currentValue = '';
 
         for ($i = 0; $i < strlen($value); $i++)
         {
@@ -61,27 +81,16 @@ class TypeParser
             switch ($char)
             {
                 case '?':
-                    $nullable = true;
+                    $this->nullable = true;
                     break;
                 case '<':
-                    $stack->push($this->resolveGenericName
-                    (
-                        $current,
-                        $nullable,
-                        $collection
-                    ));
+                    $stack->push($this->resolveGenericName());
                     break;
                 case ',':
-                    $stack->top()->generics[] =
-                        $this->resolveName
-                        (
-                            $current,
-                            $nullable,
-                            $collection
-                        );
+                    $stack->top()->generics[] = $this->resolveName();
                     break;
                 case '[':
-                    $collection = true;
+                    $this->collection = true;
                     $this->checkCollectionClose($value, $i);
                     $i++;
                     break;
@@ -91,13 +100,7 @@ class TypeParser
                     $item = $stack->pop();
                     if ($value{$i - 1} !== '>')
                     {
-                        $item->generics[] =
-                            $this->resolveName
-                            (
-                                $current,
-                                $nullable,
-                                $collection
-                            );
+                        $item->generics[] =$this->resolveName();
                     }
 
                     if ($i + 1 !== strlen($value) && $value{$i + 1} === '[')
@@ -117,14 +120,23 @@ class TypeParser
                     }
                     break;
                 default:
-                    $current .= $char;
+                    $this->currentValue .= $char;
             }
         }
 
-        return $this->resolveName($current, $nullable, $collection);
+        return $this->resolveName();
     }
 
-    protected function checkCollectionClose($value, $i)
+    /**
+     * Checks that the given value at the given offset closes a
+     * collection block correctly
+     *
+     * @param string $value
+     * @param int $i
+     * @return void
+     */
+    protected function checkCollectionClose(string $value, int $i)
+        : void
     {
         if ($i + 1 === strlen($value))
         {
@@ -143,14 +155,15 @@ class TypeParser
         }
     }
 
-    protected function resolveGenericName
-    (
-        string &$value,
-        bool &$nullable,
-        bool &$collection
-    )
+    /**
+     * Resolves the currentValue to an AbstractType, failing if it is
+     * not an ObjectType
+     *
+     * @return ObjectType
+     */
+    protected function resolveGenericName() : ObjectType
     {
-        $type = $this->resolveName($value, $nullable, $collection);
+        $type = $this->resolveName();
 
         if (!$type instanceof ObjectType)
         {
@@ -160,70 +173,87 @@ class TypeParser
         return $type;
     }
 
-    protected function resolveName
-    (
-        string &$value,
-        bool &$nullable,
-        bool &$collection
-    )
+    /**
+     * Interprets the currentValue and converts it to an AbstractType
+     *
+     * @param AbstractType
+     */
+    protected function currentValueToType() : AbstractType
     {
-        switch ($value)
+        switch ($this->currentValue)
         {
             case 'string':
-                $class = new StringType();
-                break;
+                return new StringType();
             case 'int':
             case 'integer':
-                $class = new IntegerType();
-                break;
+                return new IntegerType();
             case 'bool':
             case 'boolean':
-                $class = new BooleanType();
-                break;
+                return new BooleanType();
             case 'mixed':
             case '':
-                $class = new MixedType();
-                break;
+                return new MixedType();
             default:
-                if ($this->context)
-                {
-                    $useStatements =
-                        $this->context->namespace->useStatements;
-                    $generics = $this->context->generics;
-
-                    if ($useStatements->containsKey($value))
-                    {
-                        $value = $useStatements[$value]->classname;
-                    }
-                    elseif ($generics->containsKey($value))
-                    {
-                        $value = new GenericType($value);
-                    }
-                    else
-                    {
-                        $value = $this->context->namespace->namespace
-                            . '\\' . $value;
-                    }
-                }
-
-                $class = new ObjectType($value);
+                return new ObjectType($this->checkContext());
         }
+    }
 
-        if ($nullable)
+    /**
+     * Resolves the currentValue to an AbstractType, setting it up as
+     * nullable or a collection as appropriate
+     *
+     * @return AbstractType
+     */
+    protected function resolveName() : AbstractType
+    {
+        $class = $this->currentValueToType();
+
+        if ($this->nullable)
         {
             (new RawPropertyAccessor($class))
                 ->setRawValue('nullable', true);
         }
 
-        if ($collection)
+        if ($this->collection)
         {
             $class = new CollectionType($class);
         }
 
-        $value = '';
-        $nullable = false;
-        $collection = false;
+        $this->currentValue = '';
+        $this->nullable = false;
+        $this->collection = false;
 
         return $class;
+    }
+
+    /**
+     * Checks if the currentValue means something in the TypeParser's
+     * context
+     *
+     * @return string The fully resolved classname
+     */
+    protected function checkContext() : string
+    {
+        if (!$this->context)
+        {
+            return $this->currentValue;
+        }
+
+        $useStatements = $this->context->namespace->useStatements;
+        $generics = $this->context->generics;
+
+        if ($useStatements->containsKey($this->currentValue))
+        {
+            return $useStatements[$this->currentValue]->classname;
+        }
+        elseif ($generics->containsKey($this->currentValue))
+        {
+            return new GenericType($this->currentValue);
+        }
+        else
+        {
+            return $this->context->namespace->namespace
+                . '\\' . $this->currentValue;
+        }
     }
 }
