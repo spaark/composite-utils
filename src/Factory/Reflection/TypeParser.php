@@ -21,6 +21,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
+use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
 /**
@@ -188,10 +189,15 @@ class TypeParser
                 {
                     $useStatements =
                         $this->context->namespace->useStatements;
+                    $generics = $this->context->generics;
 
                     if ($useStatements->containsKey($value))
                     {
                         $value = $useStatements[$value]->classname;
+                    }
+                    elseif ($generics->containsKey($value))
+                    {
+                        $value = new GenericType($value);
                     }
                     else
                     {
