@@ -15,9 +15,11 @@
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
 /**
- * Represents a native string type
+ * Represents all Native PHP Types, extended by more specific types
+ *
+ * @property-read boolean $nullable
  */
-class StringType extends ScalarType
+abstract class NativeType extends AbstractType
 {
     //
 }

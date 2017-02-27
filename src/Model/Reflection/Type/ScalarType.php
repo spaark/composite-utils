@@ -15,9 +15,9 @@
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
 /**
- * Represents a native string type
+ * Represents all Scalar Types, extended by more specific types
  */
-class StringType extends ScalarType
+abstract class ScalarType extends NativeType
 {
     //
 }
