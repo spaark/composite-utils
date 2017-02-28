@@ -14,6 +14,8 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection;
 
+use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
+
 /**
  * Represents a parameter passed to a method
  *
@@ -40,7 +42,7 @@ class ReflectionParameter extends Reflector
     /**
      * This parameter's type
      *
-     * @var string
+     * @var AbstractType
      */
     protected $type;
 }

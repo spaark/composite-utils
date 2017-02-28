@@ -61,4 +61,9 @@ class TestEntity
     {
         $this->prop3 = new HashMap();
     }
+
+    /**
+     * @param TestEntity $b
+     */
+    public function methodName(HashMap $a, $b) { }
 }
