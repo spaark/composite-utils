@@ -49,7 +49,7 @@ trait AllReadableTrait
      * @param string $property The property to get
      * @return mixed The property value
      */
-    public function __get(string $property)
+    public function __get($property)
     {
         return $this->getPropertyAccessor()->getRawValue($property);
     }

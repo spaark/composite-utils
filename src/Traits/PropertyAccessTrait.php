@@ -71,7 +71,7 @@ trait PropertyAccessTrait
      * @param string $property The property to set
      * @param mixed $value The value to set
      */
-    public function __set(string $property, $value)
+    public function __set($property, $value)
     {
         $this->getPropertyAccessor()->setValue($property, $value);
     }
