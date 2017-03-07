@@ -96,6 +96,19 @@ class ReflectionMethodFactory extends ReflectorFactory
 
         $this->initParams();
 
+        $this->accessor->setRawValue('visibility',
+              ($this->reflector->isPublic() ? 'public'
+            : ($this->reflector->isProtected() ? 'protected'
+            : ($this->reflector->isPrivate() ? 'private'
+            : (''))))
+        );
+        $this->accessor->setRawValue('scope',
+            ($this->reflector->isStatic() ? 'static' : 'dynamic')
+        );
+        $this->accessor->setRawValue('final',
+            $this->reflector->isFinal()
+        );
+
         foreach ($this->reflector->getParameters() as $parameter)
         {
             $this->addParameter($parameter);
@@ -115,6 +128,11 @@ class ReflectionMethodFactory extends ReflectorFactory
         $this->accessor->setRawValue
         (
             'parameters',
+            new FixedList(count($this->reflector->getParameters()))
+        );
+        $this->accessor->setRawValue
+        (
+            'nativeParameters',
             new FixedList(count($this->reflector->getParameters()))
         );
     }
@@ -164,16 +182,17 @@ class ReflectionMethodFactory extends ReflectorFactory
     {
         $parameter = new ReflectionParameter();
         $accessor = new RawPropertyAccessor($parameter);
+        $type = $this->typeParser->parse((string)$reflect->getType());
+
         $this->parameters['$' . $reflect->getName()] = $accessor;
         $this->accessor->rawAddToValue('parameters', $parameter);
+        $this->accessor->rawAddToValue('nativeParameters',
+            (string)$reflect->getType()
+        );
 
         $accessor->setRawValue('owner', $this->object);
         $accessor->setRawValue('name', $reflect->getName());
-        $accessor->setRawValue
-        (
-            'type',
-            $this->typeParser->parse((string)$reflect->getType())
-        );
+        $accessor->setRawValue('type', $type);
     }
 }
 

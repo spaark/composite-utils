@@ -50,11 +50,18 @@ class ReflectionMethod extends Reflector
     protected $parameters;
 
     /**
+     * The native PHP parameter types
+     *
+     * @var FixedList
+     */
+    protected $nativeParameters;
+
+    /**
      * The method's visibility
      *
      * @var Visibility
      */
-    protected $visbility;
+    protected $visibility;
 
     /**
      * The method's scope
