@@ -51,7 +51,7 @@ class GenericNameProvider
             case FloatType::class:
                 return 'float';
             case MixedType::class:
-                return 'mixed';
+                return '';
             case StringType::class:
                 return 'string';
         }
