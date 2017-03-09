@@ -194,7 +194,10 @@ class TypeParser
             case '':
                 return new MixedType();
             default:
-                return new ObjectType($this->checkContext());
+                $context = $this->checkContext();
+                return $context instanceof GenericType
+                    ? $context
+                    : new ObjectType($context);
         }
     }
 
@@ -232,7 +235,7 @@ class TypeParser
      *
      * @return string The fully resolved classname
      */
-    protected function checkContext() : string
+    protected function checkContext()
     {
         if (!$this->context)
         {
