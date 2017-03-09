@@ -50,4 +50,15 @@ trait HasReflectorTrait
 
         return static::$reflectionComposite;
     }
+
+    /**
+     * Set the default ReflectionComposite for this class
+     */
+    protected static function setDefaultReflectionComposite
+    (
+        ReflectionComposite $defaultReflectionComposite
+    )
+    {
+        static::$reflectionComposite = $defaultReflectionComposite;
+    }
 }
