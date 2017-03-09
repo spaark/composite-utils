@@ -102,4 +102,9 @@ class OrderedMap extends AbstractMap
     {
         return $this->list->size();
     }
+
+    public function indexOfKey($key)
+    {
+        return $this->getPair($key)->index;
+    }
 }
