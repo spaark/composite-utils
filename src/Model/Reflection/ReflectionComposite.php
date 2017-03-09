@@ -15,7 +15,9 @@
 namespace Spaark\CompositeUtils\Model\Reflection;
 
 use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\OrderedMap;
 use Spaark\CompositeUtils\Model\Collection\FixedList;
+use Spaark\CompositeUtils\Model\Collection\ArrayList;
 
 
 /**
@@ -122,7 +124,7 @@ class ReflectionComposite extends Reflector
     /**
      * The generics this class uses
      *
-     * @var HashMap<string, AbstractType>
+     * @var OrderedMap<string, AbstractType>
      */
     protected $generics;
 
@@ -138,6 +140,7 @@ class ReflectionComposite extends Reflector
     {
         $this->properties = new HashMap();
         $this->methods = new HashMap();
-        $this->generics = new HashMap();
+        $this->generics =
+            new OrderedMap(new HashMap(), new ArrayList());
     }
 }

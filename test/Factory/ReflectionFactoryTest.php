@@ -27,6 +27,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Factory\EntityCache;
 use Spaark\CompositeUtils\Model\Collection\Collection;
 use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\OrderedMap;
 use Spaark\CompositeUtils\Model\Collection\FixedList;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
@@ -85,7 +86,7 @@ class ReflectionFactoryTest extends TestCase
      */
     public function testGenerics(ReflectionComposite $reflect)
     {
-        $this->assertInstanceOf(HashMap::class, $reflect->generics);
+        $this->assertInstanceOf(OrderedMap::class, $reflect->generics);
         $this->assertEquals
         (
             count($this->generics),
@@ -103,7 +104,7 @@ class ReflectionFactoryTest extends TestCase
     (
         string $name,
         string $class,
-        HashMap $generics
+        OrderedMap $generics
     )
     {
         $this->assertTrue($generics->containsKey($name));
