@@ -40,6 +40,14 @@ interface MapInterface extends CollectionInterface
     public function get($item);
 
     /**
+     * Gets a pair, looking it up with the specified key
+     *
+     * @param KeyType $item The key to search by
+     * @return Pair The pai
+     */
+    public function getPair($item) : Pair;
+
+    /**
      * Removes an item, looking it up with the specified key
      *
      * @param KeyType $item The key of the keypair to remove

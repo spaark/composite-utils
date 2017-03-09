@@ -79,4 +79,12 @@ abstract class AbstractMap
     {
         return $this->get($key);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get($key)
+    {
+        return $this->getPair($key)->value;
+    }
 }
