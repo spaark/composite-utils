@@ -59,6 +59,12 @@ class ObjectType extends AbstractType
         return $this->compare($type) >= 0;
     }
 
+    /**
+     * Compares the given type to this
+     *
+     * @param AbstractType $type
+     * @return int
+     */
     public function compare($type) : int
     {
         if
@@ -82,6 +88,9 @@ class ObjectType extends AbstractType
         return -1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function equals($object) : bool
     {
         return $this->compare($type) === 0;

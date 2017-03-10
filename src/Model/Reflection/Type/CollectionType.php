@@ -50,6 +50,9 @@ class CollectionType extends AbstractType
             $this->of->compatible($type->of);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function equals($object) : bool
     {
         return
