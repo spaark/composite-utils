@@ -30,6 +30,14 @@ class GenericType extends AbstractType
         $this->name = $name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function compatible(AbstractType $type) : bool
+    {
+        return true;
+    }
+
     public function equals($object) : bool
     {
         return parent::equals($object) && $object->name === $this->name;

@@ -22,4 +22,12 @@ use Spaark\CompositeUtils\Traits\StaticEquatableTrait;
 abstract class ScalarType extends NativeType
 {
     use StaticEquatableTrait;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function compatible(AbstractType $type) : bool
+    {
+        return $this->equals($type);
+    }
 }

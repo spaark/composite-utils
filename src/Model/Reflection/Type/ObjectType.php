@@ -51,6 +51,14 @@ class ObjectType extends AbstractType
         $this->generics = new ArrayList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function compatible(AbstractType $type) : bool
+    {
+        return $this->compare($type) >= 0;
+    }
+
     public function compare($type) : int
     {
         if

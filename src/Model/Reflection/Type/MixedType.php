@@ -27,4 +27,12 @@ class MixedType extends AbstractType
      * {@inheritDoc}
      */
     protected $nullable = true;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function compatible(AbstractType $type) : bool
+    {
+        return true;
+    }
 }
