@@ -15,13 +15,15 @@
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
 use Spaark\CompositeUtils\Traits\AllReadableTrait;
+use Spaark\CompositeUtils\Model\Common\Equatable;
 
 /**
  * Abstract class extended by composites representing data types
  *
  * @property-read boolean $nullable
+ * @implements Equatable<AbstractType>
  */
-abstract class AbstractType
+abstract class AbstractType implements Equatable
 {
     use AllReadableTrait;
 

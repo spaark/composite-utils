@@ -14,11 +14,15 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
+use Spaark\CompositeUtils\Traits\StaticEquatableTrait;
+
 /**
  * Represents a data type which can have any value
  */
 class MixedType extends AbstractType
 {
+    use StaticEquatableTrait;
+
     /**
      * {@inheritDoc}
      */

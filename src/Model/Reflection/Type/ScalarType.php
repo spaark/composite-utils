@@ -14,10 +14,12 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
+use Spaark\CompositeUtils\Traits\StaticEquatableTrait;
+
 /**
  * Represents all Scalar Types, extended by more specific types
  */
 abstract class ScalarType extends NativeType
 {
-    //
+    use StaticEquatableTrait;
 }

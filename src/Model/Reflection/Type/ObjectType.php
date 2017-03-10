@@ -50,4 +50,32 @@ class ObjectType extends AbstractType
         $this->classname = $classname;
         $this->generics = new ArrayList();
     }
+
+    public function compare($type) : int
+    {
+        if
+        (
+            $type instanceof ObjectType &&
+            $type->classname === $this->classname &&
+            $type->generics->size() <= $this->generics->size()
+        )
+        {
+            foreach ($type->generics as $i => $generic)
+            {
+                if (!$this->generics[$i]->compatible($generic))
+                {
+                    return -1;
+                }
+            }
+
+            return $this->generics->size() - $type->generics->size();
+        }
+
+        return -1;
+    }
+
+    public function equals($object) : bool
+    {
+        return $this->compare($type) === 0;
+    }
 }

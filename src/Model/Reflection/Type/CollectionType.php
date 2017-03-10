@@ -39,4 +39,11 @@ class CollectionType extends AbstractType
     {
         $this->of = $of;
     }
+
+    public function equals($object) : bool
+    {
+        return
+            $type instanceof CollectionType &&
+            $this->of->equals($type->of);
+    }
 }
