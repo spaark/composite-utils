@@ -44,17 +44,6 @@ class ReflectionPropertyFactory extends ReflectorFactory
     protected $object;
 
     /**
-     * {@inheritDoc}
-     */
-    protected $acceptedParams =
-    [
-        'readable' => 'setBool',
-        'writable' => 'setBool',
-        'var' => 'setType',
-        'construct' => 'setConstruct'
-    ];
-
-    /**
      * Returns a new ReflectionPropertyFactory using the given class and
      * property names
      *
@@ -89,7 +78,13 @@ class ReflectionPropertyFactory extends ReflectorFactory
             $this->reflector->getName()
         );
 
-        $this->parseDocComment();
+        $this->parseDocComment
+        ([
+            'readable' => 'setBool',
+            'writable' => 'setBool',
+            'var' => 'setType',
+            'construct' => 'setConstruct'
+        ]);
 
         return $this->object;
     }
@@ -102,75 +97,11 @@ class ReflectionPropertyFactory extends ReflectorFactory
      */
     protected function setType($name, $value)
     {
-        if ($value{0} !== '?')
-        {
-            $nullable = false;
-        }
-        else
-        {
-            $nullable = true;
-            $value = substr($value, 1);
-        }
-
-        if (substr($value, -2) !== '[]')
-        {
-            $collection = false;
-        }
-        else
-        {
-            $collection = true;
-            $value = substr($value, 0, -2);
-        }
-
-        switch ($value)
-        {
-            case 'string':
-                $class = new StringType();
-                break;
-            case 'int':
-            case 'integer':
-                $class = new IntegerType();
-                break;
-            case 'bool':
-            case 'boolean':
-                $class = new BooleanType();
-                break;
-            case 'mixed':
-            case '':
-                $class = new MixedType();
-                break;
-            case 'null':
-                $class = new NullType();
-                break;
-            default:
-                $useStatements =
-                    $this->object->owner->namespace->useStatements;
-
-                if ($useStatements->containsKey($value))
-                {
-                    $value = $useStatements[$value]->classname;
-                }
-                else
-                {
-                    $value = $this->object->owner->namespace->namespace
-                        . '\\' . $value;
-                }
-
-                $class = new ObjectType($value);
-        }
-
-        if ($nullable)
-        {
-            (new RawPropertyAccessor($class))
-                ->setRawValue('nullable', true);
-        }
-
-        if ($collection)
-        {
-            $class = new CollectionType($class);
-        }
-
-        $this->accessor->setRawValue('type', $class);
+        $this->accessor->setRawValue
+        (
+            'type',
+            (new TypeParser($this->object->owner))->parse($value)
+        );
     }
 
     /**

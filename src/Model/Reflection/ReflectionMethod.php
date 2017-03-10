@@ -14,6 +14,8 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection;
 
+use Spaark\CompositeUtils\Model\Colection\FixedList;
+
 /**
  * Represents a method
  *
@@ -43,16 +45,23 @@ class ReflectionMethod extends Reflector
     /**
      * The parameters passed to this method
      *
-     * @var HashMap
+     * @var FixedList
      */
     protected $parameters;
+
+    /**
+     * The native PHP parameter types
+     *
+     * @var FixedList
+     */
+    protected $nativeParameters;
 
     /**
      * The method's visibility
      *
      * @var Visibility
      */
-    protected $visbility;
+    protected $visibility;
 
     /**
      * The method's scope

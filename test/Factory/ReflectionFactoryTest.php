@@ -23,9 +23,12 @@ use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
+use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Factory\EntityCache;
 use Spaark\CompositeUtils\Model\Collection\Collection;
 use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\OrderedMap;
+use Spaark\CompositeUtils\Model\Collection\FixedList;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
 /**
@@ -45,6 +48,18 @@ class ReflectionFactoryTest extends TestCase
         ['prop5', ObjectType::class, false, false, false, false, false, false]
     ];
 
+    private $generics =
+    [
+        ['TypeA', MixedType::class],
+        ['TypeB', StringType::class]
+    ];
+
+    private $parameters =
+    [
+        [0, 'a'],
+        [1, 'b']
+    ];
+
     public function testComposite(string $classname = TestEntity::class)
     {
         $reflect = ReflectionCompositeFactory::fromClassName
@@ -57,13 +72,76 @@ class ReflectionFactoryTest extends TestCase
         (
             ReflectionComposite::class, $reflect
         );
-        $this->assertAttributeCount(1, 'methods', $reflect);
+        $this->assertAttributeCount(2, 'methods', $reflect);
         $this->assertAttributeEquals
         (
             $classname, 'classname', $reflect
         );
 
         return $reflect;
+    }
+
+    /**
+     * @depends testComposite
+     */
+    public function testGenerics(ReflectionComposite $reflect)
+    {
+        $this->assertInstanceOf(OrderedMap::class, $reflect->generics);
+        $this->assertEquals
+        (
+            count($this->generics),
+            $reflect->generics->size()
+        );
+
+        return $reflect->generics;
+    }
+
+    /**
+     * @depends testGenerics
+     * @dataProvider genericsProvider
+     */
+    public function testGeneric
+    (
+        string $name,
+        string $class,
+        OrderedMap $generics
+    )
+    {
+        $this->assertTrue($generics->containsKey($name));
+        $this->assertInstanceOf($class, $generics[$name]);
+    }
+
+    /**
+     * @depends testComposite
+     */
+    public function testMethods(ReflectionComposite $reflect)
+    {
+        $this->assertTrue($reflect->methods->containsKey('methodName'));
+
+        $method = $reflect->methods['methodName'];
+        $this->assertAttributeCount
+        (
+            count($this->parameters),
+            'parameters',
+            $method
+        );
+
+        return $method->parameters;
+    }
+
+    /**
+     * @depends testMethods
+     * @dataProvider parameterProvider
+     */
+    public function testParameter
+    (
+        int $index,
+        string $name,
+        FixedList $list
+    )
+    {
+        $param = $list[$index];
+        $this->assertSame($name, $param->name);
     }
 
     /**
@@ -162,6 +240,16 @@ class ReflectionFactoryTest extends TestCase
     public function testInheritance()
     {
         $this->testComposite(InheritedEntity::class);
+    }
+
+    public function genericsProvider()
+    {
+        return $this->generics;
+    }
+
+    public function parameterProvider()
+    {
+        return $this->parameters;
     }
 
     public function propertiesProvider()

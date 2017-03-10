@@ -14,8 +14,6 @@
 
 namespace Spaark\CompositeUtils\Model\Collection;
 
-use Spaark\CompositeUtils\Traits\AutoConstructTrait;
-
 /**
  * Iterator for the HashMap datatype
  *
@@ -24,13 +22,19 @@ use Spaark\CompositeUtils\Traits\AutoConstructTrait;
  */
 class HashMapIterator extends MapIterator
 {
-    use AutoConstructTrait;
-
     /**
      * @var Pair<KeyType, ValueType>[]
      * @construct required
      */
     protected $data;
+
+    /**
+     * @var Pair<KeyType, ValueType>[]
+     */
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * {@inheritDoc}

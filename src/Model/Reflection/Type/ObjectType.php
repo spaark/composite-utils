@@ -14,6 +14,8 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
+use Spaark\CompositeUtils\Model\Collection\ArrayList;
+
 /**
  * Represetns a data type which must be an instance of an object
  *
@@ -30,6 +32,14 @@ class ObjectType extends AbstractType
     protected $classname;
 
     /**
+     * Generic types for this object
+     *
+     * @readable
+     * @var ArrayList
+     */
+    protected $generics;
+
+    /**
      * Creates this ObjectType with the given classname
      *
      * @param string $class The name of the class this must be an
@@ -38,5 +48,6 @@ class ObjectType extends AbstractType
     public function __construct(string $classname)
     {
         $this->classname = $classname;
+        $this->generics = new ArrayList();
     }
 }

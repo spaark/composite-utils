@@ -88,9 +88,9 @@ class HashMap extends AbstractMap
     /**
      * {@inheritDoc}
      */
-    public function get($key)
+    public function getPair($key) : Pair
     {
-        return $this->data[$this->hashProducer->getHash($key)]->value;
+        return $this->data[$this->hashProducer->getHash($key)];
     }
 
     /**

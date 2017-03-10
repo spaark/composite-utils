@@ -12,12 +12,22 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Reflection\Type;
+namespace Spaark\CompositeUtils\Model\Collection;
 
 /**
- * Represents a native string type
  */
-class StringType extends ScalarType
+class OrderedPair extends Pair
 {
-    //
+    /**
+     * @var int
+     */
+    protected $index;
+
+    public function __construct($index, $key, $value)
+    {
+        parent::__construct($key, $value);
+
+        $this->index = $index;
+    }
 }
+

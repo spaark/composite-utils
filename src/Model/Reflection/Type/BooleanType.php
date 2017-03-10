@@ -17,7 +17,7 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
 /**
  * Represents a native boolean type
  */
-class BooleanType extends AbstractType
+class BooleanType extends ScalarType
 {
     //
 }

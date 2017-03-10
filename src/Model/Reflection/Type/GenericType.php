@@ -15,9 +15,18 @@
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
 /**
- * Represents a native string type
+ * Represents a native integer type
  */
-class StringType extends ScalarType
+class GenericType extends AbstractType
 {
-    //
+    /**
+     * @var string
+     * @readable
+     */
+    protected $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
 }

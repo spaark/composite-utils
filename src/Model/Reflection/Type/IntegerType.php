@@ -17,7 +17,7 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
 /**
  * Represents a native integer type
  */
-class IntegerType extends AbstractType
+class IntegerType extends ScalarType
 {
     //
 }
