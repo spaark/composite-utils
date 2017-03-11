@@ -55,7 +55,7 @@ class GenericNameProvider
             case ObjectType::class:
                 return $this->inferObjectName($reflect);
             case BooleanType::class:
-                return 'boolean';
+                return 'bool';
             case IntegerType::class:
                 return 'int';
             case FloatType::class:

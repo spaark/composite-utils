@@ -20,12 +20,27 @@ use Spaark\CompositeUtils\Model\Collection\HashMap;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
+use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
+use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
+use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Service\GenericNameProvider;
 use Spaark\CompositeUtils\Factory\Reflection\TypeParser;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 
 class GenericNameProviderTest extends TestCase
 {
+    /**
+     * @dataProvider scalarProvider
+     */
+    public function testScalars($type, $string)
+    {
+        $this->assertSame
+        (
+            $string,
+            (new GenericNameProvider())->inferName($type)
+        );
+    }
+
     public function testGenericName()
     {
         $factory = ReflectionCompositeFactory::fromClassName
@@ -45,5 +60,16 @@ class GenericNameProviderTest extends TestCase
             . 'string_c' . TestEntity::class . '_e_e',
             (new GenericNameProvider())->inferName($object)
         );
+    }
+
+    public function scalarProvider()
+    {
+        return
+        [
+            [new IntegerType(), 'int'],
+            [new StringType(), 'string'],
+            [new BooleanType(), 'bool'],
+            [new MixedType(), '']
+        ];
     }
 }
