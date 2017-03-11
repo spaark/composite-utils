@@ -115,27 +115,5 @@ abstract class ReflectorFactory extends BaseFactory
 
         $this->accessor->setRawValue($name, $value);
     }
-
-    /**
-     * Sets an annotation which has a integer value
-     *
-     * @param string $name The name of the annotation
-     * @param string $value The value of the annotation
-     */
-    protected function setInt($name, $value)
-    {
-        $this->accessor->setRawValue($name, (int)$value);
-    }
-
-    /**
-     * Sets an annotation which can have any any value
-     *
-     * @param string $name The name of the annotation
-     * @param string $value The value of the annotation
-     */
-    protected function setMixed($name, $value)
-    {
-        $this->accessor->setRawValue($name, $value);
-    }
 }
 

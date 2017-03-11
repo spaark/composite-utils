@@ -168,7 +168,7 @@ class TypeParser
 
         if (!$type instanceof ObjectType)
         {
-            throw \Exception();
+            throw new \Exception();
         }
 
         return $type;

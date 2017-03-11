@@ -26,7 +26,7 @@ class TestEntity
 {
     /**
      * @var string
-     * @readable
+     * @readable true
      * @writable
      * @construct required
      */
@@ -35,6 +35,7 @@ class TestEntity
     /**
      * @var ?string
      * @readable
+     * @writeable false
      * @construct new
      */
     protected $prop2 = '123';
@@ -42,13 +43,15 @@ class TestEntity
     /**
      * @var HashMap
      * @construct optional
-     * @writable
+     * @writable 1
      */
     protected $prop3;
 
     /**
      * @var boolean
      * @construct optional new
+     * @readable false
+     * @writable false
      */
     protected $prop4;
 
