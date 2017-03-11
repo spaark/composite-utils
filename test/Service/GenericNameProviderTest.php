@@ -69,6 +69,7 @@ class GenericNameProviderTest extends TestCase
             [new IntegerType(), 'int'],
             [new StringType(), 'string'],
             [new BooleanType(), 'bool'],
+            [new FloatType(), 'float'],
             [new MixedType(), '']
         ];
     }

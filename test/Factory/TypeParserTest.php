@@ -23,6 +23,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
+use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
 use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
@@ -94,6 +95,7 @@ class TypeParserTest extends TestCase
             ['integer', IntegerType::class, false],
             ['bool', BooleanType::class, false],
             ['boolean', BooleanType::class, false],
+            ['float', FloatType::class, false],
             ['', MixedType::class, true],
             ['mixed', MixedType::class, true],
             ['Something', ObjectType::class, false]
