@@ -71,6 +71,21 @@ class TypeParserTest extends TestCase
         $this->assertInstanceOf(IntegerType::class, $generics[1]->of);
     }
 
+    public function testCollectionOfGeneric()
+    {
+        $parser = new TypeParser();
+
+        $item = $parser->parse('Item<string>[]');
+        $this->assertInstanceOf(CollectionType::class, $item);
+        $this->assertInstanceOf(ObjectType::class, $item->of);
+        $this->assertEquals(1, $item->of->generics->size());
+        $this->assertInstanceOf
+        (
+            StringType::class,
+            $item->of->generics[0]
+        );
+    }
+
     public function testParserWithContext()
     {
         $reflectionComposite = new ReflectionComposite();
@@ -84,6 +99,51 @@ class TypeParserTest extends TestCase
         $type = $parser->parse('class');
         $this->assertInstanceOf(ObjectType::class, $type);
         $this->assertSame('full\class', $type->classname->__toString());
+    }
+
+    /**
+     * @dataProvider nonObjectProvider
+     */
+    public function testTypesWhichCannotBeGeneric(string $name)
+    {
+        $this->expectException(\Exception::class);
+
+        (new TypeParser())->parse($name . '<int>');
+    }
+
+    /**
+     * @dataProvider badCollectionProvider
+     */
+    public function testMalformedCollection(string $string, string $msg)
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage($msg);
+
+        (new TypeParser())->parse($string);
+    }
+
+    public function badCollectionProvider()
+    {
+        return
+        [
+            ['endOfFile[', 'Unexpected EOF'],
+            ['WeirdItem[lol]', '[ must be followed by ]'],
+            ['nonsense[]e', 'Unexpected char after collection']
+        ];
+    }
+
+    public function nonObjectProvider()
+    {
+        return
+        [
+            ['string'],
+            ['int'],
+            ['integer'],
+            ['bool'],
+            ['boolean'],
+            ['mixed'],
+            ['float']
+        ];
     }
 
     public function superTypeProvider()
