@@ -15,9 +15,10 @@
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
 use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\ClassName;
 
 /**
- * Represetns a data type which must be an instance of an object
+ * Represents a data type which must be an instance of an object
  *
  * @property-read string $classname
  */
@@ -27,7 +28,7 @@ class ObjectType extends AbstractType
      * The name of the class this must be an instance of
      *
      * @readable
-     * @var string
+     * @var ClassName
      */
     protected $classname;
 
@@ -42,13 +43,15 @@ class ObjectType extends AbstractType
     /**
      * Creates this ObjectType with the given classname
      *
-     * @param string $class The name of the class this must be an
+     * @param mixed $class The name of the class this must be an
      *     instance of
      */
-    public function __construct(string $classname)
+    public function __construct($classname)
     {
-        $this->classname = $classname;
         $this->generics = new ArrayList();
+        $this->classname = $classname instanceof ClassName
+            ? $classname
+            : new ClassName($classname);
     }
 
     /**

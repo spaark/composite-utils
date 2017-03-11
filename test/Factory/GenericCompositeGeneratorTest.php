@@ -18,6 +18,8 @@ use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Factory\Reflection\GenericCompositeGenerator;
 use Spaark\CompositeUtils\Test\Model\TestGenericEntity;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
+use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
+use Spaark\CompositeUtils\Model\Collection\ArrayList;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,11 +35,17 @@ class GenericCompositeGeneratorTest extends TestCase
         )->build();
 
         $generic = new GenericCompositeGenerator($reflect);
+        $code = $generic->generateClassCode
+        (
+            new StringType(),
+            new ObjectType('FullClassName', '')
+        );
 
         $this->assertContains
         (
-            'string $b',
-            $generic->generateClassCode(new StringType())
+            ArrayList::class . '_gFullClassName_e $a',
+            $code
         );
+        $this->assertContains('string $b', $code);
     }
 }

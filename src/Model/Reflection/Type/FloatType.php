@@ -12,19 +12,12 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Test\Model;
-
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
 /**
- * @generic TypeA
- * @generic TypeB
+ * Represents a native string type
  */
-class TestGenericEntity 
+class FloatType extends ScalarType
 {
-    /**
-     * @param ArrayList<TypeB> $a
-     * @param TypeA $b
-     */
-    public function methodName($a, $b) { }
+    //
 }

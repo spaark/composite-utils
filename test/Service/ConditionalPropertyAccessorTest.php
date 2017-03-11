@@ -19,6 +19,7 @@ use Spaark\CompositeUtils\Service\ConditionalPropertyAccessor;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
 use Spaark\CompositeUtils\Exception\PropertyNotWritableException;
 use Spaark\CompositeUtils\Exception\PropertyNotReadableException;
+use Spaark\CompositeUtils\Exception\CannotReadPropertyException;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Model\Collection\HashMap;
 
@@ -34,6 +35,13 @@ class ConditionalPropertyAccessorTest extends TestCase
             ReflectionCompositeFactory::fromClassName(TestEntity::class)
                 ->build()
         );
+    }
+
+    public function testReadingMissingProperty()
+    {
+        $this->expectException(CannotReadPropertyException::class);
+
+        $this->accessor->getValue('nonExistantProperty');
     }
 
     /**

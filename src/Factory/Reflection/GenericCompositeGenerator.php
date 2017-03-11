@@ -15,6 +15,7 @@
 namespace Spaark\CompositeUtils\Factory\Reflection;
 
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
@@ -22,23 +23,35 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
+use Spaark\CompositeUtils\Model\Generic\GenericContext;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Service\GenericNameProvider;
+use Spaark\CompositeUtils\Traits\AutoConstructTrait;
 
 /**
+ * Generates the code for a generic class
  */
 class GenericCompositeGenerator
 {
+    use AutoConstructTrait;
+
+    /**
+     * @var ReflectionComposite
+     * @construct required
+     */
     protected $reflect;
 
+    /**
+     * @var GenericNameProvider
+     */
     protected $nameProvider;
 
-    public function __construct(ReflectionComposite $reflect)
-    {
-        $this->reflect = $reflect;
-    }
-
-    private function createObject(...$generics)
+    /**
+     * Creates an ObjectType from the given list of generics
+     *
+     * @param AbstractType[] $generics
+     */
+    private function createObject(...$generics) : ObjectType
     {
         $object = new ObjectType(get_class($this->reflect), '');
         $i = 0;
@@ -51,27 +64,32 @@ class GenericCompositeGenerator
         return $object;
     }
 
-    public function generateClassCode(...$generics)
+    /**
+     * Generate class code for the given generics
+     *
+     * @param AbstractType[] $generics
+     * @return string
+     */
+    public function generateClassCode(...$generics) : string
     {
-        $this->nameProvider = new GenericNameProvider();
         $object = $this->createObject(...$generics);
+        $this->nameProvider = new GenericNameProvider
+        (
+            new GenericContext($object, $this->reflect)
+        );
         $class = $this->nameProvider->inferName($object);
-
-        $class = explode('\\', $class);
-        $baseClass = $class[count($class) - 1];
-        unset($class[count($class) - 1]);
-        $namespace = implode('\\', $class);
         $originalClass = get_class($this->reflect);
         $i = 0;
 
         $code =
-              '<?php namespace ' . $namespace . ';'
-            . 'class ' . $baseClass . ' extends ' . $originalClass
+              '<?php namespace ' . $class->namespace . ';'
+            . 'class ' . $class->classname . ' '
+            .     'extends ' . $originalClass
             . '{';
 
         foreach ($this->reflect->methods as $method)
         {
-            $code .= $this->generateMethodCode($method, $object);
+            $code .= $this->generateMethodCode($method);
         }
 
         $code .= '}';
@@ -79,31 +97,24 @@ class GenericCompositeGenerator
         return $code;
     }
 
-    public function generateMethodCode($method, ObjectType $object)
+    /**
+     * Generates the method code for the current class being generated
+     *
+     * @param ReflectionMethod $method
+     * @return string
+     */
+    public function generateMethodCode(ReflectionMethod $method)
+        : string
     {
         $params = [];
         $newParams = [];
         $paramNames = [];
         foreach ($method->parameters as $i => $param)
         {
-            if (!$param->type instanceof GenericType)
-            {
-                $type = $param->type;
-            }
-            else
-            {
-                $index = $this->reflect->generics->indexOfKey
-                (
-                    $param->type->name
-                );
-
-                $type = $object->generics[$index];
-            }
-
-            $paramNames[] = $name = '$' . $param->name;
-            $params[] = $method->nativeParameters[$i] . ' ' . $name;
+            $paramNames[] = $name = ' $' . $param->name;
+            $params[] = $method->nativeParameters[$i] . $name;
             $newParams[] =
-                $this->nameProvider->inferName($type) . ' ' . $name;
+                $this->nameProvider->inferName($param->type) . $name;
         }
 
         return

@@ -23,6 +23,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
+use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
 /**
@@ -190,6 +191,8 @@ class TypeParser
             case 'bool':
             case 'boolean':
                 return new BooleanType();
+            case 'float':
+                return new FloatType();
             case 'mixed':
             case '':
                 return new MixedType();

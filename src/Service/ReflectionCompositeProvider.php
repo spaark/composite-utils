@@ -28,6 +28,15 @@ class ReflectionCompositeProvider
      */
     protected static $default;
 
+    /**
+     * Returns the default ReflectionCompositeProviderInteface used by
+     * the application
+     *
+     * If one has not been set, a new ReflectionCompositeProvider is
+     * instanciated on the fly
+     *
+     * @return ReflectionCompositeProviderInterface
+     */
     public static function getDefault()
         : ReflectionCompositeProviderInterface
     {
@@ -39,6 +48,12 @@ class ReflectionCompositeProvider
         return static::$default;
     }
 
+    /**
+     * Sets the default ReflectionCompositeProviderInterface used by
+     * the applciation
+     *
+     * @param ReflectionCompositeProviderInterface $default
+     */
     public static function setDefault
     (
         ReflectionCompositeProviderInterface $default
@@ -47,13 +62,28 @@ class ReflectionCompositeProvider
         static::$default = $default;
     }
 
+    /**
+     * Cache used by this provider
+     *
+     * @var HashMap
+     */
     private $cache;
 
+    /**
+     * Builds the provider by instanciating its cache
+     */
     public function __construct()
     {
         $this->cache = new HashMap();
     }
 
+    /**
+     * Gets a ReflectionComposite, either by using a cached version of
+     * it or building it on the fly
+     *
+     * @param string $classname
+     * @return ReflectionComposite
+     */
     public function get(string $classname) : ReflectionComposite
     {
         if (!$this->cache->containsKey($classname))

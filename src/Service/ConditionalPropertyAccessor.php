@@ -17,6 +17,7 @@ namespace Spaark\CompositeUtils\Service;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Exception\PropertyNotWritableException;
 use Spaark\CompositeUtils\Exception\PropertyNotReadableException;
+use Spaark\CompositeUtils\Exception\CannotReadPropertyException;
 
 /**
  * This class is used to access properties of a composite, enforcing

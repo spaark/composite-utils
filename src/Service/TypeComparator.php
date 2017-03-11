@@ -50,7 +50,17 @@ class TypeComparator
         {
             return
                 $child instanceof ObjectType && 
-                is_a($child->classname, $parent->classname, true);
+                is_a
+                (
+                    $child->classname->__toString(),
+                    $parent->classname->__toString(),
+                    true
+                );
         }
+
+        throw new \DomainException
+        (
+            'Unknown type: ' . get_class($parent)
+        );
     }
 }

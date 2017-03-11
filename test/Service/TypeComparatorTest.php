@@ -22,6 +22,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
+use Spaark\CompositeUtils\Test\Model\DummyType;
 use Spaark\CompositeUtils\Test\Model\InheritedEntity;
 
 class TypeComparatorTest extends TestCase
@@ -47,6 +48,14 @@ class TypeComparatorTest extends TestCase
         $b = new $classname();
 
         $this->assertTrue($comparator->compatible($a, $b));
+    }
+
+    public function testUnknownType()
+    {
+        $this->expectException(\DomainException::class);
+
+        (new TypeComparator())
+            ->compatible(new DummyType(), new DummyType());
     }
 
     public function testIncompatibleScalars()

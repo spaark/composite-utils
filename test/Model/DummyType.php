@@ -14,17 +14,21 @@
 
 namespace Spaark\CompositeUtils\Test\Model;
 
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 
 /**
- * @generic TypeA
- * @generic TypeB
+ * Dummy AbstractType used for testing a DomainException is thrown when
+ * using unknown data types
  */
-class TestGenericEntity 
+class DummyType extends AbstractType
 {
-    /**
-     * @param ArrayList<TypeB> $a
-     * @param TypeA $b
-     */
-    public function methodName($a, $b) { }
+    public function equals($object) : bool
+    {
+        return false;
+    }
+
+    public function compatible(AbstractType $object) : bool
+    {
+        return false;
+    }
 }
