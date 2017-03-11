@@ -28,6 +28,11 @@ class ClassNameTest extends TestCase
 
         $this->assertSame('Namespace\Name', $classname->namespace);
         $this->assertSame('ClassName', $classname->classname);
+        $this->assertSame
+        (
+            'Namespace\Name\ClassName',
+            $classname->__toString()
+        );
     }
 
     public function testClassNameWithoutNamespace()
@@ -36,5 +41,6 @@ class ClassNameTest extends TestCase
 
         $this->assertSame('', $classname->namespace);
         $this->assertSame('ClassName', $classname->classname);
+        $this->assertSame('ClassName', $classname->__toString());
     }
 }

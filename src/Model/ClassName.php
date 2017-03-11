@@ -53,4 +53,16 @@ class ClassName
             $this->namespace = $matches[1];
         }
     }
+
+    /**
+     * Returns the fully qualified classname
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return
+              ($this->namespace ? $this->namespace . '\\' : '')
+            . $this->classname;
+    }
 }
