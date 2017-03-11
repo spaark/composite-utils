@@ -22,6 +22,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
+use Spaark\CompositeUtils\Model\Generic\GenericContext;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Service\GenericNameProvider;
 
@@ -53,8 +54,11 @@ class GenericCompositeGenerator
 
     public function generateClassCode(...$generics)
     {
-        $this->nameProvider = new GenericNameProvider();
         $object = $this->createObject(...$generics);
+        $this->nameProvider = new GenericNameProvider
+        (
+            new GenericContext($object, $this->reflect)
+        );
         $class = $this->nameProvider->inferName($object);
 
         $class = explode('\\', $class);
@@ -86,24 +90,10 @@ class GenericCompositeGenerator
         $paramNames = [];
         foreach ($method->parameters as $i => $param)
         {
-            if (!$param->type instanceof GenericType)
-            {
-                $type = $param->type;
-            }
-            else
-            {
-                $index = $this->reflect->generics->indexOfKey
-                (
-                    $param->type->name
-                );
-
-                $type = $object->generics[$index];
-            }
-
-            $paramNames[] = $name = '$' . $param->name;
-            $params[] = $method->nativeParameters[$i] . ' ' . $name;
+            $paramNames[] = $name = ' $' . $param->name;
+            $params[] = $method->nativeParameters[$i] . $name;
             $newParams[] =
-                $this->nameProvider->inferName($type) . ' ' . $name;
+                $this->nameProvider->inferName($param->type) . $name;
         }
 
         return

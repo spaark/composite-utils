@@ -14,17 +14,17 @@
 
 namespace Spaark\CompositeUtils\Test\Model;
 
-use Some\Test\NamespacePath\ClassName;
-use Some\Other\Test\ClassName as AliasedClass;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\ArrayList;
 
 /**
  * @generic TypeA
+ * @generic TypeB
  */
 class TestGenericEntity 
 {
     /**
+     * @param ArrayList<TypeB> $a
      * @param TypeA $b
      */
-    public function methodName(HashMap $a, $b) { }
+    public function methodName($a, $b) { }
 }

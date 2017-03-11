@@ -22,15 +22,25 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
-use Spaark\CompositeUtils\Exception\PropertyNotWritableException;
-use Spaark\CompositeUtils\Exception\PropertyNotReadableException;
+use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
+use Spaark\CompositeUtils\Model\Generic\GenericContext;
+use Spaark\CompositeUtils\Exception\MissingContextException;
+use Spaark\CompositeUtils\Traits\AutoConstructTrait;
 
 /**
  * Used to retrieve the classname for an AbstractType
  */
 class GenericNameProvider
 {
+    use AutoConstructTrait;
+
     const BASE = 'Spaark\CompositeUtils\Generic\\';
+
+    /**
+     * @var GenericContext
+     * @construct optional
+     */
+    protected $context;
 
     /**
      * Infers the serialized name of the given AbstractType
@@ -54,7 +64,29 @@ class GenericNameProvider
                 return '';
             case StringType::class:
                 return 'string';
+            case GenericType::class:
+                return $this->inferGenericName($reflect);
         }
+    }
+
+    /**
+     * Infers the serialized name of the given GenericType
+     *
+     * @param GenericType $reflect
+     * @return string
+     * @throws Exception
+     */
+    protected function inferGenericName(GenericType $reflect)
+    {
+        if (!$this->context)
+        {
+            throw new MissingContextException();
+        }
+
+        return $this->inferName
+        (
+            $this->context->getGenericType($reflect->name)
+        );
     }
 
     /**
