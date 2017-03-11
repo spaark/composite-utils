@@ -67,6 +67,11 @@ class GenericNameProvider
             case GenericType::class:
                 return $this->inferGenericName($reflect);
         }
+
+        throw new \DomainException
+        (
+            'Unknown type: ' . get_class($reflect)
+        );
     }
 
     /**
