@@ -15,6 +15,7 @@
 namespace Spaark\CompositeUtils\Factory\Reflection;
 
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
+use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
@@ -25,21 +26,32 @@ use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Model\Generic\GenericContext;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Service\GenericNameProvider;
+use Spaark\CompositeUtils\Traits\AutoConstructTrait;
 
 /**
+ * Generates the code for a generic class
  */
 class GenericCompositeGenerator
 {
+    use AutoConstructTrait;
+
+    /**
+     * @var ReflectionComposite
+     * @construct required
+     */
     protected $reflect;
 
+    /**
+     * @var GenericNameProvider
+     */
     protected $nameProvider;
 
-    public function __construct(ReflectionComposite $reflect)
-    {
-        $this->reflect = $reflect;
-    }
-
-    private function createObject(...$generics)
+    /**
+     * Creates an ObjectType from the given list of generics
+     *
+     * @param AbstractType[] $generics
+     */
+    private function createObject(...$generics) : ObjectType
     {
         $object = new ObjectType(get_class($this->reflect), '');
         $i = 0;
@@ -52,7 +64,13 @@ class GenericCompositeGenerator
         return $object;
     }
 
-    public function generateClassCode(...$generics)
+    /**
+     * Generate class code for the given generics
+     *
+     * @param AbstractType[] $generics
+     * @return string
+     */
+    public function generateClassCode(...$generics) : string
     {
         $object = $this->createObject(...$generics);
         $this->nameProvider = new GenericNameProvider
@@ -75,7 +93,7 @@ class GenericCompositeGenerator
 
         foreach ($this->reflect->methods as $method)
         {
-            $code .= $this->generateMethodCode($method, $object);
+            $code .= $this->generateMethodCode($method);
         }
 
         $code .= '}';
@@ -83,7 +101,14 @@ class GenericCompositeGenerator
         return $code;
     }
 
-    public function generateMethodCode($method, ObjectType $object)
+    /**
+     * Generates the method code for the current class being generated
+     *
+     * @param ReflectionMethod $method
+     * @return string
+     */
+    public function generateMethodCode(ReflectionMethod $method)
+        : string
     {
         $params = [];
         $newParams = [];
