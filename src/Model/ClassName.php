@@ -41,7 +41,7 @@ class ClassName
      */
     public function __construct(string $classname)
     {
-        preg_match('/(.+)\\\\([a-zA-Z0-9]+)/', $classname, $matches);
+        preg_match('/(.+)\\\\([a-z_A-Z0-9]+)/', $classname, $matches);
 
         if (!$matches)
         {
