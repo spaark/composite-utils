@@ -152,7 +152,11 @@ class ReflectionMethodFactory extends ReflectorFactory
 
         if (!$this->parameters->containsKey($param))
         {
-            throw new \Exception();
+            throw new \Exception
+            (
+                  'Tried to set param annotation for non existant '
+                . 'parameter: ' . $param
+            );
         }
 
         $comparator = new TypeComparator();
@@ -162,7 +166,7 @@ class ReflectionMethodFactory extends ReflectorFactory
 
         if (!$comparator->compatible($nativeType, $type))
         {
-            throw new \Exception();
+            throw new \Exception('Types are incompatible');
         }
 
         $param->setRawValue('type', $type);
@@ -182,7 +186,7 @@ class ReflectionMethodFactory extends ReflectorFactory
     {
         $parameter = new ReflectionParameter();
         $accessor = new RawPropertyAccessor($parameter);
-        $type = $this->typeParser->parse((string)$reflect->getType());
+        $type = (new TypeParser())->parse((string)$reflect->getType());
 
         $this->parameters['$' . $reflect->getName()] = $accessor;
         $this->accessor->rawAddToValue('parameters', $parameter);
