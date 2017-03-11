@@ -18,7 +18,7 @@ use Spaark\CompositeUtils\Model\Collection\ArrayList;
 use Spaark\CompositeUtils\Model\ClassName;
 
 /**
- * Represetns a data type which must be an instance of an object
+ * Represents a data type which must be an instance of an object
  *
  * @property-read string $classname
  */
