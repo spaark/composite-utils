@@ -112,14 +112,14 @@ class PropertyAccessor extends RawPropertyAccessor
      */
     protected function buildProperty(ReflectionProperty $property)
     {
-        if ($property->type instanceof ObjectType)
+        if (!$property->type instanceof ObjectType)
+        {
+            $this->setAnyValue($property, 0);
+        }
+        elseif ($property->builtInConstructor)
         {
             $class = $property->type->classname;
             $this->setRawValue($property->name, new $class());
-        }
-        else
-        {
-            $this->setAnyValue($property, 0);
         }
     }
 
