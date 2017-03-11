@@ -182,7 +182,7 @@ class ReflectionMethodFactory extends ReflectorFactory
     {
         $parameter = new ReflectionParameter();
         $accessor = new RawPropertyAccessor($parameter);
-        $type = $this->typeParser->parse((string)$reflect->getType());
+        $type = (new TypeParser())->parse((string)$reflect->getType());
 
         $this->parameters['$' . $reflect->getName()] = $accessor;
         $this->accessor->rawAddToValue('parameters', $parameter);
