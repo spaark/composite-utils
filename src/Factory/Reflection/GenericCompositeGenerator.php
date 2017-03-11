@@ -78,17 +78,13 @@ class GenericCompositeGenerator
             new GenericContext($object, $this->reflect)
         );
         $class = $this->nameProvider->inferName($object);
-
-        $class = explode('\\', $class);
-        $baseClass = $class[count($class) - 1];
-        unset($class[count($class) - 1]);
-        $namespace = implode('\\', $class);
         $originalClass = get_class($this->reflect);
         $i = 0;
 
         $code =
-              '<?php namespace ' . $namespace . ';'
-            . 'class ' . $baseClass . ' extends ' . $originalClass
+              '<?php namespace ' . $class->namespace . ';'
+            . 'class ' . $class->classname . ' '
+            .     'extends ' . $originalClass
             . '{';
 
         foreach ($this->reflect->methods as $method)

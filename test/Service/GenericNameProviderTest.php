@@ -73,7 +73,7 @@ class GenericNameProviderTest extends TestCase
         $this->assertSame
         (
             'TypeClassName',
-            (new GenericNameProvider($context))
+            (string)(new GenericNameProvider($context))
                 ->inferName(new GenericType('TypeA'))
         );
     }
@@ -95,7 +95,7 @@ class GenericNameProviderTest extends TestCase
             . TestEntity::class . '_gint_cSpaark\CompositeUtils\Generic'
             . '\\' . HashMap::class . '_g'
             . 'string_c' . TestEntity::class . '_e_e',
-            (new GenericNameProvider())->inferName($object)
+            (string)(new GenericNameProvider())->inferName($object)
         );
     }
 

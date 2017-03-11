@@ -26,6 +26,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Model\Generic\GenericContext;
 use Spaark\CompositeUtils\Exception\MissingContextException;
 use Spaark\CompositeUtils\Traits\AutoConstructTrait;
+use Spaark\CompositeUtils\Model\ClassName;
 
 /**
  * Used to retrieve the classname for an AbstractType
@@ -114,8 +115,11 @@ class GenericNameProvider
                 $items[] = $this->inferName($generic);
             }
 
-            return self::BASE . $reflect->classname
-                . '_g' . implode('_c', $items) . '_e';
+            return new ClassName
+            (
+                  self::BASE . $reflect->classname
+                . '_g' . implode('_c', $items) . '_e'
+            );
         }
     }
 }

@@ -118,7 +118,7 @@ class PropertyAccessor extends RawPropertyAccessor
         }
         elseif ($property->builtInConstructor)
         {
-            $class = $property->type->classname;
+            $class = (string)$property->type->classname;
             $this->setRawValue($property->name, new $class());
         }
     }

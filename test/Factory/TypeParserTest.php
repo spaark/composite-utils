@@ -83,7 +83,7 @@ class TypeParserTest extends TestCase
 
         $type = $parser->parse('class');
         $this->assertInstanceOf(ObjectType::class, $type);
-        $this->assertSame('full\class', $type->classname);
+        $this->assertSame('full\class', $type->classname->__toString());
     }
 
     public function superTypeProvider()
