@@ -52,5 +52,10 @@ class TypeComparator
                 $child instanceof ObjectType && 
                 is_a($child->classname, $parent->classname, true);
         }
+
+        throw new \DomainException
+        (
+            'Unknown type: ' . get_class($parent)
+        );
     }
 }
