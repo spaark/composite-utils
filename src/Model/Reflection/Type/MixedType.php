@@ -27,4 +27,9 @@ class MixedType extends AbstractType
      * {@inheritDoc}
      */
     protected $nullable = true;
+
+    public function __toString() : string
+    {
+        return 'Mixed';
+    }
 }

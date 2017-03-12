@@ -23,6 +23,8 @@ class NullType extends NativeType
 {
     use StaticEquatableTrait;
 
+    const NAME = 'Null';
+
     /**
      * {@inheritDoc}
      */

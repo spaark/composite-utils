@@ -19,6 +19,8 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
  */
 class BooleanType extends ScalarType
 {
+    const NAME = 'Boolean';
+
     /**
      * {@inheritDoc}
      */

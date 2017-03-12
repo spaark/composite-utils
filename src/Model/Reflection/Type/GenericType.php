@@ -34,4 +34,9 @@ class GenericType extends AbstractType
     {
         return parent::equals($object) && $object->name === $this->name;
     }
+
+    public function __toString() : string
+    {
+        return $this->name;
+    }
 }

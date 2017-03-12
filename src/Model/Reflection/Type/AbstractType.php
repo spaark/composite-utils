@@ -34,4 +34,6 @@ abstract class AbstractType implements Equatable
      * @var boolean
      */
     protected $nullable = false;
+
+    abstract function __toString() : string;
 }

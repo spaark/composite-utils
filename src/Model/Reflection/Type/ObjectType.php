@@ -79,4 +79,9 @@ class ObjectType extends AbstractType
 
         return false;
     }
+
+    public function __toString() : string
+    {
+        return $this->classname->classname;
+    }
 }

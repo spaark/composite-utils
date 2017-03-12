@@ -49,4 +49,9 @@ class CollectionType extends AbstractType
             $type instanceof CollectionType &&
             $this->of->equals($type->of);
     }
+
+    public function __toString() : string
+    {
+        return $this->of->__toString() . '[]';
+    }
 }

@@ -19,6 +19,8 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
  */
 class IntegerType extends ScalarType
 {
+    const NAME = 'Integer';
+
     /**
      * {@inheritDoc}
      */
