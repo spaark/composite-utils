@@ -25,7 +25,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Model\Generic\GenericContext;
 use Spaark\CompositeUtils\Exception\MissingContextException;
-use Spaark\CompositeUtils\Traits\AutoConstructTrait;
+use Spaark\CompositeUtils\Traits\HasGenericContextTrait;
 use Spaark\CompositeUtils\Model\ClassName;
 
 /**
@@ -33,15 +33,9 @@ use Spaark\CompositeUtils\Model\ClassName;
  */
 class GenericNameProvider
 {
-    use AutoConstructTrait;
+    use HasGenericContextTrait;
 
     const BASE = 'Spaark\CompositeUtils\Generic\\';
-
-    /**
-     * @var GenericContext
-     * @construct optional
-     */
-    protected $context;
 
     /**
      * Infers the serialized name of the given AbstractType
@@ -80,19 +74,11 @@ class GenericNameProvider
      *
      * @param GenericType $reflect
      * @return string
-     * @throws Exception
+     * @throws MissingContextException
      */
-    protected function inferGenericName(GenericType $reflect)
+    protected function inferGenericName(GenericType $reflect) : string
     {
-        if (!$this->context)
-        {
-            throw new MissingContextException();
-        }
-
-        return $this->inferName
-        (
-            $this->context->getGenericType($reflect->name)
-        );
+        return $this->inferName($this->getGenericType($reflect));
     }
 
     /**
