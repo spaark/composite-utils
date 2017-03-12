@@ -28,6 +28,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
 use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
+use Spaark\CompositeUtils\Test\Model\TestEntity;
 
 /**
  *
@@ -122,6 +123,15 @@ class TypeParserTest extends TestCase
         (new TypeParser())->parse($string);
     }
 
+    /**
+     * @dataProvider dataTypeProvider
+     */
+    public function testParseFromType($value, string $type)
+    {
+        $parser = new TypeParser();
+        $this->assertInstanceOf($type, $parser->parseFromType($value));
+    }
+
     public function badCollectionProvider()
     {
         return
@@ -159,6 +169,19 @@ class TypeParserTest extends TestCase
             ['', MixedType::class, true],
             ['mixed', MixedType::class, true],
             ['Something', ObjectType::class, false]
+        ];
+    }
+
+    public function dataTypeProvider()
+    {
+        return
+        [
+            ['abc', StringType::class],
+            [123, IntegerType::class],
+            [1.3, FloatType::class],
+            [true, BooleanType::class],
+            [false, BooleanType::class],
+            [new TestEntity(), ObjectType::class]
         ];
     }
 }

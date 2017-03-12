@@ -64,12 +64,44 @@ class TypeParser
     }
 
     /**
+     * Accepts any value and returns its type
+     *
+     * @param mixed $var
+     * @return AbstractType
+     */
+    public function parseFromType($var) : AbstractType
+    {
+        if (is_object($var))
+        {
+            return $this->parseObjectName($var);
+        }
+        
+        return $this->scalarToType(gettype($var));
+    }
+
+    /**
+     * Accepts an object and returns its type
+     *
+     * @param mixed $var
+     * @return ObjectType
+     */
+    public function parseObjectName($var) : ObjectType
+    {
+        return $this->parse(str_replace
+        (
+            ['_g', '_e', '_c'],
+            ['<', '>', ','],
+            get_class($var)
+        ));
+    }
+
+    /**
      * Sets the property's type by parsing the @type annotation
      *
      * @param string $value The value string to parse
      * @return AbstractType The type of this item
      */
-    public function parse($value)
+    public function parse(string $value) : AbstractType
     {
         $this->nullable = false;
         $this->collection = false;
@@ -181,7 +213,20 @@ class TypeParser
      */
     protected function currentValueToType() : AbstractType
     {
-        switch ($this->currentValue)
+        if ($var = $this->scalarToType($this->currentValue))
+        {
+            return $var;
+        }
+
+        $context = $this->checkContext();
+        return $context instanceof GenericType
+            ? $context
+            : new ObjectType($context);
+    }
+
+    public function scalarToType($var) : ?AbstractType
+    {
+        switch ($var)
         {
             case 'string':
                 return new StringType();
@@ -192,15 +237,13 @@ class TypeParser
             case 'boolean':
                 return new BooleanType();
             case 'float':
+            case 'double':
                 return new FloatType();
             case 'mixed':
             case '':
                 return new MixedType();
             default:
-                $context = $this->checkContext();
-                return $context instanceof GenericType
-                    ? $context
-                    : new ObjectType($context);
+                return null;
         }
     }
 
