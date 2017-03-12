@@ -25,6 +25,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
+use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
 use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
@@ -152,7 +153,8 @@ class TypeParserTest extends TestCase
             ['bool'],
             ['boolean'],
             ['mixed'],
-            ['float']
+            ['float'],
+            ['null']
         ];
     }
 
@@ -168,6 +170,7 @@ class TypeParserTest extends TestCase
             ['float', FloatType::class, false],
             ['', MixedType::class, true],
             ['mixed', MixedType::class, true],
+            ['null', NullType::class, true],
             ['Something', ObjectType::class, false]
         ];
     }
@@ -181,6 +184,7 @@ class TypeParserTest extends TestCase
             [1.3, FloatType::class],
             [true, BooleanType::class],
             [false, BooleanType::class],
+            [null, NullType::class],
             [new TestEntity(), ObjectType::class]
         ];
     }

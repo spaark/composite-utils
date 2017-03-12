@@ -24,6 +24,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
+use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
 /**
@@ -226,7 +227,7 @@ class TypeParser
 
     public function scalarToType($var) : ?AbstractType
     {
-        switch ($var)
+        switch (strtolower($var))
         {
             case 'string':
                 return new StringType();
@@ -242,6 +243,8 @@ class TypeParser
             case 'mixed':
             case '':
                 return new MixedType();
+            case 'null':
+                return new NullType();
             default:
                 return null;
         }
