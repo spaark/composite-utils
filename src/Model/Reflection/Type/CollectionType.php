@@ -43,16 +43,6 @@ class CollectionType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function compatible(AbstractType $type) : bool
-    {
-        return
-            $type instanceof CollectionType &&
-            $this->of->compatible($type->of);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function equals($object) : bool
     {
         return
