@@ -18,6 +18,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ScalarType;
+use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
 
 /**
  * Compares two AbstractTypes to check if they are compatible
@@ -38,7 +39,11 @@ class TypeComparator
     )
     : bool
     {
-        if ($parent instanceof MixedType)
+        if
+        (
+            ($child instanceof NullType && $parent->nullable) ||
+            ($parent instanceof MixedType)
+        )
         {
             return true;
         }
