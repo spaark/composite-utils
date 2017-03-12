@@ -19,5 +19,11 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
  */
 class IntegerType extends ScalarType
 {
-    //
+    /**
+     * {@inheritDoc}
+     */
+    public function cast($value)
+    {
+        return (int)$value;
+    }
 }

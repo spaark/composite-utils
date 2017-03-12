@@ -22,4 +22,12 @@ use Spaark\CompositeUtils\Traits\StaticEquatableTrait;
 abstract class ScalarType extends NativeType
 {
     use StaticEquatableTrait;
+
+    /**
+     * Casts given value to the datatype
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    abstract public function cast($value);
 }
