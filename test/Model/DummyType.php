@@ -27,11 +27,6 @@ class DummyType extends AbstractType
         return false;
     }
 
-    public function compatible(AbstractType $object) : bool
-    {
-        return false;
-    }
-
     public function __toString() : string
     {
         return 'Dummy Type';
