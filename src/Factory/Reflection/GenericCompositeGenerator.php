@@ -130,4 +130,9 @@ class GenericCompositeGenerator
             . '(' . implode(',', $paramNames) . ');}'
             . "\n";
     }
+
+    public function createClass(...$generics)
+    {
+        eval($this->generateClassCode(...$generics));
+    }
 }
