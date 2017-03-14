@@ -53,7 +53,7 @@ class GenericCompositeGenerator
      */
     private function createObject(...$generics) : ObjectType
     {
-        $object = new ObjectType(get_class($this->reflect), '');
+        $object = new ObjectType($this->reflect->classname);
         $i = 0;
 
         foreach ($this->reflect->generics as $name => $value)
@@ -78,13 +78,13 @@ class GenericCompositeGenerator
             new GenericContext($object, $this->reflect)
         );
         $class = $this->nameProvider->inferName($object);
-        $originalClass = get_class($this->reflect);
+        $originalClass = $this->reflect->classname;
         $i = 0;
 
         $code =
-              '<?php namespace ' . $class->namespace . ';'
+              'namespace ' . $class->namespace . ';'
             . 'class ' . $class->classname . ' '
-            .     'extends ' . $originalClass
+            .     'extends \\' . $originalClass
             . '{';
 
         foreach ($this->reflect->methods as $method)
