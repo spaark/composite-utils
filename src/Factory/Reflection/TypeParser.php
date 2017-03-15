@@ -26,6 +26,7 @@ use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
 use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
+use Spaark\CompositeUtils\Service\GenericNameProvider;
 
 /**
  * Parses a type string, optionally using a context to lookup generic
@@ -90,8 +91,8 @@ class TypeParser
     {
         return $this->parse(str_replace
         (
-            ['_g', '_e', '_c'],
-            ['<', '>', ','],
+            [GenericNameProvider::BASE, '_g', '_e', '_c'],
+            ['', '<', '>', ','],
             get_class($var)
         ));
     }
