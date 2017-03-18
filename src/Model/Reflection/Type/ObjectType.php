@@ -80,8 +80,21 @@ class ObjectType extends AbstractType
         return false;
     }
 
+    /**
+     * Returns a string representation of the object
+     *
+     * @return string
+     */
     public function __toString() : string
     {
-        return $this->classname->classname;
+        $return = (string)$this->classname;
+
+        if ($this->generics->count())
+        {
+            $return .=
+                '<' . implode(',', $this->generics->toArray()) . '>';
+        }
+
+        return $return;
     }
 }
