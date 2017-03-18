@@ -62,13 +62,13 @@ class ObjectType extends AbstractType
         if
         (
             $type instanceof ObjectType &&
-            $type->classname === $this->classname &&
+            $type->classname->equals($this->classname) &&
             $type->generics->size() === $this->generics->size()
         )
         {
             foreach ($type->generics as $i => $generic)
             {
-                if (!$this->generics[$i]->compatible($generic))
+                if (!$this->generics[$i]->equals($generic))
                 {
                     return false;
                 }
