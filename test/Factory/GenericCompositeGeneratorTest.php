@@ -84,6 +84,19 @@ class GenericCompositeGeneratorTest extends TestCase
         $classname =
             $this->genericNameProvider->inferName($this->object);
 
+        $this->assertNotNull
+        (
+            $this->genericCompositeGenerator->generatedClassName
+        );
+
+        $this->assertTrue
+        (
+            $this->genericCompositeGenerator->generatedClassName->equals
+            (
+                $classname
+            )
+        );
+
         $this->assertContains
         (
             'class ' . $classname->classname,

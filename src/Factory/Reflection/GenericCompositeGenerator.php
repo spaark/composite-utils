@@ -24,16 +24,17 @@ use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Model\Generic\GenericContext;
+use Spaark\CompositeUtils\Model\ClassName;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Service\GenericNameProvider;
-use Spaark\CompositeUtils\Traits\AutoConstructTrait;
+use Spaark\CompositeUtils\Traits\AutoConstructPropertyAccessTrait;
 
 /**
  * Generates the code for a generic class
  */
 class GenericCompositeGenerator
 {
-    use AutoConstructTrait;
+    use AutoConstructPropertyAccessTrait;
 
     /**
      * @var ReflectionComposite
@@ -45,6 +46,12 @@ class GenericCompositeGenerator
      * @var GenericNameProvider
      */
     protected $nameProvider;
+
+    /**
+     * @var ?ClassName
+     * @readable
+     */
+    protected $generatedClassName;
 
     /**
      * Creates an ObjectType from the given list of generics
@@ -78,6 +85,7 @@ class GenericCompositeGenerator
             new GenericContext($object, $this->reflect)
         );
         $class = $this->nameProvider->inferName($object);
+        $this->generatedClassName = $class;
         $originalClass = $this->reflect->classname;
         $i = 0;
 
