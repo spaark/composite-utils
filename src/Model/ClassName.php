@@ -65,4 +65,17 @@ class ClassName
               ($this->namespace ? $this->namespace . '\\' : '')
             . $this->classname;
     }
+
+    /**
+     * Checks if this Classname is equal to another
+     *
+     * @param ClassName $object
+     * @return boolean
+     */
+    public function equals(self $object) : bool
+    {
+        return
+            $object->classname === $this->classname &&
+            $object->namespace === $this->namespace;
+    }
 }

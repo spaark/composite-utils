@@ -17,19 +17,16 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
 use Spaark\CompositeUtils\Traits\StaticEquatableTrait;
 
 /**
- * Represents a data type which can have any value
+ * Represents a type which has a null value
  */
-class MixedType extends AbstractType
+class NullType extends NativeType
 {
     use StaticEquatableTrait;
+
+    const NAME = 'Null';
 
     /**
      * {@inheritDoc}
      */
     protected $nullable = true;
-
-    public function __toString() : string
-    {
-        return 'Mixed';
-    }
 }

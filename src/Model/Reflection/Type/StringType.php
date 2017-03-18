@@ -19,5 +19,13 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
  */
 class StringType extends ScalarType
 {
-    //
+    const NAME = 'String';
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cast($value)
+    {
+        return (string)$value;
+    }
 }

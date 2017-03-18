@@ -25,9 +25,15 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
+use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
 use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
+use Spaark\CompositeUtils\Test\Model\TestEntity;
+use Spaark\CompositeUtils\Test\Model\TestGenericEntity;
+use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
+use Spaark\CompositeUtils\Factory\Reflection\GenericCompositeGenerator;
+use Spaark\CompositeUtils\Service\GenericNameProvider;
 
 /**
  *
@@ -122,6 +128,41 @@ class TypeParserTest extends TestCase
         (new TypeParser())->parse($string);
     }
 
+    /**
+     * @dataProvider dataTypeProvider
+     */
+    public function testParseFromType($value, string $type)
+    {
+        $parser = new TypeParser();
+        $this->assertInstanceOf($type, $parser->parseFromType($value));
+    }
+
+    public function testParseFromTypeOnGeneric()
+    {
+        $reflect = ReflectionCompositeFactory::fromClassName
+        (
+            TestGenericEntity::class
+        )
+        ->build();
+        $object = new ObjectType(TestGenericEntity::class);
+        $object->generics->add(new StringType());
+        $object->generics->add(new IntegerType());
+
+        (new GenericCompositeGenerator($reflect))->createClass
+        (
+            $object->generics[0],
+            $object->generics[1]
+        );
+
+        $classname =
+            (string)(new GenericNameProvider())->inferName($object);
+
+        $testGeneric =
+            (new TypeParser())->parseFromType(new $classname());
+
+        $this->assertTrue($testGeneric->equals($object));
+    }
+
     public function badCollectionProvider()
     {
         return
@@ -142,7 +183,8 @@ class TypeParserTest extends TestCase
             ['bool'],
             ['boolean'],
             ['mixed'],
-            ['float']
+            ['float'],
+            ['null']
         ];
     }
 
@@ -158,7 +200,22 @@ class TypeParserTest extends TestCase
             ['float', FloatType::class, false],
             ['', MixedType::class, true],
             ['mixed', MixedType::class, true],
+            ['null', NullType::class, true],
             ['Something', ObjectType::class, false]
+        ];
+    }
+
+    public function dataTypeProvider()
+    {
+        return
+        [
+            ['abc', StringType::class],
+            [123, IntegerType::class],
+            [1.3, FloatType::class],
+            [true, BooleanType::class],
+            [false, BooleanType::class],
+            [null, NullType::class],
+            [new TestEntity(), ObjectType::class]
         ];
     }
 }

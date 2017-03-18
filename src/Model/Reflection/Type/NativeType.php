@@ -21,5 +21,8 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
  */
 abstract class NativeType extends AbstractType
 {
-    //
+    public function __toString() : string
+    {
+        return static::NAME;
+    }
 }

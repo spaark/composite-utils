@@ -35,11 +35,5 @@ abstract class AbstractType implements Equatable
      */
     protected $nullable = false;
 
-    /**
-     * Checks if the given AbstractType is compatible with this
-     *
-     * @param AbstractType $type
-     * @return boolean
-     */
-    abstract public function compatible(AbstractType $type) : bool;
+    abstract function __toString() : string;
 }

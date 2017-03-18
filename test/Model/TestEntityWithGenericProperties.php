@@ -12,24 +12,21 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Reflection\Type;
+namespace Spaark\CompositeUtils\Test\Model;
 
-use Spaark\CompositeUtils\Traits\StaticEquatableTrait;
+use Spaark\CompositeUtils\Traits\PropertyAccessTrait;
 
 /**
- * Represents a data type which can have any value
+ * Do something
  */
-class MixedType extends AbstractType
+class TestEntityWithGenericProperties
 {
-    use StaticEquatableTrait;
+    use PropertyAccessTrait;
 
     /**
-     * {@inheritDoc}
+     * @var TestGenericEntity<int, string>
+     * @readable
+     * @writable
      */
-    protected $nullable = true;
-
-    public function __toString() : string
-    {
-        return 'Mixed';
-    }
+    protected $property;
 }

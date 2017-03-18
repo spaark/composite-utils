@@ -19,5 +19,13 @@ namespace Spaark\CompositeUtils\Model\Reflection\Type;
  */
 class FloatType extends ScalarType
 {
-    //
+    const NAME = 'Float';
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cast($value)
+    {
+        return (float)$value;
+    }
 }

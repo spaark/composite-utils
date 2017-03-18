@@ -22,9 +22,13 @@ use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\CollectionType;
+use Spaark\CompositeUtils\Model\Reflection\Type\ScalarType;
+use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 use Spaark\CompositeUtils\Exception\CannotWritePropertyException;
 use Spaark\CompositeUtils\Exception\IllegalPropertyTypeException;
 use Spaark\CompositeUtils\Exception\MissingRequiredParameterException;
+use Spaark\CompositeUtils\Factory\Reflection\TypeParser;
+use Spaark\CompositeUtils\Service\TypeComparator;
 
 /**
  * This class is used to access properties of a composite and enforce
@@ -165,77 +169,20 @@ class PropertyAccessor extends RawPropertyAccessor
      */
     protected function setAnyValue(ReflectionProperty $property, $value)
     {
-        if (is_null($value))
+        $valueType = (new TypeParser())->parseFromType($value);
+        $comparator = new TypeComparator();
+
+        if ($comparator->compatible($property->type, $valueType))
         {
-            $this->setNullValue($property);
+            $this->setRawValue($property->name, $value);
+        }
+        elseif ($property->type instanceof ScalarType)
+        {
+            $this->setScalarValue($property, $valueType, $value);
         }
         else
         {
-            $this->setNonNullValue($property, $value);
-        }
-    }
-
-    /**
-     * Attempts to set a property with a null value
-     *
-     * @param ReflectionProperty $property The property to set
-     */
-    private function setNullValue(ReflectionProperty $property)
-    {
-        if ($property->type->nullable)
-        {
-            $this->setRawValue($property->name, null);
-        }
-        else
-        {
-            $this->throwError($property, 'NonNull', null);
-        }
-    }
-
-    /**
-     * Attempts to set a property with a non null value
-     *
-     * @param ReflectionProperty $property The property to set
-     * @param mixed $value The value to set
-     */
-    private function setNonNullValue
-    (
-        ReflectionProperty $property,
-        $value
-    )
-    {
-        switch (get_class($property->type))
-        {
-            case MixedType::class:
-                $this->setRawValue($property, $value);
-                break;
-            case IntegerType::class:
-                $this->setScalarValue($property, $value, 'Integer',
-                    function($value)
-                    {
-                        return (integer)$value;
-                    });
-                break;
-            case StringType::class:
-                $this->setScalarValue($property, $value, 'String',
-                    function($value)
-                    {
-                        return (string)$value;
-                    });
-                break;
-            case BooleanType::class:
-                $this->setScalarValue($property, $value, 'Boolean',
-                    function($value)
-                    {
-                        return (boolean)$value;
-                    });
-                break;
-            case CollectionType::class:
-                $this->setCollectionValue($property, $value);
-                break;
-            case ObjectType::class:
-                $this->setObjectValue($property, $value);
-                break;
+            $this->throwError($property, $valueType);
         }
     }
 
@@ -243,87 +190,38 @@ class PropertyAccessor extends RawPropertyAccessor
      * Attempts to set a property which expects a scalar value
      *
      * @param ReflectionProperty $property The property to set
+     * @param ScalarType $valueType The scalar type
      * @param mixed $value The value to set
-     * @param string $name The name of the scalar type
-     * @param callable $cast Method to cast a value to the scalar data
-     *     type
      */
     private function setScalarValue
     (
         ReflectionProperty $property,
-        $value,
-        string $name,
-        callable $cast
+        ScalarType $valueType,
+        $value
     )
     {
-        $method = '__to' . $name;
+        $method = '__to' . $valueType;
 
         if (is_scalar($value))
         {
-            $this->setRawValue($property->name, $cast($value));
+            $this->setRawValue
+            (
+                $property->name,
+                $property->type->cast($value)
+            );
         }
         elseif (is_object($value) && method_exists([$value, $method]))
         {
             $this->setScalarValue
             (
                 $property,
-                $value->$method(),
-                $method,
-                $cast
+                $valueType,
+                $value->$method()
             );
         }
         else
         {
-            $this->throwError($property, $name, $value);
-        }
-    }
-
-    /**
-     * Attempts to set a property which expects an object value
-     *
-     * @param ReflectionProperty $property The property to set
-     * @param mixed $value The value to set
-     */
-    private function setObjectValue
-    (
-        ReflectionProperty $property,
-        $value
-    )
-    {
-        if (is_a($value, $property->type->classname))
-        {
-            $this->setRawValue($property->name, $value);
-        }
-        else
-        {
-            $this->throwError
-            (
-                $property,
-                $property->type->classname,
-                $value
-            );
-        }
-    }
-
-    /**
-     * Attempts to set a property which expects a collection value
-     *
-     * @param ReflectionProperty $property The property to set
-     * @param mixed The value to set
-     */
-    private function setCollectionValue
-    (
-        ReflectionProperty $property,
-        $value
-    )
-    {
-        if (is_a($value, \ArrayAccess::class) || is_array($value))
-        {
-            $this->setRawValue($property->name, $value);
-        }
-        else
-        {
-            $this->throwError($property, 'Collection', $value);
+            $this->throwError($property, $valueType);
         }
     }
 
@@ -331,22 +229,20 @@ class PropertyAccessor extends RawPropertyAccessor
      * Throws an IlleglPropertyTypeException
      *
      * @param ReflectionProperty $property The property being set
-     * @param string $expected The expected datatype
-     * @param string $value The value being set
+     * @param AbstractType $valueType The value being set
      */
     private function throwError
     (
         ReflectionProperty $property,
-        string $expected,
-        $value
+        AbstractType $valueType
     )
     {
         throw new IllegalPropertyTypeException
         (
             get_class($this->object),
             $property->name,
-            $expected,
-            is_object($value) ? get_class($value) : gettype($value)
+            $property->type,
+            $valueType
         );
     }
 }

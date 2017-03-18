@@ -24,10 +24,10 @@ abstract class ScalarType extends NativeType
     use StaticEquatableTrait;
 
     /**
-     * {@inheritDoc}
+     * Casts given value to the datatype
+     *
+     * @param mixed $value
+     * @return mixed
      */
-    public function compatible(AbstractType $type) : bool
-    {
-        return $this->equals($type);
-    }
+    abstract public function cast($value);
 }

@@ -16,11 +16,13 @@ namespace Spaark\CompositeUtils\Test\Service;
 
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Service\TypeComparator;
+use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
+use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Test\Model\DummyType;
 use Spaark\CompositeUtils\Test\Model\InheritedEntity;
@@ -36,6 +38,17 @@ class TypeComparatorTest extends TestCase
 
         $this->assertTrue($comparator->compatible($mixed, $a));
         $this->assertTrue($comparator->compatible($mixed, $b));
+    }
+
+    public function testNull()
+    {
+        $comparator = new TypeComparator();
+        $string = new StringType();
+        $accessor = new RawPropertyAccessor($string);
+        $accessor->setRawValue('nullable', true);
+        $null = new NullType();
+
+        $this->assertTrue($comparator->compatible($string, $null));
     }
 
     /**

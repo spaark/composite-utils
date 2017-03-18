@@ -57,45 +57,44 @@ class ObjectType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function compatible(AbstractType $type) : bool
-    {
-        return $this->compare($type) >= 0;
-    }
-
-    /**
-     * Compares the given type to this
-     *
-     * @param AbstractType $type
-     * @return int
-     */
-    public function compare($type) : int
+    public function equals($type) : bool
     {
         if
         (
             $type instanceof ObjectType &&
-            $type->classname === $this->classname &&
-            $type->generics->size() <= $this->generics->size()
+            $type->classname->equals($this->classname) &&
+            $type->generics->size() === $this->generics->size()
         )
         {
             foreach ($type->generics as $i => $generic)
             {
-                if (!$this->generics[$i]->compatible($generic))
+                if (!$this->generics[$i]->equals($generic))
                 {
-                    return -1;
+                    return false;
                 }
             }
 
-            return $this->generics->size() - $type->generics->size();
+            return true;
         }
 
-        return -1;
+        return false;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns a string representation of the object
+     *
+     * @return string
      */
-    public function equals($object) : bool
+    public function __toString() : string
     {
-        return $this->compare($type) === 0;
+        $return = (string)$this->classname;
+
+        if ($this->generics->count())
+        {
+            $return .=
+                '<' . implode(',', $this->generics->toArray()) . '>';
+        }
+
+        return $return;
     }
 }

@@ -52,4 +52,11 @@ interface CollectionInterface
     public function contains($searchFor) : bool;
 
     public function map(callable $cb);
+
+    /**
+     * Returns the data in this collection as a native PHP array
+     *
+     * @return array
+     */
+    public function toArray() : array;
 }
