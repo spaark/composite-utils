@@ -30,6 +30,10 @@ use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
+use Spaark\CompositeUtils\Test\Model\TestGenericEntity;
+use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
+use Spaark\CompositeUtils\Factory\Reflection\GenericCompositeGenerator;
+use Spaark\CompositeUtils\Service\GenericNameProvider;
 
 /**
  *
@@ -131,6 +135,32 @@ class TypeParserTest extends TestCase
     {
         $parser = new TypeParser();
         $this->assertInstanceOf($type, $parser->parseFromType($value));
+    }
+
+    public function testParseFromTypeOnGeneric()
+    {
+        $reflect = ReflectionCompositeFactory::fromClassName
+        (
+            TestGenericEntity::class
+        )
+        ->build();
+        $object = new ObjectType(TestGenericEntity::class);
+        $object->generics->add(new StringType());
+        $object->generics->add(new IntegerType());
+
+        (new GenericCompositeGenerator($reflect))->createClass
+        (
+            $object->generics[0],
+            $object->generics[1]
+        );
+
+        $classname =
+            (string)(new GenericNameProvider())->inferName($object);
+
+        $testGeneric =
+            (new TypeParser())->parseFromType(new $classname());
+
+        $this->assertTrue($testGeneric->equals($object));
     }
 
     public function badCollectionProvider()
