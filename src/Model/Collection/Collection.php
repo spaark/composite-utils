@@ -23,8 +23,7 @@ use Countable;
  *
  * @generic ValueType
  */
-interface CollectionInterface
-    extends ArrayAccess, IteratorAggregate, Countable
+interface Collection extends ArrayAccess, IteratorAggregate, Countable
 {
     /**
      * Returns the size of the collection

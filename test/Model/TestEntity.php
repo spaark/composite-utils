@@ -16,7 +16,7 @@ namespace Spaark\CompositeUtils\Test\Model;
 
 use Some\Test\NamespacePath\ClassName;
 use Some\Other\Test\ClassName as AliasedClass;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 
 /**
  * @generic TypeA

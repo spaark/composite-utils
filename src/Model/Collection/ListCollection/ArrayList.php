@@ -12,12 +12,14 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\ListCollection;
+
+use Spaark\CompositeUtils\Model\Collection\Collection;
 
 /**
  * Represents an abstract collection which acts as a list of items
  */
-interface ListInterface extends CollectionInterface
+interface ArrayList extends Collection
 {
     /**
      * Adds a new item to the end of the list

@@ -12,14 +12,16 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\ListCollection;
+
+use Spaark\CompositeUtils\Model\Collection\AbstractCollection;
 
 /**
  * Represents an abstract collection which acts as a list of items
  */
 abstract class AbstractList
     extends AbstractCollection
-    implements ListInterface
+    implements ArrayList
 {
     /**
      * {@inheritDoc}

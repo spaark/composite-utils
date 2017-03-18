@@ -21,7 +21,7 @@ use Spaark\CompositeUtils\Exception\PropertyNotWritableException;
 use Spaark\CompositeUtils\Exception\PropertyNotReadableException;
 use Spaark\CompositeUtils\Exception\CannotReadPropertyException;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 
 class ConditionalPropertyAccessorTest extends TestCase
 {

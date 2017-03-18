@@ -15,7 +15,7 @@
 namespace Spaark\CompositeUtils\Test\Model\Collection;
 
 use PHPUnit\Framework\TestCase;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 
 class HashMapTest extends TestCase
 {

@@ -21,7 +21,7 @@ use Spaark\CompositeUtils\Test\Model\TestGenericEntity;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
 use Spaark\CompositeUtils\Model\Generic\GenericContext;
 use PHPUnit\Framework\TestCase;
 
@@ -114,7 +114,7 @@ class GenericCompositeGeneratorTest extends TestCase
     {
         $code = $this->generateCode();
 
-        $argumentA = new ObjectType(ArrayList::class);
+        $argumentA = new ObjectType(FlexibleList::class);
         $argumentA->generics->add(new ObjectType(TestEntity::class));
 
         $this->assertContains

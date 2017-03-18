@@ -20,8 +20,7 @@ use Spaark\CompositeUtils\Model\Reflection\ReflectionFile;
 use Spaark\CompositeUtils\Model\Reflection\NamespaceBlock;
 use Spaark\CompositeUtils\Model\Reflection\UseStatement;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
-use Spaark\CompositeUtils\Model\Collection\Collection;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 
 class ReflectionFileFactoryTest extends TestCase
 {

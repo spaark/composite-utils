@@ -12,7 +12,9 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\Map;
+
+use Spaark\CompositeUtils\Model\Collection\AbstractCollection;
 
 /**
  * Represents an abstract collection which maps one value to another
@@ -24,7 +26,7 @@ namespace Spaark\CompositeUtils\Model\Collection;
  */
 abstract class AbstractMap
     extends AbstractCollection
-    implements MapInterface
+    implements Map
 {
     /**
      * Adds an element to the Map

@@ -25,10 +25,9 @@ use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\BooleanType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Factory\EntityCache;
-use Spaark\CompositeUtils\Model\Collection\Collection;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
-use Spaark\CompositeUtils\Model\Collection\OrderedMap;
-use Spaark\CompositeUtils\Model\Collection\FixedList;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\OrderedMap;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FixedList;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 
 /**

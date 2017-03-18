@@ -15,13 +15,13 @@
 namespace Spaark\CompositeUtils\Test\Model\Collection;
 
 use PHPUnit\Framework\TestCase;
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
 
-class ArrayListTest extends TestCase
+class FlexibleListTest extends TestCase
 {
     public function testEmpty()
     {
-        $collection = new ArrayList();
+        $collection = new FlexibleList();
         $this->assertEquals(0, $collection->size());
         $this->assertEquals(0, $collection->count());
         $this->assertTrue($collection->empty());
@@ -34,7 +34,7 @@ class ArrayListTest extends TestCase
 
     public function testAdd()
     {
-        $collection = new ArrayList();
+        $collection = new FlexibleList();
         $collection->add('Value');
         $this->assertFalse($collection->empty());
         $this->assertEquals(1, $collection->size());
@@ -42,7 +42,7 @@ class ArrayListTest extends TestCase
 
     public function testOffsetGet()
     {
-        $collection = new ArrayList();
+        $collection = new FlexibleList();
         $collection->add('123');
         $this->assertEquals('123', $collection->get(0));
 
@@ -52,7 +52,7 @@ class ArrayListTest extends TestCase
 
     public function testRemove()
     {
-        $collection = new ArrayList();
+        $collection = new FlexibleList();
         $collection[] = true;
         $collection[] = false;
 
@@ -65,7 +65,7 @@ class ArrayListTest extends TestCase
 
     public function testContains()
     {
-        $collection = new ArrayList();
+        $collection = new FlexibleList();
         $this->assertFalse($collection->contains('foo'));
 
         $collection[] = 'foo';
@@ -74,7 +74,7 @@ class ArrayListTest extends TestCase
 
     public function testLoop()
     {
-        $collection = new ArrayList();
+        $collection = new FlexibleList();
         $collection[] = '123';
         $collection[] = '456';
         $collection[] = '789';

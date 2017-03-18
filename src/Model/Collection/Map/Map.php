@@ -12,7 +12,9 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\Map;
+
+use Spaark\CompositeUtils\Model\Collection\Collection;
 
 /**
  * Represents an abstract collection which maps one value to another
@@ -22,7 +24,7 @@ namespace Spaark\CompositeUtils\Model\Collection;
  * @generic KeyType
  * @generic ValueType
  */
-interface MapInterface extends CollectionInterface
+interface Map extends Collection
 {
     /**
      * Insert a new key value Pair into the Map
