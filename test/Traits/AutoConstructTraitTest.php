@@ -17,7 +17,7 @@ namespace Spaark\CompositeUtils\Test\Traits;
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Test\Model\AutoConstructComposite;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
 
 class AutoConstructTrait extends TestCase
 {
@@ -26,7 +26,7 @@ class AutoConstructTrait extends TestCase
         $test = new TestEntity();
         $testComposite = new AutoConstructComposite($test);
         $this->assertSame($test, $testComposite->b);
-        $this->assertInstanceOf(ArrayList::class, $testComposite->a);
+        $this->assertInstanceOf(FlexibleList::class, $testComposite->a);
         $this->assertInstanceOf(TestEntity::class, $testComposite->d);
     }
 

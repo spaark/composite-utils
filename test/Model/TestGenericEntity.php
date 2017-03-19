@@ -14,7 +14,7 @@
 
 namespace Spaark\CompositeUtils\Test\Model;
 
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
 
 /**
  * @generic TypeA
@@ -23,7 +23,7 @@ use Spaark\CompositeUtils\Model\Collection\ArrayList;
 class TestGenericEntity 
 {
     /**
-     * @param ArrayList<TypeB> $a
+     * @param FlexibleList<TypeB> $a
      * @param TypeA $b
      */
     public function methodName($a, $b) { }

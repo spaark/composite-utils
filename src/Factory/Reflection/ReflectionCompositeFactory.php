@@ -18,7 +18,7 @@ use Spaark\CompositeUtils\Factory\BaseFactory;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionProperty;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
-use Spaark\CompositeUtils\Model\Collection\FixedList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FixedList;
 use Spaark\CompositeUtils\Service\ReflectionCompositeProviderInterface;
 use Spaark\CompositeUtils\Service\ReflectionCompositeProvider;
 use \ReflectionClass as PHPNativeReflectionClass;

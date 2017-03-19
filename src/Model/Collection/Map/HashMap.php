@@ -12,7 +12,7 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\Map;
 
 use Spaark\CompositeUtils\Service\HashProducer;
 use Spaark\CompositeUtils\Service\HashProducerInterface;

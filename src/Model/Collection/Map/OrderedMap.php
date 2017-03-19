@@ -12,7 +12,9 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\Map;
+
+use Spaark\CompositeUtils\Model\Collection\ListCollection\ArrayList;
 
 /**
  * Represents an abstract collection which maps one value to another
@@ -28,7 +30,7 @@ class OrderedMap extends AbstractMap
 
     private $list;
 
-    public function __construct(AbstractMap $map, AbstractList $list)
+    public function __construct(Map $map, ArrayList $list)
     {
         $this->map = $map;
         $this->list = $list;

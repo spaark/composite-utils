@@ -12,7 +12,7 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\ListCollection;
 
 use IteratorIterator;
 use SplFixedArray;

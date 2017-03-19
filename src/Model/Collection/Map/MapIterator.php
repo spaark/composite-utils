@@ -12,35 +12,38 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\Map;
 
-use Spaark\CompositeUtils\Traits\AllReadableTrait;
 use Spaark\CompositeUtils\Traits\AutoConstructTrait;
 
 /**
+ * Abstract Iterator for Map datatypes
+ *
  * @generic KeyType
  * @generic ValueType
  */
-class Pair
+abstract class MapIterator implements \Iterator
 {
-    use AllReadableTrait;
+    /**
+     * Returns the current pair in the Map
+     *
+     * @return Pair<KeyType, ValueType>
+     */
+    abstract protected function getCurrent() : Pair;
 
     /**
-     * @var KeyType
-     * @construct required
+     * {@inheritDoc}
      */
-    protected $key;
-
-    /**
-     * @var ValueType
-     * @construct required
-     */
-    protected $value;
-
-    public function __construct($key, $value)
+    public function current()
     {
-        $this->key = $key;
-        $this->value = $value;
+        return $this->getCurrent()->value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function key()
+    {
+        return $this->getCurrent()->key;
     }
 }
-

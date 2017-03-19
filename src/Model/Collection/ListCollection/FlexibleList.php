@@ -12,14 +12,14 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\ListCollection;
 
 use ArrayIterator;
 
 /**
  * Represents an List stored in a PHP array
  */
-class ArrayList extends AbstractList
+class FlexibleList extends AbstractList
 {
     /**
      * @var ValueType[]

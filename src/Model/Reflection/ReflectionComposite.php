@@ -14,10 +14,10 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection;
 
-use Spaark\CompositeUtils\Model\Collection\HashMap;
-use Spaark\CompositeUtils\Model\Collection\OrderedMap;
-use Spaark\CompositeUtils\Model\Collection\FixedList;
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\OrderedMap;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FixedList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
 
 
 /**
@@ -141,6 +141,6 @@ class ReflectionComposite extends Reflector
         $this->properties = new HashMap();
         $this->methods = new HashMap();
         $this->generics =
-            new OrderedMap(new HashMap(), new ArrayList());
+            new OrderedMap(new HashMap(), new FlexibleList());
     }
 }

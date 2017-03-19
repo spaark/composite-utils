@@ -15,15 +15,15 @@
 namespace Spaark\CompositeUtils\Test\Model\Collection;
 
 use PHPUnit\Framework\TestCase;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
-use Spaark\CompositeUtils\Model\Collection\OrderedMap;
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\OrderedMap;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
 
 class OrderedMapTest extends TestCase
 {
     public function testEmpty()
     {
-        $collection = new OrderedMap(new HashMap(), new ArrayList());
+        $collection = new OrderedMap(new HashMap(), new FlexibleList());
         $this->assertEquals(0, $collection->size());
         $this->assertEquals(0, $collection->count());
         $this->assertTrue($collection->empty());
@@ -36,14 +36,14 @@ class OrderedMapTest extends TestCase
 
     public function testAdd()
     {
-        $collection = new OrderedMap(new HashMap(), new ArrayList());
+        $collection = new OrderedMap(new HashMap(), new FlexibleList());
         $collection->add('sds', '123');
         $this->assertFalse($collection->empty());
     }
 
     public function testOffsetGet()
     {
-        $collection = new OrderedMap(new HashMap(), new ArrayList());
+        $collection = new OrderedMap(new HashMap(), new FlexibleList());
         $collection->add('foo', '123');
         $this->assertEquals('123', $collection->get('foo'));
 
@@ -53,7 +53,7 @@ class OrderedMapTest extends TestCase
 
     public function testRemove()
     {
-        $collection = new OrderedMap(new HashMap(), new ArrayList());
+        $collection = new OrderedMap(new HashMap(), new FlexibleList());
         $collection['foo'] = true;
         $collection['bar'] = false;
 
@@ -66,7 +66,7 @@ class OrderedMapTest extends TestCase
 
     public function testContains()
     {
-        $collection = new OrderedMap(new HashMap(), new ArrayList());
+        $collection = new OrderedMap(new HashMap(), new FlexibleList());
         $this->assertFalse($collection->contains('foo'));
 
         $collection['asa'] = 'foo';
@@ -75,7 +75,7 @@ class OrderedMapTest extends TestCase
 
     public function testContainsKey()
     {
-        $collection = new OrderedMap(new HashMap(), new ArrayList());
+        $collection = new OrderedMap(new HashMap(), new FlexibleList());
         $this->assertFalse($collection->containsKey('bar'));
 
         $collection['bar'] = '1234';
@@ -84,7 +84,7 @@ class OrderedMapTest extends TestCase
 
     public function testLoop()
     {
-        $collection = new OrderedMap(new HashMap(), new ArrayList());
+        $collection = new OrderedMap(new HashMap(), new FlexibleList());
         $collection['foo'] = '123';
         $collection['bar'] = '456';
         $collection['baz'] = '789';

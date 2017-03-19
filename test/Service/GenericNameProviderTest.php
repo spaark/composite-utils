@@ -17,7 +17,7 @@ namespace Spaark\CompositeUtils\Test\Service;
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Test\Model\DummyType;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;

@@ -14,7 +14,7 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection;
 
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 
 /**
  * Represents a file

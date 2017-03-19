@@ -14,7 +14,7 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection\Type;
 
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
 use Spaark\CompositeUtils\Model\ClassName;
 
 /**
@@ -36,7 +36,7 @@ class ObjectType extends AbstractType
      * Generic types for this object
      *
      * @readable
-     * @var ArrayList
+     * @var FlexibleList
      */
     protected $generics;
 
@@ -48,7 +48,7 @@ class ObjectType extends AbstractType
      */
     public function __construct($classname)
     {
-        $this->generics = new ArrayList();
+        $this->generics = new FlexibleList();
         $this->classname = $classname instanceof ClassName
             ? $classname
             : new ClassName($classname);

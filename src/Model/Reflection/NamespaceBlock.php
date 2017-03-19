@@ -14,13 +14,13 @@
 
 namespace Spaark\CompositeUtils\Model\Reflection;
 
-use Spaark\CompositeUtils\Model\Collection\ArrayList;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FlexibleList;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 
 /**
  * Represents a namespace declaration within a file
  *
- * @property-read ArrayList $definitions
+ * @property-read FlexibleList $definitions
  * @property-read string $namespace
  * @property-read ReflectionFile $file
  * @property-read HashMap $useStatements
@@ -30,7 +30,7 @@ class NamespaceBlock extends Reflector
     /**
      * Currently unused
      *
-     * @var ArrayList
+     * @var FlexibleList
      * @readable
      */
     protected $definitions;
@@ -66,7 +66,7 @@ class NamespaceBlock extends Reflector
      */
     public function __construct(string $namespace)
     {
-        $this->definitions = new ArrayList();
+        $this->definitions = new FlexibleList();
         $this->useStatements = new HashMap();
         $this->namespace = $namespace;
     }

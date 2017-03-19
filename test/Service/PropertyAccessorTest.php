@@ -21,7 +21,7 @@ use Spaark\CompositeUtils\Factory\Reflection\GenericCompositeGenerator;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Test\Model\TestEntityWithGenericProperties;
 use Spaark\CompositeUtils\Test\Model\TestGenericEntity;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Exception\IllegalPropertyTypeException;

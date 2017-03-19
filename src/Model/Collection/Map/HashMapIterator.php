@@ -12,7 +12,7 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Model\Collection;
+namespace Spaark\CompositeUtils\Model\Collection\Map;
 
 /**
  * Iterator for the HashMap datatype

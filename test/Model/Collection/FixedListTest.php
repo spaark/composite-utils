@@ -15,7 +15,7 @@
 namespace Spaark\CompositeUtils\Test\Model\Collection;
 
 use PHPUnit\Framework\TestCase;
-use Spaark\CompositeUtils\Model\Collection\FixedList;
+use Spaark\CompositeUtils\Model\Collection\ListCollection\FixedList;
 
 class FixedListTest extends TestCase
 {

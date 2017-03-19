@@ -19,7 +19,7 @@ namespace Spaark\CompositeUtils\Model\Collection;
  *
  * @generic ValueType
  */
-abstract class AbstractCollection implements CollectionInterface
+abstract class AbstractCollection implements Collection
 {
     /**
      * Returns how many elements are in the Collection

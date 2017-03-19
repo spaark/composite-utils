@@ -16,7 +16,7 @@ namespace Spaark\CompositeUtils\Service;
 
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
-use Spaark\CompositeUtils\Model\Collection\HashMap;
+use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 
 /**
  */
