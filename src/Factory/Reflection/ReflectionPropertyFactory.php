@@ -86,6 +86,11 @@ class ReflectionPropertyFactory extends ReflectorFactory
             'construct' => 'setConstruct'
         ]);
 
+        if (!$this->object->type)
+        {
+            $this->accessor->setRawValue('type', new MixedType());
+        }
+
         return $this->object;
     }
 

@@ -166,7 +166,11 @@ class ReflectionMethodFactory extends ReflectorFactory
 
         if (!$comparator->compatible($nativeType, $type))
         {
-            throw new \Exception('Types are incompatible');
+            throw new \Exception
+            (
+                  'Types are incompatible for: '
+                . $this->reflector->getName() . '::' . $items[1]
+            );
         }
 
         $param->setRawValue('type', $type);

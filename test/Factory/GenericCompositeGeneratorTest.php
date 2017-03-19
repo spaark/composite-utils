@@ -15,7 +15,7 @@
 namespace Spaark\CompositeUtils\Test\Factory;
 
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
-use Spaark\CompositeUtils\Factory\Reflection\GenericCompositeGenerator;
+use Spaark\CompositeUtils\Factory\GenericCompositeGenerator;
 use Spaark\CompositeUtils\Service\GenericNameProvider;
 use Spaark\CompositeUtils\Test\Model\TestGenericEntity;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
