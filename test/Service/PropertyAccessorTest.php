@@ -17,7 +17,7 @@ namespace Spaark\CompositeUtils\Test\Service;
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Service\PropertyAccessor;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
-use Spaark\CompositeUtils\Factory\Reflection\GenericCompositeGenerator;
+use Spaark\CompositeUtils\Factory\GenericCompositeGenerator;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
 use Spaark\CompositeUtils\Test\Model\TestEntityWithGenericProperties;
 use Spaark\CompositeUtils\Test\Model\TestGenericEntity;

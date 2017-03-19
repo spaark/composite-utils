@@ -12,7 +12,7 @@
  * @license MIT
  */
 
-namespace Spaark\CompositeUtils\Factory\Reflection;
+namespace Spaark\CompositeUtils\Factory;
 
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
