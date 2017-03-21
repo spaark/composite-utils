@@ -17,6 +17,7 @@ namespace Spaark\CompositeUtils\Traits;
 use Spaark\CompositeUtils\Factory\Reflection\TypeParser;
 use Spaark\CompositeUtils\Model\Generic\GenericContext;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
+use Spaark\CompositeUtils\Exception\ImmutablePropertyException;
 
 /**
  * Classes using this trait can have generic properties
@@ -86,7 +87,11 @@ trait GenericTrait
     {
         if ($this->genericContext)
         {
-            throw new \Exception('genericContext is immutable');
+            throw new ImmutablePropertyException
+            (
+                (string)$this->getObjectType(),
+                'genericContext'
+            );
         }
 
         $this->genericContext = $genericContext;
