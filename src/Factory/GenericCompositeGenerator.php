@@ -28,6 +28,8 @@ use Spaark\CompositeUtils\Model\ClassName;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Service\GenericNameProvider;
 use Spaark\CompositeUtils\Traits\AutoConstructPropertyAccessTrait;
+use Spaark\CompositeUtils\Traits\GenericTrait;
+use Spaark\CompositeUtils\Traits\Generic;
 
 /**
  * Generates the code for a generic class
@@ -92,8 +94,10 @@ class GenericCompositeGenerator
         $code =
               'namespace ' . $class->namespace . ';'
             . 'class ' . $class->classname . ' '
-            .     'extends \\' . $originalClass
-            . '{';
+            .     'extends \\' . $originalClass . ' '
+            .     'implements \\' . Generic::class
+            . '{'
+            . 'use \\' . GenericTrait::class . ';';
 
         foreach ($this->reflect->methods as $method)
         {

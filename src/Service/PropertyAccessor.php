@@ -29,6 +29,7 @@ use Spaark\CompositeUtils\Exception\IllegalPropertyTypeException;
 use Spaark\CompositeUtils\Exception\MissingRequiredParameterException;
 use Spaark\CompositeUtils\Factory\Reflection\TypeParser;
 use Spaark\CompositeUtils\Service\TypeComparator;
+use Spaark\CompositeUtils\Traits\Generic;
 
 /**
  * This class is used to access properties of a composite and enforce
@@ -169,8 +170,16 @@ class PropertyAccessor extends RawPropertyAccessor
      */
     protected function setAnyValue(ReflectionProperty $property, $value)
     {
-        $valueType = (new TypeParser())->parseFromType($value);
         $comparator = new TypeComparator();
+
+        if ($value instanceof Generic)
+        {
+            $valueType = $value->getObjectType();
+        }
+        else
+        {
+            $valueType = (new TypeParser())->parseFromType($value);
+        }
 
         if ($comparator->compatible($property->type, $valueType))
         {
