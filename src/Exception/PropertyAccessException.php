@@ -14,13 +14,13 @@
 
 namespace Spaark\CompositeUtils\Exception;
 
-use \Exception;
-use \Throwable;
+use LogicException;
+use Throwable;
 
 /**
  * Thrown when a property cannot be accessed for any reason
  */
-class PropertyAccessException extends Exception
+class PropertyAccessException extends LogicException
 {
     /**
      * The type of access for the error message

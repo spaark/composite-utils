@@ -25,6 +25,7 @@ use Spaark\CompositeUtils\Traits\AutoConstructTrait;
 class GenericContext
 {
     use AutoConstructTrait;
+    use AllReadableTrait;
 
     /**
      * @var ObjectType
