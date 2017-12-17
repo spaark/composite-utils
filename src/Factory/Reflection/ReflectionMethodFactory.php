@@ -17,6 +17,7 @@ namespace Spaark\CompositeUtils\Factory\Reflection;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionComposite;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionMethod;
 use Spaark\CompositeUtils\Model\Reflection\ReflectionParameter;
+use Spaark\CompositeUtils\Model\Type\ObjectType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
 use Spaark\CompositeUtils\Service\TypeComparator;
 use Spaark\CompositeUtils\Model\Collection\ListCollection\FixedList;
@@ -114,6 +115,16 @@ class ReflectionMethodFactory extends ReflectorFactory
             $this->addParameter($parameter);
         }
 
+        $type = $this->reflector->getReturnType();
+        if ($type)
+        {
+            $this->accessor->setRawValue
+            (
+                'nativeReturnType',
+                !$type->isBuiltin() ? '\\' . $type : (string)$type
+            );
+        }
+
         $this->parseDocComment(['param' => 'addParamAnnotation']);
 
         return $this->object;
@@ -195,7 +206,7 @@ class ReflectionMethodFactory extends ReflectorFactory
         $this->parameters['$' . $reflect->getName()] = $accessor;
         $this->accessor->rawAddToValue('parameters', $parameter);
         $this->accessor->rawAddToValue('nativeParameters',
-            (string)$reflect->getType()
+            ($type instanceOf ObjectType ? '\\' : '') . (string)$type
         );
 
         $accessor->setRawValue('owner', $this->object);

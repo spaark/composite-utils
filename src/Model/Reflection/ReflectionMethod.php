@@ -25,6 +25,7 @@ use Spaark\CompositeUtils\Model\Colection\FixedList;
  * @property-read Visibility $visibility
  * @property-read Scope scope
  * @property-read boolean $final
+ * @property-read ?string $nativeReturnType
  */
 class ReflectionMethod extends Reflector
 {
@@ -76,5 +77,12 @@ class ReflectionMethod extends Reflector
      * @var boolean
      */
     protected $final;
+
+    /**
+     * The native return type of the method
+     *
+     * @var ?string
+     */
+    protected $nativeReturnType;
 }
 
