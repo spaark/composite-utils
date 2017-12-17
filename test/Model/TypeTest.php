@@ -68,13 +68,6 @@ class TypeTest extends TestCase
 
         $this->assertTrue($objectA->equals($objectB));
         $this->assertFalse($objectA->equals($objectC));
-
-        $objectA->generics[] = new StringType();
-        $objectA->generics[] = $objectC;
-        $objectB->generics[] = new StringType();
-        $objectB->generics[] = new ObjectType('foo');
-
-        $this->assertTrue($objectA->equals($objectB));
     }
 
     public function castDataProvider()

@@ -19,15 +19,12 @@ use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ScalarType;
 use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
-use Spaark\CompositeUtils\Traits\HasGenericContextTrait;
 
 /**
  * Compares two AbstractTypes to check if they are compatible
  */
 class TypeComparator
 {
-    use HasGenericContextTrait;
-
     /**
      * Compares two AbstractTypes, ensuring they are compatible
      *
@@ -42,11 +39,6 @@ class TypeComparator
     )
     : bool
     {
-        if ($parent instanceof GenericType)
-        {
-            $parent = $this->getGenericType($parent);
-        }
-
         if
         (
             ($child instanceof NullType && $parent->nullable) ||
@@ -72,20 +64,6 @@ class TypeComparator
                 )
             )
             {
-                foreach ($child->generics as $i => $generic)
-                {
-                    $compare = $this->compatible
-                    (
-                        $parent->generics[$i],
-                        $generic
-                    );
-
-                    if (!$compare)
-                    {
-                        return false;
-                    }
-                }
-
                 return true;
             }
 

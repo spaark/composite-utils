@@ -17,10 +17,7 @@ namespace Spaark\CompositeUtils\Test\Service;
 use PHPUnit\Framework\TestCase;
 use Spaark\CompositeUtils\Service\PropertyAccessor;
 use Spaark\CompositeUtils\Factory\Reflection\ReflectionCompositeFactory;
-use Spaark\CompositeUtils\Factory\GenericCompositeGenerator;
 use Spaark\CompositeUtils\Test\Model\TestEntity;
-use Spaark\CompositeUtils\Test\Model\TestEntityWithGenericProperties;
-use Spaark\CompositeUtils\Test\Model\TestGenericEntity;
 use Spaark\CompositeUtils\Model\Collection\Map\HashMap;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
 use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
@@ -99,43 +96,5 @@ class PropertyAccessorTest extends TestCase
     public function testConstructWithoutRequired()
     {
         $this->accessor->constructObject();
-    }
-
-    protected function generateGeneric($typeA, $typeB)
-    {
-        $generator = new GenericCompositeGenerator
-        (
-            ReflectionCompositeFactory::fromClassName
-            (
-                TestGenericEntity::class
-            )
-            ->build()
-        );
-        $generator->createClass($typeA, $typeB);
-        $class = (string)$generator->generatedClassName;
-
-        return new $class();
-    }
-
-    public function testSettingAcceptableGeneric()
-    {
-        $entity = new TestEntityWithGenericProperties();
-        $property = $this->generateGeneric
-        (
-            new IntegerType(),
-            new StringType()
-        );
-        $entity->property = $property;
-        $this->assertSame($property, $entity->property);
-    }
-
-    public function testSettingUnacceptableGeneric()
-    {
-        $this->expectException(IllegalPropertyTypeException::class);
-
-        $entity = new TestEntityWithGenericProperties();
-
-        $entity->property =
-            $this->generateGeneric(new StringType(), new StringType());
     }
 }
