@@ -47,12 +47,6 @@ class ReflectionFactoryTest extends TestCase
         ['prop5', ObjectType::class, false, false, false, false, false, false]
     ];
 
-    private $generics =
-    [
-        ['TypeA', MixedType::class],
-        ['TypeB', StringType::class]
-    ];
-
     private $parameters =
     [
         [0, 'a'],
@@ -78,36 +72,6 @@ class ReflectionFactoryTest extends TestCase
         );
 
         return $reflect;
-    }
-
-    /**
-     * @depends testComposite
-     */
-    public function testGenerics(ReflectionComposite $reflect)
-    {
-        $this->assertInstanceOf(OrderedMap::class, $reflect->generics);
-        $this->assertEquals
-        (
-            count($this->generics),
-            $reflect->generics->size()
-        );
-
-        return $reflect->generics;
-    }
-
-    /**
-     * @depends testGenerics
-     * @dataProvider genericsProvider
-     */
-    public function testGeneric
-    (
-        string $name,
-        string $class,
-        OrderedMap $generics
-    )
-    {
-        $this->assertTrue($generics->containsKey($name));
-        $this->assertInstanceOf($class, $generics[$name]);
     }
 
     /**
@@ -239,11 +203,6 @@ class ReflectionFactoryTest extends TestCase
     public function testInheritance()
     {
         $this->testComposite(InheritedEntity::class);
-    }
-
-    public function genericsProvider()
-    {
-        return $this->generics;
     }
 
     public function parameterProvider()

@@ -112,11 +112,6 @@ class ReflectionCompositeFactory extends ReflectorFactory
             $this->addInheritance('interfaces', $interface);
         }
 
-        $this->parseDocComment
-        ([
-            'generic' => 'addGeneric'
-        ]);
-
         $fileName = $this->reflector->getFileName();
 
         $file = (new ReflectionFileFactory($fileName))->build();
@@ -158,31 +153,6 @@ class ReflectionCompositeFactory extends ReflectorFactory
                 );
             }
         }
-    }
-
-    /**
-     * Adds a generic value to this class
-     *
-     * @var string $name Should be 'generic'. Unused
-     * @var string $value The annotation value
-     */
-    public function addGeneric($name, $value)
-    {
-        $space = strpos($value, ' ');
-
-        if ($space === false)
-        {
-            $key = $value;
-            $type = '';
-        }
-        else
-        {
-            $key = substr($value, 0, $space);
-            $type = substr($value, $space);
-        }
-
-        $this->accessor->getRawValue('generics')[$key] =
-            (new TypeParser($this->object))->parse($type);
     }
 
     /**
@@ -269,11 +239,6 @@ class ReflectionCompositeFactory extends ReflectorFactory
         {
             $item = $this->provider->get($reflect->getName());
             $this->accessor->$method($group, $item);
-
-            foreach ($item->generics as $name => $generic)
-            {
-                $this->object->generics[$name] = $generic;
-            }
         }
     }
 

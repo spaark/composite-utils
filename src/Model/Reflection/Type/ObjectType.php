@@ -33,14 +33,6 @@ class ObjectType extends AbstractType
     protected $classname;
 
     /**
-     * Generic types for this object
-     *
-     * @readable
-     * @var FlexibleList
-     */
-    protected $generics;
-
-    /**
      * Creates this ObjectType with the given classname
      *
      * @param mixed $class The name of the class this must be an
@@ -48,7 +40,6 @@ class ObjectType extends AbstractType
      */
     public function __construct($classname)
     {
-        $this->generics = new FlexibleList();
         $this->classname = $classname instanceof ClassName
             ? $classname
             : new ClassName($classname);
@@ -62,18 +53,9 @@ class ObjectType extends AbstractType
         if
         (
             $type instanceof ObjectType &&
-            $type->classname->equals($this->classname) &&
-            $type->generics->size() === $this->generics->size()
+            $type->classname->equals($this->classname)
         )
         {
-            foreach ($type->generics as $i => $generic)
-            {
-                if (!$this->generics[$i]->equals($generic))
-                {
-                    return false;
-                }
-            }
-
             return true;
         }
 
@@ -88,12 +70,6 @@ class ObjectType extends AbstractType
     public function __toString() : string
     {
         $return = (string)$this->classname;
-
-        if ($this->generics->count())
-        {
-            $return .=
-                '<' . implode(',', $this->generics->toArray()) . '>';
-        }
 
         return $return;
     }

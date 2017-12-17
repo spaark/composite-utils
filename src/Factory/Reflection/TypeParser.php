@@ -21,16 +21,13 @@ use Spaark\CompositeUtils\Model\Reflection\Type\IntegerType;
 use Spaark\CompositeUtils\Model\Reflection\Type\MixedType;
 use Spaark\CompositeUtils\Model\Reflection\Type\ObjectType;
 use Spaark\CompositeUtils\Model\Reflection\Type\StringType;
-use Spaark\CompositeUtils\Model\Reflection\Type\GenericType;
 use Spaark\CompositeUtils\Model\Reflection\Type\AbstractType;
 use Spaark\CompositeUtils\Model\Reflection\Type\FloatType;
 use Spaark\CompositeUtils\Model\Reflection\Type\NullType;
 use Spaark\CompositeUtils\Service\RawPropertyAccessor;
-use Spaark\CompositeUtils\Service\GenericNameProvider;
 
 /**
- * Parses a type string, optionally using a context to lookup generic
- * and use referenced names
+ * Parses a type string
  */
 class TypeParser
 {
@@ -56,7 +53,7 @@ class TypeParser
 
     /**
      * Constructs the TypeParser with an optional context for
-     * interpreting classnames and generics
+     * interpreting classnames
      *
      * @param ReflectionComposite $context
      */
@@ -89,12 +86,7 @@ class TypeParser
      */
     public function parseObjectName($var) : ObjectType
     {
-        return $this->parse(str_replace
-        (
-            [GenericNameProvider::BASE, '_g', '_e', '_c'],
-            ['', '<', '>', ','],
-            get_class($var)
-        ));
+        return $this->parse(get_class($var));
     }
 
     /**
@@ -118,41 +110,12 @@ class TypeParser
                 case '?':
                     $this->nullable = true;
                     break;
-                case '<':
-                    $stack->push($this->resolveGenericName());
-                    break;
-                case ',':
-                    $stack->top()->generics[] = $this->resolveName();
-                    break;
                 case '[':
                     $this->collection = true;
                     $this->checkCollectionClose($value, $i);
                     $i++;
                     break;
                 case ' ':
-                    break;
-                case '>':
-                    $item = $stack->pop();
-                    if ($value{$i - 1} !== '>')
-                    {
-                        $item->generics[] =$this->resolveName();
-                    }
-
-                    if ($i + 1 !== strlen($value) && $value{$i + 1} === '[')
-                    {
-                        $this->checkCollectionClose($value, $i + 1);
-                        $item = new CollectionType($item);
-                    }
-
-
-                    if ($stack->isEmpty())
-                    {
-                        return $item;
-                    }
-                    else
-                    {
-                        $stack->top()->generics[] = $item;
-                    }
                     break;
                 default:
                     $this->currentValue .= $char;
@@ -191,24 +154,6 @@ class TypeParser
     }
 
     /**
-     * Resolves the currentValue to an AbstractType, failing if it is
-     * not an ObjectType
-     *
-     * @return ObjectType
-     */
-    protected function resolveGenericName() : ObjectType
-    {
-        $type = $this->resolveName();
-
-        if (!$type instanceof ObjectType)
-        {
-            throw new \Exception();
-        }
-
-        return $type;
-    }
-
-    /**
      * Interprets the currentValue and converts it to an AbstractType
      *
      * @param AbstractType
@@ -221,9 +166,7 @@ class TypeParser
         }
 
         $context = $this->checkContext();
-        return $context instanceof GenericType
-            ? $context
-            : new ObjectType($context);
+        return new ObjectType($context);
     }
 
     public function scalarToType($var) : ?AbstractType
@@ -293,15 +236,10 @@ class TypeParser
         }
 
         $useStatements = $this->context->namespace->useStatements;
-        $generics = $this->context->generics;
 
         if ($useStatements->containsKey($this->currentValue))
         {
             return $useStatements[$this->currentValue]->classname;
-        }
-        elseif ($generics->containsKey($this->currentValue))
-        {
-            return new GenericType($this->currentValue);
         }
         else
         {
